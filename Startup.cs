@@ -5,7 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using VirtualSports.BE.Options;
+using VirtualSports.BE.Services;
 
 namespace VirtualSports.BE
 {
@@ -23,15 +27,35 @@ namespace VirtualSports.BE
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
+            services.AddSingleton<IAuthService, AuthService>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = JwtOptions.RequireHttps;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = JwtOptions.Issuer,
+
+                        ValidateAudience = true,
+                        ValidAudience = JwtOptions.Audience,
+
+                        ValidateLifetime = false,
+
+                        IssuerSigningKey = JwtOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VirtualSports", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "VirtualSports", Version = "v1" });
                 var filePath = Path.Combine(AppContext.BaseDirectory, "VirtualSports.BE.xml");
                 if (File.Exists(filePath))
                 {
-                    c.IncludeXmlComments(filePath);
+                    options.IncludeXmlComments(filePath);
                 }
-                c.AddSecurityRequirement(
+                options.AddSecurityRequirement(
                     new OpenApiSecurityRequirement
                     {
                         {
@@ -39,23 +63,24 @@ namespace VirtualSports.BE
                             {
                                 Reference = new OpenApiReference
                                 {
-                                    Id = "Session",
+                                    Id = "Bearer",
                                     Type = ReferenceType.SecurityScheme
                                 },
                             },
                             new string[0]
                         }
                     });
-                c.AddSecurityDefinition(
-                    "Session",
+
+                options.AddSecurityDefinition(
+                    "Bearer",
                     new OpenApiSecurityScheme
                     {
                         Type = SecuritySchemeType.ApiKey,
                         In = ParameterLocation.Header,
-                        Scheme = "Session",
+                        Scheme = "Bearer",
                         Name = "Authorization",
-                        Description = "SessionId",
-                        BearerFormat = "SessionId"
+                        Description = "JWT token",
+                        BearerFormat = "JWT"
                     });
             });
             services.AddControllers();
