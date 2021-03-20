@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using VirtualSports.BE.Models;
 
 namespace VirtualSports.BE.Services
 {
@@ -7,14 +11,28 @@ namespace VirtualSports.BE.Services
     /// </summary>
     public class AuthService : IAuthService
     {
-        public Task<string> Register(string login, string password)
+        private readonly ConcurrentBag<User> _users = new ConcurrentBag<User>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public Task<string> Register(User user)
         {
-            throw new System.NotImplementedException();
+            _users.Add(user);
+            //throw new System.NotImplementedException();
+            return Task.FromResult("ok");
         }
 
-        public Task<string> Login(string login, string password)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> FindAsync(User user)
         {
-            throw new System.NotImplementedException();
+            var isRegistered = _users.FirstOrDefault(u => u.Login == user.Login && u.Password == user.Password);
+            return isRegistered != null;
         }
     }
 }

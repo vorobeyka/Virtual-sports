@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using VirtualSports.BE.Models;
 
 namespace VirtualSports.BE.Services
 {
@@ -10,17 +11,15 @@ namespace VirtualSports.BE.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public Task<string> Register(string login, string password);
+        public Task<string> Register(User user);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public Task<string> Login(string login, string password);
+        public Task<bool> FindAsync(User user);
     }
 }
