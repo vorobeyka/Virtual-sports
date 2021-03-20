@@ -14,7 +14,7 @@
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.Register(VirtualSports.BE.Models.User)">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.RegisterAsync(VirtualSports.BE.Models.User)">
             <summary>
             
             </summary>
@@ -90,7 +90,7 @@
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Services.AuthService.Register(VirtualSports.BE.Models.User)">
+        <member name="M:VirtualSports.BE.Services.AuthService.RegisterAsync(VirtualSports.BE.Models.User)">
             <summary>
             
             </summary>
@@ -109,7 +109,7 @@
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Services.IAuthService.Register(VirtualSports.BE.Models.User)">
+        <member name="M:VirtualSports.BE.Services.IAuthService.RegisterAsync(VirtualSports.BE.Models.User)">
             <summary>
             
             </summary>

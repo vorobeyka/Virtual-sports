@@ -38,10 +38,11 @@ namespace VirtualSports.BE.Controllers
         [ProducesResponseType((int) HttpStatusCode.Conflict)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public IActionResult Register([FromBody] User user)
+        public async Task<IActionResult> RegisterAsync([FromBody] User user)
         {
-            _authService.Register(user);
-            return Ok();
+            var canRegister =  await _authService.RegisterAsync(user);
+            if (!canRegister) return Conflict("Login has been used already.");
+            return await LoginAsync(user);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace VirtualSports.BE.Controllers
 
             var identity = await GetIdentityAsync(user);
 
-            if (identity == null) return Conflict("Wrong username or password.");
+            if (identity == null) return NotFound("Wrong username or password.");
 
             var now = DateTime.UtcNow;
             var jwtToken =
@@ -68,12 +69,7 @@ namespace VirtualSports.BE.Controllers
                     signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
                         SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            var response = new
-            {
-                token = encodedJwt,
-                username = identity.Name
-            };
-            return Ok(response);
+            return Ok(encodedJwt);
         }
 
         /// <summary>
@@ -84,7 +80,7 @@ namespace VirtualSports.BE.Controllers
         [Authorize]
         public IActionResult Logout()
         {
-            throw new NotImplementedException();
+            return Ok("Hello, world");
         }
 
         private async Task<ClaimsIdentity?> GetIdentityAsync(User user)

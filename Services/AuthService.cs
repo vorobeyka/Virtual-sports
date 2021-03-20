@@ -17,11 +17,12 @@ namespace VirtualSports.BE.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public Task<string> Register(User user)
+        public async Task<bool> RegisterAsync(User user)
         {
+            var canAdd = _users.FirstOrDefault(u => u.Login == user.Login);
+            if (canAdd != null) return false;
             _users.Add(user);
-            //throw new System.NotImplementedException();
-            return Task.FromResult("ok");
+            return true;
         }
 
         /// <summary>

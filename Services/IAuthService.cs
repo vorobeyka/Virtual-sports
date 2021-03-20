@@ -13,7 +13,7 @@ namespace VirtualSports.BE.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public Task<string> Register(User user);
+        public Task<bool> RegisterAsync(User user);
 
         /// <summary>
         /// 
