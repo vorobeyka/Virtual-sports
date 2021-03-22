@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using VirtualSports.BE.Models.DatabaseModels;
 
 namespace VirtualSports.BE.Contexts

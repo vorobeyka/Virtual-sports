@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,14 +16,14 @@ namespace VirtualSports.BE.Services.DatabaseServices
             _dbContext = dbContext;
         }
 
-        public async Task<Guid> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
+        public async Task<bool> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
         {
             var user = await _dbContext.Users
                 .FirstOrDefaultAsync(user => user.Login == login && user.Password == password,
                 cancellationToken);
 
-            if (user == null) return default;
-            return user.Id;
+            if (user == null) return false;
+            return true;
         }
 
         public async Task<bool> RegisterUserAsync(string login, string password, CancellationToken cancellationToken)
@@ -37,7 +35,6 @@ namespace VirtualSports.BE.Services.DatabaseServices
 
             await _dbContext.Users.AddAsync(new User
             {
-                Id = Guid.NewGuid(),
                 Login = login,
                 Password = password,
                 FavouriteGameIds = new List<string>(),
