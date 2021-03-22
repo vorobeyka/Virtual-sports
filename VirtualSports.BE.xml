@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VirtualSports.BE</name>
+    </assembly>
+    <members>
+        <member name="T:VirtualSports.BE.Controllers.AuthController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.IAuthService)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.RegisterAsync(VirtualSports.BE.Models.User)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.LoginAsync(VirtualSports.BE.Models.User)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.Logout">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Models.User">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:VirtualSports.BE.Models.User.Login">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:VirtualSports.BE.Models.User.Password">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Models.User.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="login"></param>
+            <param name="password"></param>
+        </member>
+        <member name="T:VirtualSports.BE.Options.JwtOptions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.Issuer">
+            <summary>
+            Token issuer (producer).
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.Audience">
+            <summary>
+            Token audience (consumer).
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.PrivateKey">
+            <summary>
+            Token secret part.
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.LifeTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.RequireHttps">
+            <summary>
+            Require HTTPS.
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Options.JwtOptions.GetSymmetricSecurityKey">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Services.AuthService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Services.AuthService.RegisterAsync(VirtualSports.BE.Models.User)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.AuthService.FindAsync(VirtualSports.BE.Models.User)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Services.IAuthService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Services.IAuthService.RegisterAsync(VirtualSports.BE.Models.User)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.IAuthService.FindAsync(VirtualSports.BE.Models.User)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
