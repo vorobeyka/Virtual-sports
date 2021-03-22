@@ -22,12 +22,12 @@ namespace VirtualSports.BE.Options
         /// <summary>
         /// Token secret part.
         /// </summary>
-        public const string PrivateKey = "somePrivateKeyValue";
+        public const string PrivateKey = "Secret key for virtual sports final project";
 
         /// <summary>
-        /// 
+        /// Token's life time.
         /// </summary>
-        public const int LifeTime = 3;
+        public const int LifeTime = 1;
 
         /// <summary>
         /// Require HTTPS.
@@ -40,7 +40,7 @@ namespace VirtualSports.BE.Options
         /// <returns></returns>
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(PrivateKey));
+            return new(Encoding.ASCII.GetBytes(PrivateKey));
         }
     }
 }

@@ -91,7 +91,7 @@ namespace VirtualSports.BE.Controllers
             var jwtToken =
                 new JwtSecurityToken(JwtOptions.Issuer, JwtOptions.Audience, notBefore: now,
                     claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(JwtOptions.LifeTime)),
+                    expires: now.Add(TimeSpan.FromDays(JwtOptions.LifeTime)),
                     signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
                         SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
