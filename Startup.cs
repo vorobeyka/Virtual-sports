@@ -37,6 +37,7 @@ namespace VirtualSports.BE
 
             services.AddScoped<IDatabaseRootService, DatabaseRootService>();
             services.AddScoped<IDatabaseUserService, DatabaseUserService>();
+            services.AddScoped<IDiceService, DiceService>();
 
             services.AddControllers();
 

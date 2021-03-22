@@ -18,5 +18,6 @@ namespace VirtualSports.BE.Services.DatabaseServices
         Task<Provider> GetProviderAsync(string id, CancellationToken cancellationToken);
         Task<Category> GetCategoryAsync(string id, CancellationToken cancellationToken);
         Task<Game> GetGameAsync(string id, CancellationToken cancellationToken);
+        Task<List<Game>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken);
     }
 }

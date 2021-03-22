@@ -90,5 +90,10 @@ namespace VirtualSports.BE.Services.DatabaseServices
             var game = await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == id);
             return game;
         }
+
+        public Task<List<Game>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

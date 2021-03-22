@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +15,21 @@ namespace VirtualSports.BE.Services.DatabaseServices
         public DatabaseUserService(DatabaseManagerContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Task AddBetAsync(string userLogin, Bet bet, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<string>> GetFavourites(string userLogin, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<string>> GetRecent(string userLogin, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
@@ -45,6 +61,16 @@ namespace VirtualSports.BE.Services.DatabaseServices
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return true;
+        }
+
+        public Task<bool> TryAddFavouriteAsync(int userId, Guid gameId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> TryAddRecentAsync(string userLogin, Guid gameId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }
