@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.BE.Contexts;
@@ -9,9 +10,10 @@ using VirtualSports.BE.Contexts;
 namespace VirtualSports.BE.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    partial class DatabaseManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20210322214123_UpdateSession")]
+    partial class UpdateSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

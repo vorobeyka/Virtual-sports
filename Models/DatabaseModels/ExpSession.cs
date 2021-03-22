@@ -3,10 +3,10 @@
 namespace VirtualSports.BE.Models.DatabaseModels
 {
     /// <summary>
-    /// Model for table sessions.
+    /// Model for table expired sessions.
     /// </summary>
-    [Table("Sessions")]
-    public class Session
+    [Table("Expired Sessions")]
+    public class ExpSession
     {
         /// <summary>
         /// Unique id.
@@ -19,9 +19,5 @@ namespace VirtualSports.BE.Models.DatabaseModels
         /// </summary>
         public string Token { get; set; }
 
-        /// <summary>
-        /// True if jwt token is valid.
-        /// </summary>
-        public bool IsValid { get; set; }
     }
 }

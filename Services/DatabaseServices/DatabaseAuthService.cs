@@ -8,11 +8,11 @@ using VirtualSports.BE.Models.DatabaseModels;
 namespace VirtualSports.BE.Services.DatabaseServices
 {
     /// <inheritdoc />
-    public class DatabaseUserService : IDatabaseUserService
+    public class DatabaseAuthService : IDatabaseAuthService
     {
         private readonly DatabaseManagerContext _dbContext;
 
-        public DatabaseUserService(DatabaseManagerContext dbContext)
+        public DatabaseAuthService(DatabaseManagerContext dbContext)
         {
             _dbContext = dbContext;
         }

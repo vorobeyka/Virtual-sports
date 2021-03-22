@@ -24,14 +24,14 @@ namespace VirtualSports.BE.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly IDatabaseUserService _dbUserService;
+        private readonly IDatabaseAuthService _dbUserService;
 
         /// <summary>
         /// 
         /// </summary>
         public AuthController(
             IAuthService authService,
-            IDatabaseUserService dbUserService)
+            IDatabaseAuthService dbUserService)
         {
             _authService = authService;
             _dbUserService = dbUserService;
@@ -86,7 +86,12 @@ namespace VirtualSports.BE.Controllers
         [Authorize]
         public IActionResult Logout()
         {
-            return Ok("Hello, world");
+            if (!Request.Headers.TryGetValue("Authorization", out var authHeader)) return Unauthorized();
+            var token = authHeader.ToString().Split(' ')[1];
+
+            // TODO : ADD TO DB and MAKE SESSION STORAGE IN MEMORY.
+            return Ok(token);
+
         }
 
         private async Task<string> GetJwtTokenAsync(User user)

@@ -6,7 +6,7 @@ namespace VirtualSports.BE.Services.DatabaseServices
     /// <summary>
     /// 
     /// </summary>
-    public interface IDatabaseUserService
+    public interface IDatabaseAuthService
     {
         /// <summary>
         /// 
