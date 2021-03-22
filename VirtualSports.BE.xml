@@ -9,18 +9,18 @@
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.IAuthService)">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.IAuthService,VirtualSports.BE.Services.DatabaseServices.IDatabaseUserService)">
             <summary>
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.RegisterAsync(VirtualSports.BE.Models.User)">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.RegisterAsync(VirtualSports.BE.Models.User,System.Threading.CancellationToken)">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.LoginAsync(VirtualSports.BE.Models.User)">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.LoginAsync(VirtualSports.BE.Models.User,System.Threading.CancellationToken)">
             <summary>
             
             </summary>
@@ -34,17 +34,17 @@
         </member>
         <member name="T:VirtualSports.BE.Models.User">
             <summary>
-            
+            User model.
             </summary>
         </member>
         <member name="P:VirtualSports.BE.Models.User.Login">
             <summary>
-            
+            User's login.
             </summary>
         </member>
         <member name="P:VirtualSports.BE.Models.User.Password">
             <summary>
-            
+            User's password.
             </summary>
         </member>
         <member name="M:VirtualSports.BE.Models.User.#ctor(System.String,System.String)">
@@ -76,7 +76,7 @@
         </member>
         <member name="F:VirtualSports.BE.Options.JwtOptions.LifeTime">
             <summary>
-            
+            Token's life time.
             </summary>
         </member>
         <member name="F:VirtualSports.BE.Options.JwtOptions.RequireHttps">
@@ -107,6 +107,38 @@
             
             </summary>
             <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Services.DatabaseServices.DatabaseUserService">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.DatabaseUserService.LoginUserAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.DatabaseUserService.RegisterUserAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:VirtualSports.BE.Services.DatabaseServices.IDatabaseUserService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.IDatabaseUserService.RegisterUserAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="login"></param>
+            <param name="password"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.IDatabaseUserService.LoginUserAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="login"></param>
+            <param name="password"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="T:VirtualSports.BE.Services.IAuthService">

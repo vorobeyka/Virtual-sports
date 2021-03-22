@@ -3,19 +3,19 @@
 namespace VirtualSports.BE.Models
 {
     /// <summary>
-    /// 
+    /// User model.
     /// </summary>
     public class User
     {
         /// <summary>
-        /// 
+        /// User's login.
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         [StringLength(64, MinimumLength = 6)]
         public string Login { get; set; }
         
         /// <summary>
-        /// 
+        /// User's password.
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         [StringLength(20, MinimumLength = 8)]

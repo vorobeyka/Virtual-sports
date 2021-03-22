@@ -7,6 +7,7 @@ using VirtualSports.BE.Models.DatabaseModels;
 
 namespace VirtualSports.BE.Services.DatabaseServices
 {
+    /// <inheritdoc />
     public class DatabaseUserService : IDatabaseUserService
     {
         private readonly DatabaseManagerContext _dbContext;
@@ -16,16 +17,17 @@ namespace VirtualSports.BE.Services.DatabaseServices
             _dbContext = dbContext;
         }
 
+        /// <inheritdoc />
         public async Task<bool> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
         {
             var user = await _dbContext.Users
-                .FirstOrDefaultAsync(user => user.Login == login && user.Password == password,
+                .FirstOrDefaultAsync(u => u.Login == login && u.Password == password,
                 cancellationToken);
 
-            if (user == null) return false;
-            return true;
+            return user != null;
         }
 
+        /// <inheritdoc />
         public async Task<bool> RegisterUserAsync(string login, string password, CancellationToken cancellationToken)
         {
             if (await _dbContext.Users.AnyAsync(user => user.Login == login, cancellationToken))

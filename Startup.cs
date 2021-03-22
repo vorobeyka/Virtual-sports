@@ -103,11 +103,6 @@ namespace VirtualSports.BE
             services.AddScoped<IDatabaseUserService, DatabaseUserService>();
 
             services.AddControllers();
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "DI Demo App API", Version = "v1" });
-            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -117,7 +112,7 @@ namespace VirtualSports.BE
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Virtual Sports API V1");
                 });
             }
 

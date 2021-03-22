@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Validations;
 using VirtualSports.BE.Models;
 using VirtualSports.BE.Options;
 using VirtualSports.BE.Services;
+using VirtualSports.BE.Services.DatabaseServices;
 
 namespace VirtualSports.BE.Controllers
 {
@@ -21,13 +24,17 @@ namespace VirtualSports.BE.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IDatabaseUserService _dbUserService;
 
         /// <summary>
         /// 
         /// </summary>
-        public AuthController(IAuthService authService)
+        public AuthController(
+            IAuthService authService,
+            IDatabaseUserService dbUserService)
         {
             _authService = authService;
+            _dbUserService = dbUserService;
         }
 
         /// <summary>
@@ -38,11 +45,11 @@ namespace VirtualSports.BE.Controllers
         [ProducesResponseType((int) HttpStatusCode.Conflict)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterAsync([FromBody] User user)
+        public async Task<IActionResult> RegisterAsync([FromBody] User user, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var canRegister =  await _authService.RegisterAsync(user);
+            var canRegister =  await _dbUserService.RegisterUserAsync(user.Login, user.Password, cancellationToken);
             if (!canRegister) return Conflict("Login has been used already.");
 
             var token = await GetJwtTokenAsync(user);
@@ -59,13 +66,14 @@ namespace VirtualSports.BE.Controllers
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginAsync([FromBody] User user)
+        public async Task<IActionResult> LoginAsync([FromBody] User user, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var token = await GetJwtTokenAsync(user);
+            var canLogin = await _dbUserService.LoginUserAsync(user.Login, user.Password, cancellationToken);
+            if (!canLogin) return NotFound("Wrong username or password.");
 
-            if (token == null) return NotFound("Wrong username or password.");
+            var token = await GetJwtTokenAsync(user);
 
             return Ok(token);
         }
@@ -81,11 +89,9 @@ namespace VirtualSports.BE.Controllers
             return Ok("Hello, world");
         }
 
-        private async Task<string?> GetJwtTokenAsync(User user)
+        private async Task<string> GetJwtTokenAsync(User user)
         {
             var identity = await GetIdentityAsync(user);
-
-            if (identity == null) return null;
 
             var now = DateTime.UtcNow;
             var jwtToken =
@@ -95,13 +101,12 @@ namespace VirtualSports.BE.Controllers
                     signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
                         SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
             return encodedJwt;
         }
 
-        private async Task<ClaimsIdentity?> GetIdentityAsync(User user)
+        private async Task<ClaimsIdentity> GetIdentityAsync(User user)
         {
-            var canLogin = await _authService.FindAsync(user);
-            if (!canLogin) return null;
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
