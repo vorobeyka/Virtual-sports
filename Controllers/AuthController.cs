@@ -40,9 +40,14 @@ namespace VirtualSports.BE.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromBody] User user)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var canRegister =  await _authService.RegisterAsync(user);
             if (!canRegister) return Conflict("Login has been used already.");
-            return await LoginAsync(user);
+
+            var token = await GetJwtTokenAsync(user);
+            
+            return Ok(token);
         }
 
         /// <summary>
@@ -58,18 +63,11 @@ namespace VirtualSports.BE.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var identity = await GetIdentityAsync(user);
+            var token = await GetJwtTokenAsync(user);
 
-            if (identity == null) return NotFound("Wrong username or password.");
+            if (token == null) return NotFound("Wrong username or password.");
 
-            var now = DateTime.UtcNow;
-            var jwtToken =
-                new JwtSecurityToken(JwtOptions.Issuer, JwtOptions.Audience, notBefore: now,
-                    claims: identity.Claims,
-                    signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
-                        SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            return Ok(encodedJwt);
+            return Ok(token);
         }
 
         /// <summary>
@@ -83,6 +81,23 @@ namespace VirtualSports.BE.Controllers
             return Ok("Hello, world");
         }
 
+        private async Task<string?> GetJwtTokenAsync(User user)
+        {
+            var identity = await GetIdentityAsync(user);
+
+            if (identity == null) return null;
+
+            var now = DateTime.UtcNow;
+            var jwtToken =
+                new JwtSecurityToken(JwtOptions.Issuer, JwtOptions.Audience, notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(JwtOptions.LifeTime)),
+                    signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
+                        SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            return encodedJwt;
+        }
+
         private async Task<ClaimsIdentity?> GetIdentityAsync(User user)
         {
             var canLogin = await _authService.FindAsync(user);
@@ -90,7 +105,6 @@ namespace VirtualSports.BE.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password)
             };
             var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);

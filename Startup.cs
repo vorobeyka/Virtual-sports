@@ -40,7 +40,7 @@ namespace VirtualSports.BE
                         ValidateAudience = true,
                         ValidAudience = JwtOptions.Audience,
 
-                        ValidateLifetime = false,
+                        ValidateLifetime = true,
 
                         IssuerSigningKey = JwtOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true,

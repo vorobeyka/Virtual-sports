@@ -74,6 +74,11 @@
             Token secret part.
             </summary>
         </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.LifeTime">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="F:VirtualSports.BE.Options.JwtOptions.RequireHttps">
             <summary>
             Require HTTPS.

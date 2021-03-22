@@ -25,6 +25,11 @@ namespace VirtualSports.BE.Options
         public const string PrivateKey = "somePrivateKeyValue";
 
         /// <summary>
+        /// 
+        /// </summary>
+        public const int LifeTime = 3;
+
+        /// <summary>
         /// Require HTTPS.
         /// </summary>
         public const bool RequireHttps = false;
