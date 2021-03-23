@@ -12,7 +12,9 @@ namespace VirtualSports.Web.Models.DatabaseModels
         public string PasswordHash { get; set; }
         public List<string> FavouriteGameIds { get; set; }
         public List<string> FavouriteGameMobileIds { get; set; }
+        [Column("RecentGameIds", TypeName = "jsonb")]
         public Queue<string> RecentGameIds { get; set; }
+        [Column("RecentGameIds", TypeName = "jsonb")]
         public Queue<string> RecentMobileGameIds { get; set; }
         [Column("Bets", TypeName = "jsonb")]
         public List<Bet> Bets { get; set; }
