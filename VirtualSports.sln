@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualSports.BE", "VirtualSports.BE.csproj", "{522682AA-84FA-4F42-B919-391258323D2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualSports.Web", "VirtualSports.Web\VirtualSports.Web.csproj", "{522682AA-84FA-4F42-B919-391258323D2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualSports.Tests", "VirtualSports.Tests\VirtualSports.Tests.csproj", "{FB760B9B-459C-4B18-9887-A5F3F6096B70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{522682AA-84FA-4F42-B919-391258323D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{522682AA-84FA-4F42-B919-391258323D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{522682AA-84FA-4F42-B919-391258323D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB760B9B-459C-4B18-9887-A5F3F6096B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB760B9B-459C-4B18-9887-A5F3F6096B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB760B9B-459C-4B18-9887-A5F3F6096B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB760B9B-459C-4B18-9887-A5F3F6096B70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
