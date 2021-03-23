@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtualSports.Web.Contexts;
 using VirtualSports.Web.Models.DatabaseModels;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace VirtualSports.Web.Services.DatabaseServices
 {

@@ -16,6 +16,9 @@ namespace VirtualSports.Web.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
+        [FromHeader(Name = "X-Platform")]
+        public string Platform { get; set; }
+
         private readonly ILogger<UserController> _logger;
         private readonly IDatabaseUserService _dbUserService;
 
@@ -27,22 +30,28 @@ namespace VirtualSports.Web.Controllers
 
         [HttpGet]
         [Route("favourites")]
+        [ProducesResponseType(typeof(List<Game>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetFavourites(CancellationToken cancellationToken)
         {
-            var data = await _dbUserService.GetFavourites(HttpContext.User.Identity.Name, cancellationToken);
+            var data = await _dbUserService.GetFavouritesAsync(HttpContext.User.Identity.Name, cancellationToken);
             return data == null ? NotFound() : Ok(data);
         }
 
         [HttpGet]
         [Route("recent")]
+        [ProducesResponseType(typeof(List<Game>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> GetRecent(CancellationToken cancellationToken)
         {
-            var data = await _dbUserService.GetRecent(HttpContext.User.Identity.Name, cancellationToken);
+            var data = await _dbUserService.GetRecentAsync(HttpContext.User.Identity.Name, cancellationToken);
             return data == null ? NotFound() : Ok(data);
         }
 
         [HttpGet]
         [Route("favourite/{id:Guid}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult> AddToFavourites(CancellationToken cancellationToken,
             [FromRoute] Guid gameId)
         {

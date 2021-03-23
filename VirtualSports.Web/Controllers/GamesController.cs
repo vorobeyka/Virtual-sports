@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
+using System.Net;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -18,6 +17,9 @@ namespace VirtualSports.Web.Controllers
     [Authorize]
     public class GamesController : ControllerBase
     {
+        [FromHeader(Name ="X-Platform")]
+        public string Platform { get; set; }
+
         private readonly ILogger<GamesController> _logger;
         private readonly IDatabaseRootService _dbRootService;
 
@@ -28,6 +30,7 @@ namespace VirtualSports.Web.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(Root), (int)HttpStatusCode.OK)]
         [AllowAnonymous]
         public async Task<ActionResult<Root>> GetAllData(CancellationToken cancellationToken)
         {
@@ -36,6 +39,8 @@ namespace VirtualSports.Web.Controllers
         }
 
         [HttpGet("play/{gameId:Guid}")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(Game), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Game>> PlayGame(CancellationToken cancellationToken,
             [FromRoute] Guid gameId, [FromServices] IDatabaseUserService dbUserService)
         {
@@ -49,6 +54,7 @@ namespace VirtualSports.Web.Controllers
         }
 
         [HttpGet("play/dice")]
+        [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Game>> PlayDice(CancellationToken cancellationToken,
             [FromQuery] string dateTime, 
             [FromQuery] BetType betType,

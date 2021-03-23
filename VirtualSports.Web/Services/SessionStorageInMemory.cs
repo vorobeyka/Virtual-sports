@@ -1,23 +1,12 @@
 ﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
 using VirtualSports.Web.Contexts;
-using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Services
 {
     /// <inheritdoc />
     public class SessionStorageInMemory : ISessionStorage
     {
-        private readonly ConcurrentDictionary<string, byte> _storage;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public SessionStorageInMemory()
-        {
-            _storage = new ConcurrentDictionary<string, byte>();
-        }
+        private readonly ConcurrentDictionary<string, byte> _storage = new ConcurrentDictionary<string, byte>();
 
         /// <summary>
         /// 
