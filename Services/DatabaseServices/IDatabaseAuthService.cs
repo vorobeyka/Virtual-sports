@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.BE.Models;
 
 namespace VirtualSports.BE.Services.DatabaseServices
 {
@@ -11,19 +12,25 @@ namespace VirtualSports.BE.Services.DatabaseServices
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
+        /// <param name="account"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> RegisterUserAsync(string login, string password, CancellationToken cancellationToken);
+        /// <returns>Jwt token.</returns>
+        Task<string> RegisterUserAsync(Account account, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
+        /// <param name="account"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Jwt token.</returns>
+        Task<string> LoginUserAsync(Account account, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> LoginUserAsync(string login, string password, CancellationToken cancellationToken);
+        Task ExpireToken(string token, CancellationToken cancellationToken);
     }
 }

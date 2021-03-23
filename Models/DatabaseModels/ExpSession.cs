@@ -19,5 +19,9 @@ namespace VirtualSports.BE.Models.DatabaseModels
         /// </summary>
         public string Token { get; set; }
 
+        public ExpSession(string token)
+        {
+            Token = token;
+        }
     }
 }

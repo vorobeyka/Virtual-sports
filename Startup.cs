@@ -11,6 +11,7 @@ using VirtualSports.BE.Services;
 using VirtualSports.BE.Services.DatabaseServices;
 using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using VirtualSports.BE.Options;
 
@@ -30,7 +31,6 @@ namespace VirtualSports.BE
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IAuthService, AuthService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -86,7 +86,13 @@ namespace VirtualSports.BE
                         BearerFormat = "JWT"
                     });
             });
-            //Add database and migration services
+
+            services.AddSingleton<IAuthService, AuthService>();
+
+            //Add storage in memory.
+            services.AddSingleton<ISessionStorage, SessionStorageInMemory>();
+
+            //Add database and migration services.
             services.AddDbContext<DatabaseManagerContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);
 

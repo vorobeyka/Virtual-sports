@@ -10,7 +10,7 @@ using VirtualSports.BE.Contexts;
 namespace VirtualSports.BE.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    [Migration("20210322214123_UpdateSession")]
+    [Migration("20210323052709_UpdateSession")]
     partial class UpdateSession
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

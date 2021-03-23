@@ -11,6 +11,7 @@ namespace VirtualSports.BE.Contexts
         public DbSet<Game> Games { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<ExpSession> ExpSessions { get; set; }
 
         /// <inheritdoc />
         public DatabaseManagerContext(DbContextOptions<DatabaseManagerContext> options) : base(options)

@@ -24,17 +24,20 @@ namespace VirtualSports.BE.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly IDatabaseAuthService _dbUserService;
+        private readonly IDatabaseAuthService _dbAuthService;
+        private readonly ISessionStorage _sessionStorage;
 
         /// <summary>
         /// 
         /// </summary>
         public AuthController(
             IAuthService authService,
-            IDatabaseAuthService dbUserService)
+            IDatabaseAuthService dbAuthService,
+            ISessionStorage sessionStorage)
         {
             _authService = authService;
-            _dbUserService = dbUserService;
+            _dbAuthService = dbAuthService;
+            _sessionStorage = sessionStorage;
         }
 
         /// <summary>
@@ -45,15 +48,13 @@ namespace VirtualSports.BE.Controllers
         [ProducesResponseType((int) HttpStatusCode.Conflict)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterAsync([FromBody] User user, CancellationToken cancellationToken)
+        public async Task<IActionResult> RegisterAsync([FromBody] Account user, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var canRegister =  await _dbUserService.RegisterUserAsync(user.Login, user.Password, cancellationToken);
-            if (!canRegister) return Conflict("Login has been used already.");
+            var token =  await _dbAuthService.RegisterUserAsync(user, cancellationToken);
+            if (token == null) return Conflict("Login has been used already.");
 
-            var token = await GetJwtTokenAsync(user);
-            
             return Ok(token);
         }
 
@@ -66,14 +67,12 @@ namespace VirtualSports.BE.Controllers
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginAsync([FromBody] User user, CancellationToken cancellationToken)
+        public async Task<IActionResult> LoginAsync([FromBody] Account user, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var canLogin = await _dbUserService.LoginUserAsync(user.Login, user.Password, cancellationToken);
-            if (!canLogin) return NotFound("Wrong username or password.");
-
-            var token = await GetJwtTokenAsync(user);
+            var token = await _dbAuthService.LoginUserAsync(user, cancellationToken);
+            if (token == null) return NotFound("Wrong username or password.");
 
             return Ok(token);
         }
@@ -83,42 +82,18 @@ namespace VirtualSports.BE.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("logout")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [Authorize]
-        public IActionResult Logout()
+        public IActionResult Logout(CancellationToken cancellationToken)
         {
             if (!Request.Headers.TryGetValue("Authorization", out var authHeader)) return Unauthorized();
             var token = authHeader.ToString().Split(' ')[1];
 
-            // TODO : ADD TO DB and MAKE SESSION STORAGE IN MEMORY.
-            return Ok(token);
-
+            _sessionStorage.Add(token);
+            _dbAuthService.ExpireToken(token, cancellationToken);
+            return Ok();
         }
 
-        private async Task<string> GetJwtTokenAsync(User user)
-        {
-            var identity = await GetIdentityAsync(user);
-
-            var now = DateTime.UtcNow;
-            var jwtToken =
-                new JwtSecurityToken(JwtOptions.Issuer, JwtOptions.Audience, notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromDays(JwtOptions.LifeTime)),
-                    signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
-                        SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-
-            return encodedJwt;
-        }
-
-        private async Task<ClaimsIdentity> GetIdentityAsync(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType);
-            return claimsIdentity;
-        }
+        
     }
 }

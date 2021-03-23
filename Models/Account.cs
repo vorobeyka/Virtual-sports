@@ -5,7 +5,7 @@ namespace VirtualSports.BE.Models
     /// <summary>
     /// User model.
     /// </summary>
-    public class User
+    public class Account
     {
         /// <summary>
         /// User's login.
@@ -26,7 +26,7 @@ namespace VirtualSports.BE.Models
         /// </summary>
         /// <param name="login"></param>
         /// <param name="password"></param>
-        public User(string login, string password)
+        public Account(string login, string password)
         {
             Login = login;
             Password = password;
