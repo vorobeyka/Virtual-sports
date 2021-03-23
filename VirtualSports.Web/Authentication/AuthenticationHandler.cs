@@ -5,7 +5,6 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -30,28 +29,28 @@ namespace VirtualSports.Web.Authentication
         }
 
         /// <inheritdoc />
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var authHeader = Request.Headers[HeaderNames.Authorization].FirstOrDefault();
-            if (authHeader == null) return AuthenticateResult.NoResult();
+            if (authHeader == null) return Task.FromResult(AuthenticateResult.NoResult());
             var token = authHeader.Split(' ')[1];
 
-            if (_storage.Contains(token)) return AuthenticateResult.NoResult();
+            if (_storage.Contains(token)) return Task.FromResult(AuthenticateResult.NoResult());
 
             try
             {
                 var identity = new ClaimsIdentity(
                     new[] {new Claim(ClaimTypes.NameIdentifier, "token")},
                     Scheme.Name);
-                return AuthenticateResult.Success(
+                return Task.FromResult(AuthenticateResult.Success(
                     new AuthenticationTicket(
                         new ClaimsPrincipal(identity),
-                        Scheme.Name));
+                        Scheme.Name)));
             }
             catch (Exception e)
             {
                 Logger.LogError(e, "Auth error");
-                return AuthenticateResult.Fail(e);
+                return Task.FromResult(AuthenticateResult.Fail(e));
             }
             
         }

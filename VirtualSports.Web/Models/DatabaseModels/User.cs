@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VirtualSports.BE.Models.DatabaseModels
+namespace VirtualSports.Web.Models.DatabaseModels
 {
     [Table("Users")]
     public class User

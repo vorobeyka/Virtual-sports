@@ -5,6 +5,7 @@ using Moq;
 using VirtualSports.BE.Models;
 using VirtualSports.BE.Services;
 using VirtualSports.Web.Controllers;
+using VirtualSports.Web.Models;
 using VirtualSports.Web.Services.DatabaseServices;
 using Xunit;
 

@@ -3,15 +3,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using VirtualSports.BE.Models;
 using VirtualSports.BE.Services;
-using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.Web.Models;
 using VirtualSports.Web.Services.DatabaseServices;
 
 namespace VirtualSports.Web.Controllers
 {
     /// <summary>
-    /// 
+    /// Controller for authorization.
     /// </summary>
     [ApiController]
     public class AuthController : Controller
@@ -20,7 +21,7 @@ namespace VirtualSports.Web.Controllers
         private readonly ISessionStorage _sessionStorage;
 
         /// <summary>
-        /// 
+        /// Constructor with DI.
         /// </summary>
         public AuthController(
             IDatabaseAuthService dbAuthService,
@@ -31,10 +32,11 @@ namespace VirtualSports.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Registration.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Action result</returns>
         [HttpPost("register")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.Conflict)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
@@ -49,9 +51,9 @@ namespace VirtualSports.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// LogIn.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Action result.</returns>
         [HttpPost("login")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
@@ -59,7 +61,6 @@ namespace VirtualSports.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] Account user, CancellationToken cancellationToken)
         {
-            
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var token = await _dbAuthService.LoginUserAsync(user, cancellationToken);
@@ -69,9 +70,9 @@ namespace VirtualSports.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// LogOut.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Action result.</returns>
         [HttpPut("logout")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.Unauthorized)]

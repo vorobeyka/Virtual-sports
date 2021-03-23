@@ -15,19 +15,19 @@
         </member>
         <member name="T:VirtualSports.Web.Controllers.AuthController">
             <summary>
-            
+            Controller for authorization.
             </summary>
         </member>
         <member name="M:VirtualSports.Web.Controllers.AuthController.#ctor(VirtualSports.Web.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.BE.Services.ISessionStorage)">
             <summary>
-            
+            Constructor with DI.
             </summary>
         </member>
         <member name="M:VirtualSports.Web.Controllers.AuthController.RegisterAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
             <summary>
-            
+            Registration.
             </summary>
-            <returns></returns>
+            <returns>Action</returns>
         </member>
         <member name="M:VirtualSports.Web.Controllers.AuthController.LoginAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
             <summary>

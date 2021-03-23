@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Models;
 using VirtualSports.BE.Models.DatabaseModels;
 using VirtualSports.BE.Options;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Services.DatabaseServices
 {
