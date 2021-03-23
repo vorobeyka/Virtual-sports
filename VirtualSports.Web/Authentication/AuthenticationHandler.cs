@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -36,11 +37,12 @@ namespace VirtualSports.Web.Authentication
             var token = authHeader.Split(' ')[1];
 
             if (_storage.Contains(token)) return Task.FromResult(AuthenticateResult.NoResult());
-
+            var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            var login = securityToken.Claims.ToList()[0].Value;
             try
             {
                 var identity = new ClaimsIdentity(
-                    new[] {new Claim(ClaimTypes.NameIdentifier, "token")},
+                    new[] {new Claim(ClaimTypes.Name, login)},
                     Scheme.Name);
                 return Task.FromResult(AuthenticateResult.Success(
                     new AuthenticationTicket(

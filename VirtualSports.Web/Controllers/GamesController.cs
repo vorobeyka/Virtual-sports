@@ -9,6 +9,7 @@ using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
+using System.Linq;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -74,7 +75,7 @@ namespace VirtualSports.Web.Controllers
                     isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
                 cancellationToken);
                     break;
-                default: return BadRequest();
+                default: return BadRequest("Unsupported platform!");
             }
             if(!isAdded)
             {

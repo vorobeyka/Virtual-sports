@@ -11,8 +11,8 @@ using VirtualSports.Web.Models.DatabaseModels;
 namespace VirtualSports.Web.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    [Migration("20210323170828_AddMobileGameIds")]
-    partial class AddMobileGameIds
+    [Migration("20210323194352_AddInitialCreate")]
+    partial class AddInitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

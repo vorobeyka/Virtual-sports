@@ -56,7 +56,7 @@ namespace VirtualSports.Web.Controllers
                     favourites = await _dbUserService.GetFavouritesAsync(HttpContext.User.Identity.Name,
                        cancellationToken);
                     break;
-                default: return BadRequest();
+                default: return BadRequest("Unsupported platform!");
             }
             return favourites == null ? NotFound() : Ok(favourites);
         }
@@ -84,7 +84,7 @@ namespace VirtualSports.Web.Controllers
                     recent = await _dbUserService.GetRecentAsync(HttpContext.User.Identity.Name,
                        cancellationToken);
                     break;
-                default: return BadRequest();
+                default: return BadRequest("Unsupported platform!");
             }
             return recent == null ? NotFound() : Ok(recent);
         }
@@ -114,7 +114,7 @@ namespace VirtualSports.Web.Controllers
                     isAdded = await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
                 cancellationToken);
                     break;
-                default: return BadRequest();
+                default: return BadRequest("Unsupported platform!");
             }
 
             return isAdded 
@@ -145,7 +145,7 @@ namespace VirtualSports.Web.Controllers
                     //history = await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
                 //cancellationToken);
                     break;
-                default: return BadRequest();
+                default: return BadRequest("Unsupported platform!");
             }
             return Ok(/*history*/);
         }
