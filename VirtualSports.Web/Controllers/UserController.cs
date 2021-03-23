@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.BE.Models.DatabaseModels;
 using VirtualSports.BE.Services.DatabaseServices;
 
-namespace VirtualSports.BE.Controllers
+namespace VirtualSports.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -52,6 +53,7 @@ namespace VirtualSports.BE.Controllers
         [Route("favourite/{id:Guid}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [Route("favorite/{id:Guid}")]
         public async Task<ActionResult> AddToFavourites(CancellationToken cancellationToken,
             [FromRoute] Guid gameId)
         {
@@ -62,6 +64,9 @@ namespace VirtualSports.BE.Controllers
         }
 
         [HttpGet]
+        [Route("history/{id:Guid}")]
+        public async Task<ActionResult> GetBetHistory(CancellationToken cancellationToken,
+            [FromRoute] Guid gameId)
         [Route("history")]
         [ProducesResponseType(typeof(List<Bet>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetBetHistory(CancellationToken cancellationToken)
