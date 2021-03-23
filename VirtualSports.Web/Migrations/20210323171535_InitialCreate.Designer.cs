@@ -11,7 +11,7 @@ using VirtualSports.Web.Models.DatabaseModels;
 namespace VirtualSports.Web.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    [Migration("20210323154326_InitialCreate")]
+    [Migration("20210323171535_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,7 +127,6 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<List<Bet>>("Bets")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
                         .HasColumnName("Bets");
 
@@ -145,9 +144,8 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<List<Bet>>("MobileBets")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
-                        .HasColumnName("Bets");
+                        .HasColumnName("MobileBets");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -155,15 +153,13 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<Queue<string>>("RecentGameIds")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
 
                     b.Property<Queue<string>>("RecentMobileGameIds")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
-                        .HasColumnName("RecentGameIds");
+                        .HasColumnName("RecentGameMobileIds");
 
                     b.HasKey("Id");
 

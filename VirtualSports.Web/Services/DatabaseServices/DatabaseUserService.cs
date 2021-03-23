@@ -112,6 +112,20 @@ namespace VirtualSports.Web.Services.DatabaseServices
             return favouriteGames;
         }
 
+        public async Task<IEnumerable<Bet>> GetBetsStoryAsync(string userLogin, CancellationToken cancellationToken)
+        {
+            var user = await GetUserAsync(userLogin, cancellationToken);
+            var bets = user.Bets;
+            return bets;
+        }
+
+        public async Task<IEnumerable<Bet>> GetBetsStoryMobileAsync(string userLogin, CancellationToken cancellationToken)
+        {
+            var user = await GetUserAsync(userLogin, cancellationToken);
+            var bets = user.MobileBets;
+            return bets;
+        }
+
         private async Task<User> GetUserAsync(string userLogin, CancellationToken cancellationToken)
         {
             if (userLogin == null) throw new ArgumentNullException(nameof(userLogin));

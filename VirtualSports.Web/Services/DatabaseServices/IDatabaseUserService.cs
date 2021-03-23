@@ -18,5 +18,7 @@ namespace VirtualSports.Web.Services.DatabaseServices
         Task<IEnumerable<Game>> GetFavouritesMobileAsync(string userLogin, CancellationToken cancellationToken);
         Task AddBetAsync(string userLogin, Bet bet, CancellationToken cancellationToken);
         Task AddBetMobileAsync(string userLogin, Bet bet, CancellationToken cancellationToken);
+        Task<IEnumerable<Bet>> GetBetsStoryAsync(string userLogin, CancellationToken cancellationToken);
+        Task<IEnumerable<Bet>> GetBetsStoryMobileAsync(string userLogin, CancellationToken cancellationToken);
     }
 }
