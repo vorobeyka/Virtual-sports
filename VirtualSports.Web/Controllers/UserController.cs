@@ -67,6 +67,10 @@ namespace VirtualSports.Web.Controllers
         [Route("history/{id:Guid}")]
         public async Task<ActionResult> GetBetHistory(CancellationToken cancellationToken,
             [FromRoute] Guid gameId)
+        {
+            throw new NotImplementedException();
+        }
+        [HttpGet]
         [Route("history")]
         [ProducesResponseType(typeof(List<Bet>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetBetHistory(CancellationToken cancellationToken)

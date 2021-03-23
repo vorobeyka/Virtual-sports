@@ -10,10 +10,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Options;
 using VirtualSports.BE.Services;
 using VirtualSports.BE.Services.DatabaseServices;
 using VirtualSports.Web.Authentication;
+using VirtualSports.Web.Options;
 using VirtualSports.Web.Services.DatabaseServices;
 
 namespace VirtualSports.Web

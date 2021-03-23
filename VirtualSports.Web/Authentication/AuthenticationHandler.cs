@@ -1,14 +1,17 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using VirtualSports.BE.Services;
+using VirtualSports.Web.Options;
 
 namespace VirtualSports.Web.Authentication
 {
@@ -36,11 +39,14 @@ namespace VirtualSports.Web.Authentication
             var token = authHeader.Split(' ')[1];
 
             if (_storage.Contains(token)) return Task.FromResult(AuthenticateResult.NoResult());
-
+            
+            var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            var login = securityToken.Claims.ToList()[0].Value;
+            
             try
             {
                 var identity = new ClaimsIdentity(
-                    new[] {new Claim(ClaimTypes.NameIdentifier, "token")},
+                    new[] {new Claim(ClaimTypes.NameIdentifier, login)},
                     Scheme.Name);
                 return Task.FromResult(AuthenticateResult.Success(
                     new AuthenticationTicket(

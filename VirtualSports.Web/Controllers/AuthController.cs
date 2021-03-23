@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -81,6 +82,7 @@ namespace VirtualSports.Web.Controllers
         {
             if (Request == null || !Request.Headers.TryGetValue("Authorization", out var authHeader)) return Unauthorized();
             var token = authHeader.ToString().Split(' ')[1];
+
 
             _sessionStorage.Add(token);
             await  _dbAuthService.ExpireToken(token, cancellationToken);

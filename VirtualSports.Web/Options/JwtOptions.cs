@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace VirtualSports.BE.Options
+namespace VirtualSports.Web.Options
 {
     /// <summary>
     /// 

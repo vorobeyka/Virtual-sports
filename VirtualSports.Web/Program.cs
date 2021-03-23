@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using VirtualSports.Web;
 
-namespace VirtualSports.BE
+namespace VirtualSports.WEB
 {
 #pragma warning disable 1591
     public class Program
