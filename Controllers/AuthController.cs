@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.Linq;
 using System.Net;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Validations;
 using VirtualSports.BE.Models;
-using VirtualSports.BE.Options;
 using VirtualSports.BE.Services;
 using VirtualSports.BE.Services.DatabaseServices;
 
@@ -23,7 +16,6 @@ namespace VirtualSports.BE.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private readonly IAuthService _authService;
         private readonly IDatabaseAuthService _dbAuthService;
         private readonly ISessionStorage _sessionStorage;
 
@@ -31,11 +23,9 @@ namespace VirtualSports.BE.Controllers
         /// 
         /// </summary>
         public AuthController(
-            IAuthService authService,
             IDatabaseAuthService dbAuthService,
             ISessionStorage sessionStorage)
         {
-            _authService = authService;
             _dbAuthService = dbAuthService;
             _sessionStorage = sessionStorage;
         }
@@ -69,6 +59,7 @@ namespace VirtualSports.BE.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] Account user, CancellationToken cancellationToken)
         {
+            
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var token = await _dbAuthService.LoginUserAsync(user, cancellationToken);
@@ -82,7 +73,7 @@ namespace VirtualSports.BE.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("logout")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         [Authorize]
         public IActionResult Logout(CancellationToken cancellationToken)
         {
@@ -93,7 +84,5 @@ namespace VirtualSports.BE.Controllers
             _dbAuthService.ExpireToken(token, cancellationToken);
             return Ok();
         }
-
-        
     }
 }

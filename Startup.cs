@@ -86,11 +86,6 @@ namespace VirtualSports.BE
                         BearerFormat = "JWT"
                     });
             });
-
-            services.AddSingleton<IAuthService, AuthService>();
-
-            
-
             //Add database and migration services.
             services.AddDbContext<DatabaseManagerContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);

@@ -21,7 +21,7 @@
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.IAuthService,VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.BE.Services.ISessionStorage)">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.BE.Services.ISessionStorage)">
             <summary>
             
             </summary>
@@ -117,25 +117,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:VirtualSports.BE.Services.AuthService">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:VirtualSports.BE.Services.AuthService.RegisterAsync(VirtualSports.BE.Models.Account)">
-            <summary>
-            
-            </summary>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:VirtualSports.BE.Services.AuthService.FindAsync(VirtualSports.BE.Models.Account)">
-            <summary>
-            
-            </summary>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
         <member name="T:VirtualSports.BE.Services.DatabaseServices.DatabaseAuthService">
             <inheritdoc />
         </member>
@@ -175,25 +156,6 @@
             </summary>
             <param name="token"></param>
             <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="T:VirtualSports.BE.Services.IAuthService">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:VirtualSports.BE.Services.IAuthService.RegisterAsync(VirtualSports.BE.Models.Account)">
-            <summary>
-            
-            </summary>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:VirtualSports.BE.Services.IAuthService.FindAsync(VirtualSports.BE.Models.Account)">
-            <summary>
-            
-            </summary>
-            <param name="user"></param>
             <returns></returns>
         </member>
         <member name="T:VirtualSports.BE.Services.ISessionStorage">

@@ -7,7 +7,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
 using VirtualSports.BE.Contexts;
 using VirtualSports.BE.Models;
@@ -21,7 +20,9 @@ namespace VirtualSports.BE.Services.DatabaseServices
     {
         private readonly DatabaseManagerContext _dbContext;
 
+#pragma warning disable 1591
         public DatabaseAuthService(DatabaseManagerContext dbContext)
+#pragma warning restore 1591
         {
             _dbContext = dbContext;
         }
@@ -53,7 +54,6 @@ namespace VirtualSports.BE.Services.DatabaseServices
             await _dbContext.Users.AddAsync(new User
             {
                 Login = account.Login,
-                // TODO : get hash for password
                 PasswordHash = GetPasswordHash(account.Password),
                 FavouriteGameIds = new List<string>(),
                 FavouriteGameMobileIds = new List<string>(),
@@ -65,7 +65,7 @@ namespace VirtualSports.BE.Services.DatabaseServices
             return await GetJwtTokenAsync(account);
         }
 
-        private string GetPasswordHash(string password)
+        private static string GetPasswordHash(string password)
         {
             var md5 = MD5.Create();
             var passwordBytes = Encoding.UTF8.GetBytes(password);
@@ -91,7 +91,6 @@ namespace VirtualSports.BE.Services.DatabaseServices
                     signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
                         SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-
             return encodedJwt;
         }
 
