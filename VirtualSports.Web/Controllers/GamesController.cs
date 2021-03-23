@@ -5,13 +5,10 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
-using VirtualSports.BE.Services;
-using VirtualSports.BE.Services.DatabaseServices;
-using VirtualSports.BE.Services.DatabaseServices;
 using VirtualSports.Web.Services.DatabaseServices;
-using System.Net;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Services;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -98,7 +95,7 @@ namespace VirtualSports.Web.Controllers
         /// <returns></returns>
         [HttpGet("play/dice")]
         [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Game>> PlayDice(CancellationToken cancellationToken,
+        public async Task<ActionResult<Bet>> PlayDice(CancellationToken cancellationToken,
             [FromQuery] string dateTime, 
             [FromQuery] BetType betType,
             [FromServices] IDatabaseUserService dbUserService,

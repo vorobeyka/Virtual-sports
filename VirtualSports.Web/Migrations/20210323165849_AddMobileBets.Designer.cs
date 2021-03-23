@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.Web.Contexts;
@@ -10,9 +11,10 @@ using VirtualSports.Web.Models.DatabaseModels;
 namespace VirtualSports.Web.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    partial class DatabaseManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20210323165849_AddMobileBets")]
+    partial class AddMobileBets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,13 +153,15 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<Queue<string>>("RecentGameIds")
                         .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
 
                     b.Property<Queue<string>>("RecentMobileGameIds")
                         .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
-                        .HasColumnName("RecentMobileGameIds");
+                        .HasColumnName("RecentGameIds");
 
                     b.HasKey("Id");
 
