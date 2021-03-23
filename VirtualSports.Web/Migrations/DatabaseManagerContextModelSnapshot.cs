@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.BE.Contexts;
 
-namespace VirtualSports.BE.Migrations
+namespace VirtualSports.Web.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
     partial class DatabaseManagerContextModelSnapshot : ModelSnapshot
@@ -122,6 +122,10 @@ namespace VirtualSports.BE.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<List<string>>("BetsIds")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
                     b.Property<List<string>>("FavouriteGameIds")
                         .IsRequired()
                         .HasColumnType("text[]");
@@ -133,6 +137,10 @@ namespace VirtualSports.BE.Migrations
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<List<string>>("MobileBetsIds")
+                        .IsRequired()
+                        .HasColumnType("text[]");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()

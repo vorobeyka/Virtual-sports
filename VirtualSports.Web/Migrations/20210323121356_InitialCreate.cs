@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace VirtualSports.BE.Migrations
+namespace VirtualSports.Web.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -86,7 +86,9 @@ namespace VirtualSports.BE.Migrations
                     FavouriteGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
                     FavouriteGameMobileIds = table.Column<List<string>>(type: "text[]", nullable: false),
                     RecentGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
-                    RecentMobileGameIds = table.Column<List<string>>(type: "text[]", nullable: false)
+                    RecentMobileGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
+                    BetsIds = table.Column<List<string>>(type: "text[]", nullable: false),
+                    MobileBetsIds = table.Column<List<string>>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
