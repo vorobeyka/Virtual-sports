@@ -9,7 +9,7 @@ namespace VirtualSports.BE.Models.DatabaseModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Login { get; set; }
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
         public List<string> FavouriteGameIds { get; set; }
         public List<string> FavouriteGameMobileIds { get; set; }
         public List<string> RecentGameIds { get; set; }

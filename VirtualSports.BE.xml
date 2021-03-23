@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VirtualSports.BE</name>
+    </assembly>
+    <members>
+        <member name="T:VirtualSports.BE.Contexts.DatabaseManagerContext">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Contexts.DatabaseManagerContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{VirtualSports.BE.Contexts.DatabaseManagerContext})">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Contexts.DatabaseManagerContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Contexts.DatabaseManagerContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:VirtualSports.BE.Controllers.AuthController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.BE.Services.ISessionStorage)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.RegisterAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.LoginAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Controllers.AuthController.Logout(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Models.Account">
+            <summary>
+            User model.
+            </summary>
+        </member>
+        <member name="P:VirtualSports.BE.Models.Account.Login">
+            <summary>
+            User's login.
+            </summary>
+        </member>
+        <member name="P:VirtualSports.BE.Models.Account.Password">
+            <summary>
+            User's password.
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Models.Account.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="login"></param>
+            <param name="password"></param>
+        </member>
+        <member name="T:VirtualSports.BE.Models.DatabaseModels.ExpSession">
+            <summary>
+            Model for table expired sessions.
+            </summary>
+        </member>
+        <member name="P:VirtualSports.BE.Models.DatabaseModels.ExpSession.Id">
+            <summary>
+            Unique id.
+            </summary>
+        </member>
+        <member name="P:VirtualSports.BE.Models.DatabaseModels.ExpSession.Token">
+            <summary>
+            Jwt token.
+            </summary>
+        </member>
+        <member name="T:VirtualSports.BE.Options.JwtOptions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.Issuer">
+            <summary>
+            Token issuer (producer).
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.Audience">
+            <summary>
+            Token audience (consumer).
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.PrivateKey">
+            <summary>
+            Token secret part.
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.LifeTime">
+            <summary>
+            Token's life time.
+            </summary>
+        </member>
+        <member name="F:VirtualSports.BE.Options.JwtOptions.RequireHttps">
+            <summary>
+            Require HTTPS.
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Options.JwtOptions.GetSymmetricSecurityKey">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Services.DatabaseServices.DatabaseAuthService">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.DatabaseAuthService.LoginUserAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.DatabaseAuthService.RegisterUserAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.DatabaseAuthService.ExpireToken(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService.RegisterUserAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="account"></param>
+            <param name="cancellationToken"></param>
+            <returns>Jwt token.</returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService.LoginUserAsync(VirtualSports.BE.Models.Account,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="account"></param>
+            <param name="cancellationToken"></param>
+            <returns>Jwt token.</returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService.ExpireToken(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="token"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Services.ISessionStorage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:VirtualSports.BE.Services.SessionStorageInMemory">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.#ctor(VirtualSports.BE.Contexts.DatabaseManagerContext)">
+            <summary>
+            
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.Add(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.Contains(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
