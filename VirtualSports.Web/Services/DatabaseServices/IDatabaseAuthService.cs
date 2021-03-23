@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using VirtualSports.BE.Models;
 
-namespace VirtualSports.BE.Services.DatabaseServices
+namespace VirtualSports.Web.Services.DatabaseServices
 {
     /// <summary>
     /// 

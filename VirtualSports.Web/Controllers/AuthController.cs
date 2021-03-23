@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using VirtualSports.BE.Models;
 using VirtualSports.BE.Services;
 using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.Web.Services.DatabaseServices;
 
-namespace VirtualSports.BE.Controllers
+namespace VirtualSports.Web.Controllers
 {
     /// <summary>
     /// 
@@ -74,14 +74,15 @@ namespace VirtualSports.BE.Controllers
         /// <returns></returns>
         [HttpPut("logout")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.Unauthorized)]
         [Authorize]
-        public IActionResult Logout(CancellationToken cancellationToken)
+        public async Task<IActionResult> LogoutAsync(CancellationToken cancellationToken)
         {
-            if (!Request.Headers.TryGetValue("Authorization", out var authHeader)) return Unauthorized();
+            if (Request == null || !Request.Headers.TryGetValue("Authorization", out var authHeader)) return Unauthorized();
             var token = authHeader.ToString().Split(' ')[1];
 
             _sessionStorage.Add(token);
-            _dbAuthService.ExpireToken(token, cancellationToken);
+            await  _dbAuthService.ExpireToken(token, cancellationToken);
             return Ok();
         }
     }

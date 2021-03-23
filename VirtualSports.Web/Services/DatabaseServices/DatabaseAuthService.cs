@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,13 +6,14 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using VirtualSports.BE.Contexts;
 using VirtualSports.BE.Models;
 using VirtualSports.BE.Models.DatabaseModels;
 using VirtualSports.BE.Options;
 
-namespace VirtualSports.BE.Services.DatabaseServices
+namespace VirtualSports.Web.Services.DatabaseServices
 {
     /// <inheritdoc />
     public class DatabaseAuthService : IDatabaseAuthService
@@ -58,7 +58,9 @@ namespace VirtualSports.BE.Services.DatabaseServices
                 FavouriteGameIds = new List<string>(),
                 FavouriteGameMobileIds = new List<string>(),
                 RecentGameIds = new List<string>(),
-                RecentMobileGameIds = new List<string>()
+                RecentMobileGameIds = new List<string>(),
+                BetsIds = new List<string>(),
+                MobileBetsIds = new List<string>()
             }, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -109,6 +111,7 @@ namespace VirtualSports.BE.Services.DatabaseServices
         public async Task ExpireToken(string token, CancellationToken cancellationToken)
         {
             await _dbContext.ExpSessions.AddAsync(new ExpSession(token), cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

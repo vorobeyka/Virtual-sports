@@ -1,21 +1,22 @@
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
 using VirtualSports.BE.Contexts;
+using VirtualSports.BE.Options;
 using VirtualSports.BE.Services;
 using VirtualSports.BE.Services.DatabaseServices;
-using System.IO;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using VirtualSports.BE.Options;
+using VirtualSports.Web.Authentication;
+using VirtualSports.Web.Services.DatabaseServices;
 
-namespace VirtualSports.BE
+namespace VirtualSports.Web
 {
 
 #pragma warning disable 1591
@@ -86,6 +87,12 @@ namespace VirtualSports.BE
                         BearerFormat = "JWT"
                     });
             });
+
+            services
+                .AddAuthentication("JwtAuthentication")
+                .AddScheme<JwtBearerOptions, AuthenticationHandler>(
+                    "JwtAuthentication", null);
+
             //Add database and migration services.
             services.AddDbContext<DatabaseManagerContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);
