@@ -9,6 +9,7 @@ using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
+using System.Linq;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -67,14 +68,14 @@ namespace VirtualSports.Web.Controllers
             switch (Platform)
             {
                 case "Mobile":
-                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
+                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Claims.ToList()[0].Value, gameId,
                 cancellationToken);
                     break;
                 case "Web":
                     isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
                 cancellationToken);
                     break;
-                default: return BadRequest();
+                default: return BadRequest("Unsupported platform!");
             }
             if(!isAdded)
             {

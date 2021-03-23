@@ -40,7 +40,7 @@ namespace VirtualSports.Web.Authentication
             try
             {
                 var identity = new ClaimsIdentity(
-                    new[] {new Claim(ClaimTypes.NameIdentifier, "token")},
+                    new[] {new Claim(ClaimTypes.NameIdentifier, token)},
                     Scheme.Name);
                 return Task.FromResult(AuthenticateResult.Success(
                     new AuthenticationTicket(
