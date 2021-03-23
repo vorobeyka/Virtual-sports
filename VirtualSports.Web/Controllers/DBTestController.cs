@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
-using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Services.DatabaseServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace VirtualSports.BE.Controllers
+namespace VirtualSports.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

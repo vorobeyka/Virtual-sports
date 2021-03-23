@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Services.DatabaseServices
+namespace VirtualSports.Web.Services.DatabaseServices
 {
     public interface IDatabaseRootService
     {
@@ -18,6 +18,6 @@ namespace VirtualSports.BE.Services.DatabaseServices
         Task<Provider> GetProviderAsync(string id, CancellationToken cancellationToken);
         Task<Category> GetCategoryAsync(string id, CancellationToken cancellationToken);
         Task<Game> GetGameAsync(string id, CancellationToken cancellationToken);
-        Task<List<Game>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken);
+        Task<IEnumerable<Game>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken);
     }
 }

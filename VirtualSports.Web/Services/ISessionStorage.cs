@@ -1,4 +1,4 @@
-﻿namespace VirtualSports.BE.Services
+﻿namespace VirtualSports.Web.Services
 {
     /// <summary>
     /// 

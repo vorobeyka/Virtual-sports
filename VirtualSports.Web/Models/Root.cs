@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Models
+namespace VirtualSports.Web.Models
 {
     public class Root
     {

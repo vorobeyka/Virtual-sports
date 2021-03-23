@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using VirtualSports.BE.Models.DatabaseModels;
+﻿using System.Threading.Tasks;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Services
+namespace VirtualSports.Web.Services
 {
     public interface IDiceService
     {

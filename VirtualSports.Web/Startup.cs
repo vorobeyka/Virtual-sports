@@ -9,12 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Options;
-using VirtualSports.BE.Services;
-using VirtualSports.BE.Services.DatabaseServices;
-using VirtualSports.Web.Authentication;
+using VirtualSports.Web.Contexts;
+using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
+using VirtualSports.Web.Options;
+using VirtualSports.Web.Authentication;
 
 namespace VirtualSports.Web
 {
@@ -54,7 +53,7 @@ namespace VirtualSports.Web
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "VirtualSports", Version = "v1" });
-                var filePath = Path.Combine(AppContext.BaseDirectory, "VirtualSports.BE.xml");
+                var filePath = Path.Combine(AppContext.BaseDirectory, "VirtualSports.Web.xml");
                 if (File.Exists(filePath))
                 {
                     options.IncludeXmlComments(filePath);

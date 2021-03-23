@@ -4,16 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
-using VirtualSports.BE.Services;
-using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
+using System.Net;
 
 namespace VirtualSports.Web.Controllers
 {

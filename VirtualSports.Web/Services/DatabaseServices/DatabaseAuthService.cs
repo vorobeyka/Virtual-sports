@@ -8,11 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Models.DatabaseModels;
-using VirtualSports.BE.Options;
+using VirtualSports.Web.Contexts;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Options;
 
 namespace VirtualSports.Web.Services.DatabaseServices
 {
@@ -58,10 +57,10 @@ namespace VirtualSports.Web.Services.DatabaseServices
                 PasswordHash = GetPasswordHash(account.Password),
                 FavouriteGameIds = new List<string>(),
                 FavouriteGameMobileIds = new List<string>(),
-                RecentGameIds = new List<string>(),
-                RecentMobileGameIds = new List<string>(),
-                BetsIds = new List<string>(),
-                MobileBetsIds = new List<string>()
+                RecentGameIds = new Queue<string>(),
+                RecentMobileGameIds = new Queue<string>(),
+                Bets = new List<Bet>(),
+                MobileBets = new List<Bet>()
             }, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
