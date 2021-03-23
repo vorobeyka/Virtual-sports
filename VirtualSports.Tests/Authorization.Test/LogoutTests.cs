@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Services;
 using VirtualSports.Web.Controllers;
+using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
 using Xunit;
 
