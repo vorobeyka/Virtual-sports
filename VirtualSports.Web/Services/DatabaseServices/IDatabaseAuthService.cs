@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models;
+using VirtualSports.Web.Models;
 
-namespace VirtualSports.BE.Services.DatabaseServices
+namespace VirtualSports.Web.Services.DatabaseServices
 {
     /// <summary>
     /// 

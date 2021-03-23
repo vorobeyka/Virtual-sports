@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.Web.Contexts;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Services.DatabaseServices
+namespace VirtualSports.Web.Services.DatabaseServices
 {
     public class DatabaseRootService : IDatabaseRootService
     {
@@ -91,9 +92,12 @@ namespace VirtualSports.BE.Services.DatabaseServices
             return game;
         }
 
-        public Task<List<Game>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Game>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var games = await _dbContext.Games
+                .Where(game => ids.Any(id => id == game.Id))
+                .ToListAsync(cancellationToken);
+            return games;
         }
     }
 }

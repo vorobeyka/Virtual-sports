@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using VirtualSports.Web.Contexts;
+using VirtualSports.WebContexts;
 
-namespace VirtualSports.Web.Migrations
+namespace VirtualSports.WebMigrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    partial class DatabaseManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20210323121242_AddBets")]
+    partial class AddBets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

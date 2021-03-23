@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Services.DatabaseServices;
 
-namespace VirtualSports.BE.Controllers
+namespace VirtualSports.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -50,14 +53,11 @@ namespace VirtualSports.BE.Controllers
         }
 
         [HttpGet]
-        [Route("favourite/{id:Guid}")]
+        [Route("history")]
+        [ProducesResponseType(typeof(List<Bet>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult> GetBetHistory(CancellationToken cancellationToken)
         {
-            return await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
-                cancellationToken)
-                 ? Ok()
-                 : NotFound();
+            return Ok();
         }
-
     }
 }

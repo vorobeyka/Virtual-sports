@@ -1,10 +1,10 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.Web.Contexts;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Services
+namespace VirtualSports.Web.Services
 {
     /// <inheritdoc />
     public class SessionStorageInMemory : ISessionStorage

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Contexts
+namespace VirtualSports.Web.Contexts
 {
     /// <inheritdoc />
     public class DatabaseManagerContext : DbContext

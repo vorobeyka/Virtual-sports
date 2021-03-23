@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VirtualSports.BE.Models.DatabaseModels
+namespace VirtualSports.Web.Models.DatabaseModels
 {
     [Table("Users")]
     public class User
@@ -12,9 +12,11 @@ namespace VirtualSports.BE.Models.DatabaseModels
         public string PasswordHash { get; set; }
         public List<string> FavouriteGameIds { get; set; }
         public List<string> FavouriteGameMobileIds { get; set; }
-        public List<string> RecentGameIds { get; set; }
-        public List<string> RecentMobileGameIds { get; set; }
-        public List<string> BetsIds { get; set; }
-        public List<string> MobileBetsIds { get; set; }
+        public Queue<string> RecentGameIds { get; set; }
+        public Queue<string> RecentMobileGameIds { get; set; }
+        [Column("Bets", TypeName = "jsonb")]
+        public List<Bet> Bets { get; set; }
+        [Column("Bets", TypeName = "jsonb")]
+        public List<Bet> MobileBets { get; set; }
     }
 }

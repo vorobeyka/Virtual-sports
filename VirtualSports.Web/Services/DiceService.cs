@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.BE.Services
+namespace VirtualSports.Web.Services
 {
     public class DiceService : IDiceService
     {

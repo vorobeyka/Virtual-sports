@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using VirtualSports.BE.Contexts;
+using VirtualSports.Web.Contexts;
 
-namespace VirtualSports.BE.Migrations
+namespace VirtualSports.WebMigrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
     [Migration("20210323064714_InitialCreate")]
@@ -21,7 +21,7 @@ namespace VirtualSports.BE.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.Category", b =>
+            modelBuilder.Entity("VirtualSports.WebModels.DatabaseModels.Category", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -39,7 +39,7 @@ namespace VirtualSports.BE.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.ExpSession", b =>
+            modelBuilder.Entity("VirtualSports.WebModels.DatabaseModels.ExpSession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace VirtualSports.BE.Migrations
                     b.ToTable("Expired Sessions");
                 });
 
-            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.Game", b =>
+            modelBuilder.Entity("VirtualSports.WebModels.DatabaseModels.Game", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -85,7 +85,7 @@ namespace VirtualSports.BE.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.Provider", b =>
+            modelBuilder.Entity("VirtualSports.WebModels.DatabaseModels.Provider", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -103,7 +103,7 @@ namespace VirtualSports.BE.Migrations
                     b.ToTable("Providers");
                 });
 
-            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.Tag", b =>
+            modelBuilder.Entity("VirtualSports.WebModels.DatabaseModels.Tag", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -117,7 +117,7 @@ namespace VirtualSports.BE.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.User", b =>
+            modelBuilder.Entity("VirtualSports.WebModels.DatabaseModels.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

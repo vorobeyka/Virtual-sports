@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace VirtualSports.BE.Migrations
+namespace VirtualSports.Web.Migrations
 {
     public partial class InitialCreate : Migration
     {

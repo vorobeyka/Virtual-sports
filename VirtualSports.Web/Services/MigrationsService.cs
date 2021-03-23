@@ -4,9 +4,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Contexts;
+using VirtualSports.Web.Contexts;
 
-namespace VirtualSports.BE.Services
+namespace VirtualSports.Web.Services
 {
     public class MigrationsService : IHostedService
     {

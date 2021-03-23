@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using VirtualSports.BE.Contexts;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
-using VirtualSports.BE.Options;
+using VirtualSports.Web.Contexts;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Options;
 
-namespace VirtualSports.BE.Services.DatabaseServices
+namespace VirtualSports.Web.Services.DatabaseServices
 {
     /// <inheritdoc />
     public class DatabaseAuthService : IDatabaseAuthService
@@ -57,8 +57,10 @@ namespace VirtualSports.BE.Services.DatabaseServices
                 PasswordHash = GetPasswordHash(account.Password),
                 FavouriteGameIds = new List<string>(),
                 FavouriteGameMobileIds = new List<string>(),
-                RecentGameIds = new List<string>(),
-                RecentMobileGameIds = new List<string>()
+                RecentGameIds = new Queue<string>(),
+                RecentMobileGameIds = new Queue<string>(),
+                Bets = new List<Bet>(),
+                MobileBets = new List<Bet>()
             }, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -109,6 +111,7 @@ namespace VirtualSports.BE.Services.DatabaseServices
         public async Task ExpireToken(string token, CancellationToken cancellationToken)
         {
             await _dbContext.ExpSessions.AddAsync(new ExpSession(token), cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

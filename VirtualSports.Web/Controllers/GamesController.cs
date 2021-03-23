@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models;
-using VirtualSports.BE.Models.DatabaseModels;
-using VirtualSports.BE.Services;
-using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.Web.Models;
+using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Services;
+using VirtualSports.Web.Services.DatabaseServices;
 
-namespace VirtualSports.BE.Controllers
+namespace VirtualSports.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]

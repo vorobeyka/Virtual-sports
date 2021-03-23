@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VirtualSports.BE.Models.DatabaseModels
+namespace VirtualSports.Web.Models.DatabaseModels
 {
     /// <summary>
     /// Model for table expired sessions.
