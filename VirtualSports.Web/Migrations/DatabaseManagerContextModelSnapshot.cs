@@ -125,7 +125,6 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<List<Bet>>("Bets")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
                         .HasColumnName("Bets");
 
@@ -143,9 +142,8 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<List<Bet>>("MobileBets")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
-                        .HasColumnName("Bets");
+                        .HasColumnName("MobileBets");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -153,15 +151,13 @@ namespace VirtualSports.Web.Migrations
 
                     b.Property<Queue<string>>("RecentGameIds")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
 
                     b.Property<Queue<string>>("RecentMobileGameIds")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("jsonb")
-                        .HasColumnName("RecentGameIds");
+                        .HasColumnName("RecentGameMobileIds");
 
                     b.HasKey("Id");
 

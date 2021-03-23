@@ -14,11 +14,11 @@ namespace VirtualSports.Web.Models.DatabaseModels
         public List<string> FavouriteGameMobileIds { get; set; }
         [Column("RecentGameIds", TypeName = "jsonb")]
         public Queue<string> RecentGameIds { get; set; }
-        [Column("RecentGameIds", TypeName = "jsonb")]
+        [Column("RecentGameMobileIds", TypeName = "jsonb")]
         public Queue<string> RecentMobileGameIds { get; set; }
         [Column("Bets", TypeName = "jsonb")]
         public List<Bet> Bets { get; set; }
-        [Column("Bets", TypeName = "jsonb")]
+        [Column("MobileBets", TypeName = "jsonb")]
         public List<Bet> MobileBets { get; set; }
     }
 }
