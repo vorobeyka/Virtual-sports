@@ -68,7 +68,7 @@ namespace VirtualSports.Web.Controllers
             switch (Platform)
             {
                 case "Mobile":
-                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Claims.ToList()[0].Value, gameId,
+                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
                 cancellationToken);
                     break;
                 case "Web":

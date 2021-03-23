@@ -5,7 +5,7 @@ using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class AddInitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,7 +87,7 @@ namespace VirtualSports.Web.Migrations
                     FavouriteGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
                     FavouriteGameMobileIds = table.Column<List<string>>(type: "text[]", nullable: false),
                     RecentGameIds = table.Column<Queue<string>>(type: "jsonb", nullable: false),
-                    RecentGameMobileIds = table.Column<Queue<string>>(type: "jsonb", nullable: false),
+                    RecentMobileGameIds = table.Column<Queue<string>>(type: "jsonb", nullable: false),
                     Bets = table.Column<List<Bet>>(type: "jsonb", nullable: false),
                     MobileBets = table.Column<List<Bet>>(type: "jsonb", nullable: false)
                 },
