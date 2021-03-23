@@ -25,14 +25,32 @@ namespace VirtualSports.BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.ExpSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Expired Sessions");
                 });
 
             modelBuilder.Entity("VirtualSports.BE.Models.DatabaseModels.Game", b =>
@@ -41,18 +59,23 @@ namespace VirtualSports.BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<List<string>>("Categories")
+                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<string>("DisplayName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Provider")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<List<string>>("Tags")
+                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -66,9 +89,11 @@ namespace VirtualSports.BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -82,6 +107,7 @@ namespace VirtualSports.BE.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -97,21 +123,27 @@ namespace VirtualSports.BE.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<List<string>>("FavouriteGameIds")
+                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<List<string>>("FavouriteGameMobileIds")
+                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<string>("Login")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<List<string>>("RecentGameIds")
+                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<List<string>>("RecentMobileGameIds")
+                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.HasKey("Id");

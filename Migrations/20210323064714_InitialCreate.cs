@@ -13,8 +13,8 @@ namespace VirtualSports.BE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    DisplayName = table.Column<string>(type: "text", nullable: true),
-                    Image = table.Column<string>(type: "text", nullable: true)
+                    DisplayName = table.Column<string>(type: "text", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -22,15 +22,28 @@ namespace VirtualSports.BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Expired Sessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Token = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Expired Sessions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    DisplayName = table.Column<string>(type: "text", nullable: true),
-                    Url = table.Column<string>(type: "text", nullable: true),
-                    Provider = table.Column<string>(type: "text", nullable: true),
-                    Categories = table.Column<List<string>>(type: "text[]", nullable: true),
-                    Tags = table.Column<List<string>>(type: "text[]", nullable: true)
+                    DisplayName = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Provider = table.Column<string>(type: "text", nullable: false),
+                    Categories = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Tags = table.Column<List<string>>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,8 +55,8 @@ namespace VirtualSports.BE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    DisplayName = table.Column<string>(type: "text", nullable: true),
-                    Image = table.Column<string>(type: "text", nullable: true)
+                    DisplayName = table.Column<string>(type: "text", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,7 +68,7 @@ namespace VirtualSports.BE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    DisplayName = table.Column<string>(type: "text", nullable: true)
+                    DisplayName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,12 +81,12 @@ namespace VirtualSports.BE.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true),
-                    FavouriteGameIds = table.Column<List<string>>(type: "text[]", nullable: true),
-                    FavouriteGameMobileIds = table.Column<List<string>>(type: "text[]", nullable: true),
-                    RecentGameIds = table.Column<List<string>>(type: "text[]", nullable: true),
-                    RecentMobileGameIds = table.Column<List<string>>(type: "text[]", nullable: true)
+                    Login = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    FavouriteGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
+                    FavouriteGameMobileIds = table.Column<List<string>>(type: "text[]", nullable: false),
+                    RecentGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
+                    RecentMobileGameIds = table.Column<List<string>>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,6 +98,9 @@ namespace VirtualSports.BE.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Expired Sessions");
 
             migrationBuilder.DropTable(
                 name: "Games");
