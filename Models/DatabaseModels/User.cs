@@ -14,5 +14,7 @@ namespace VirtualSports.BE.Models.DatabaseModels
         public List<string> FavouriteGameMobileIds { get; set; }
         public List<string> RecentGameIds { get; set; }
         public List<string> RecentMobileGameIds { get; set; }
+        public List<string> BetsIds { get; set; }
+        public List<string> MobileBetsIds { get; set; }
     }
 }

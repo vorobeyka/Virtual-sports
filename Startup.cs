@@ -97,6 +97,8 @@ namespace VirtualSports.BE
 
             //Add storage in memory.
             services.AddScoped<ISessionStorage, SessionStorageInMemory>();
+            services.AddScoped<IDatabaseUserService, DatabaseUserService>();
+            services.AddScoped<IDiceService, DiceService>();
 
             services.AddControllers();
         }
