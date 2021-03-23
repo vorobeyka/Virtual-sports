@@ -10,8 +10,8 @@ using VirtualSports.BE.Contexts;
 namespace VirtualSports.BE.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    [Migration("20210323052709_UpdateSession")]
-    partial class UpdateSession
+    [Migration("20210323064714_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,7 +136,7 @@ namespace VirtualSports.BE.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 

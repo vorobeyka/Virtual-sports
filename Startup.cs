@@ -89,8 +89,7 @@ namespace VirtualSports.BE
 
             services.AddSingleton<IAuthService, AuthService>();
 
-            //Add storage in memory.
-            services.AddSingleton<ISessionStorage, SessionStorageInMemory>();
+            
 
             //Add database and migration services.
             services.AddDbContext<DatabaseManagerContext>(options =>
@@ -100,6 +99,9 @@ namespace VirtualSports.BE
 
             services.AddScoped<IDatabaseRootService, DatabaseRootService>();
             services.AddScoped<IDatabaseAuthService, DatabaseAuthService>();
+
+            //Add storage in memory.
+            services.AddScoped<ISessionStorage, SessionStorageInMemory>();
 
             services.AddControllers();
         }

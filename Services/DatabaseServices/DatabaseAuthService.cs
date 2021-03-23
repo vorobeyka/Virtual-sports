@@ -3,8 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
 using VirtualSports.BE.Contexts;
 using VirtualSports.BE.Models;
@@ -26,11 +29,12 @@ namespace VirtualSports.BE.Services.DatabaseServices
         /// <inheritdoc />
         public async Task<string> LoginUserAsync(Account account, CancellationToken cancellationToken)
         {
+            var passwordHash = GetPasswordHash(account.Password);
             var user = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Login == account.Login && u.Password == account.Password,
+                .FirstOrDefaultAsync(u => u.Login == account.Login && u.PasswordHash == passwordHash,
                 cancellationToken);
 
-            if (user == null)
+            if (user != null)
             {
                 return await GetJwtTokenAsync(account);
             }
@@ -50,7 +54,7 @@ namespace VirtualSports.BE.Services.DatabaseServices
             {
                 Login = account.Login,
                 // TODO : get hash for password
-                Password = account.Password,
+                PasswordHash = GetPasswordHash(account.Password),
                 FavouriteGameIds = new List<string>(),
                 FavouriteGameMobileIds = new List<string>(),
                 RecentGameIds = new List<string>(),
@@ -61,7 +65,21 @@ namespace VirtualSports.BE.Services.DatabaseServices
             return await GetJwtTokenAsync(account);
         }
 
-        private async Task<string> GetJwtTokenAsync(Models.Account user)
+        private string GetPasswordHash(string password)
+        {
+            var md5 = MD5.Create();
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            var hashBytes = md5.ComputeHash(passwordBytes);
+            var sb = new StringBuilder();
+            foreach (var t in hashBytes)
+            {
+                sb.Append(t.ToString("x2"));
+            }
+
+            return sb.ToString();
+        }
+
+        private async Task<string> GetJwtTokenAsync(Account user)
         {
             var identity = await GetIdentityAsync(user);
 

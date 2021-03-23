@@ -21,7 +21,7 @@
             
             </summary>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.IAuthService,VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService)">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.#ctor(VirtualSports.BE.Services.IAuthService,VirtualSports.BE.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.BE.Services.ISessionStorage)">
             <summary>
             
             </summary>
@@ -38,7 +38,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:VirtualSports.BE.Controllers.AuthController.Logout">
+        <member name="M:VirtualSports.BE.Controllers.AuthController.Logout(System.Threading.CancellationToken)">
             <summary>
             
             </summary>
@@ -194,6 +194,39 @@
             
             </summary>
             <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VirtualSports.BE.Services.ISessionStorage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:VirtualSports.BE.Services.SessionStorageInMemory">
+            <inheritdoc />
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.#ctor(VirtualSports.BE.Contexts.DatabaseManagerContext)">
+            <summary>
+            
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.Add(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VirtualSports.BE.Services.SessionStorageInMemory.Contains(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="token"></param>
             <returns></returns>
         </member>
     </members>
