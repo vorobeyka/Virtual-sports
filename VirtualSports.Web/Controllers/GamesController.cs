@@ -1,22 +1,31 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using VirtualSports.Web.Models;
-using VirtualSports.Web.Models.DatabaseModels;
-using VirtualSports.Web.Services;
+using System;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using VirtualSports.BE.Models;
+using VirtualSports.BE.Models.DatabaseModels;
+using VirtualSports.BE.Services;
+using VirtualSports.BE.Services.DatabaseServices;
+using VirtualSports.BE.Services.DatabaseServices;
 using VirtualSports.Web.Services.DatabaseServices;
 using System.Net;
 
 namespace VirtualSports.Web.Controllers
 {
+    /// <summary>
+    /// Controller for games requests
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     [Authorize]
     public class GamesController : ControllerBase
     {
+        /// <summary>
+        /// Web or Mobile
+        /// </summary>
         [FromHeader(Name ="X-Platform")]
         public string Platform { get; set; }
 
@@ -29,6 +38,11 @@ namespace VirtualSports.Web.Controllers
             _dbRootService = dbRootService;
         }
 
+        /// <summary>
+        /// Initial request for main page
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(Root), (int)HttpStatusCode.OK)]
         [AllowAnonymous]
@@ -38,21 +52,50 @@ namespace VirtualSports.Web.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Play chosen game
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <param name="gameId"></param>
+        /// <param name="dbUserService"></param>
+        /// <returns></returns>
         [HttpGet("play/{gameId:Guid}")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Game), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Game>> PlayGame(CancellationToken cancellationToken,
             [FromRoute] Guid gameId, [FromServices] IDatabaseUserService dbUserService)
         {
-
-            if(!(await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
-                cancellationToken)))
+            bool isAdded;
+            switch (Platform)
+            {
+                case "Mobile":
+                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
+                cancellationToken);
+                    break;
+                case "Web":
+                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
+                cancellationToken);
+                    break;
+                default: return BadRequest();
+            }
+            if(!isAdded)
             {
                 return NotFound("there is no game with such id in database");
             }
+            // maybe change into just OK();
             return Ok(await _dbRootService.GetGameAsync(gameId.ToString(), cancellationToken));
         }
 
+        /// <summary>
+        /// Throw dice
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="betType"></param>
+        /// <param name="dbUserService"></param>
+        /// <param name="diceService"></param>
+        /// <returns></returns>
         [HttpGet("play/dice")]
         [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Game>> PlayDice(CancellationToken cancellationToken,

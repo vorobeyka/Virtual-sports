@@ -6,16 +6,21 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.BE.Models.DatabaseModels;
 using VirtualSports.Web.Services.DatabaseServices;
-
 namespace VirtualSports.Web.Controllers
 {
+    /// <summary>
+    /// User Controller
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     [Authorize]
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// Web or Mobile
+        /// </summary>
         [FromHeader(Name = "X-Platform")]
         public string Platform { get; set; }
 
@@ -28,6 +33,11 @@ namespace VirtualSports.Web.Controllers
             _dbUserService = dbUserService;
         }
 
+        /// <summary>
+        /// Get user's favourites games
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("favourites")]
         [ProducesResponseType(typeof(List<Game>), (int)HttpStatusCode.OK)]
@@ -38,6 +48,11 @@ namespace VirtualSports.Web.Controllers
             return data == null ? NotFound() : Ok(data);
         }
 
+        /// <summary>
+        /// Get user's recent games
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("recent")]
         [ProducesResponseType(typeof(List<Game>), (int)HttpStatusCode.OK)]
@@ -48,6 +63,12 @@ namespace VirtualSports.Web.Controllers
             return data == null ? NotFound() : Ok(data);
         }
 
+        /// <summary>
+        /// Add favourite game
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("favourite/{id:Guid}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -61,6 +82,11 @@ namespace VirtualSports.Web.Controllers
                  : NotFound();
         }
 
+        /// <summary>
+        /// Get user's bet history
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("history")]
         [ProducesResponseType(typeof(List<Bet>), (int)HttpStatusCode.OK)]
