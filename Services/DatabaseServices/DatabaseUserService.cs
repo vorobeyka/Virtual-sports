@@ -63,7 +63,7 @@ namespace VirtualSports.BE.Services.DatabaseServices
             return true;
         }
 
-        public Task<bool> TryAddFavouriteAsync(int userId, Guid gameId, CancellationToken cancellationToken)
+        public Task<bool> TryAddFavouriteAsync(string userLogin, Guid gameId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

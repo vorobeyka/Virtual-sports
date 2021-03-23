@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.BE.Models.DatabaseModels;
 using VirtualSports.BE.Services.DatabaseServices;
 
 namespace VirtualSports.BE.Controllers
@@ -26,7 +23,7 @@ namespace VirtualSports.BE.Controllers
         }
 
         [HttpGet]
-        [Route("favourite")]
+        [Route("favourites")]
         public async Task<ActionResult> GetFavourites(CancellationToken cancellationToken)
         {
             var data = await _dbUserService.GetFavourites(HttpContext.User.Identity.Name, cancellationToken);
@@ -41,6 +38,26 @@ namespace VirtualSports.BE.Controllers
             return data == null ? NotFound() : Ok(data);
         }
 
+        [HttpGet]
+        [Route("favourite/{id:Guid}")]
+        public async Task<ActionResult> AddToFavourites(CancellationToken cancellationToken,
+            [FromRoute] Guid gameId)
+        {
+            return await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
+                cancellationToken)
+                 ? Ok()
+                 : NotFound();
+        }
+
+        [HttpGet]
+        [Route("favourite/{id:Guid}")]
+        public async Task<ActionResult> GetBetHistory(CancellationToken cancellationToken)
+        {
+            return await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
+                cancellationToken)
+                 ? Ok()
+                 : NotFound();
+        }
 
     }
 }

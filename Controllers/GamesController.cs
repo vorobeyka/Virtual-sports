@@ -55,6 +55,8 @@ namespace VirtualSports.BE.Controllers
             [FromServices] IDatabaseUserService dbUserService,
             [FromServices] IDiceService diceService)
         {
+            if (string.IsNullOrEmpty(dateTime)) return BadRequest();
+
             var diceRoll = new Random().Next(7);
             var result = await diceService.GetBetResultAsync(diceRoll, betType);
             var bet = new Bet
