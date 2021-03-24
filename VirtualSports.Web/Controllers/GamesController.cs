@@ -79,7 +79,7 @@ namespace VirtualSports.Web.Controllers
             }
             if(!isAdded)
             {
-                return NotFound("there is no game with such id in database");
+                return NotFound("there is no game with such id in database or game is already in recent played list");
             }
             // maybe change into just OK();
             return Ok(await _dbRootService.GetGameAsync(gameId.ToString(), cancellationToken));

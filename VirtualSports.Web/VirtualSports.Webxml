@@ -25,6 +25,11 @@
         <member name="M:VirtualSports.Web.Contexts.DatabaseManagerContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:VirtualSports.Web.Controllers.AdminController">
+            <summary>
+            Controller for postman
+            </summary>
+        </member>
         <member name="T:VirtualSports.Web.Controllers.AuthController">
             <summary>
             Controller for authorization.
