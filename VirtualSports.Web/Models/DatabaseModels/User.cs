@@ -10,15 +10,11 @@ namespace VirtualSports.Web.Models.DatabaseModels
         public int Id { get; set; }
         public string Login { get; set; }
         public string PasswordHash { get; set; }
-        public List<string> FavouriteGameIds { get; set; }
-        public List<string> FavouriteGameMobileIds { get; set; }
+        [Column("FavouriteGameIds", TypeName = "jsonb")]
+        public Dictionary<PlatformType, List<string>> FavouriteGameIds { get; set; }
         [Column("RecentGameIds", TypeName = "jsonb")]
-        public Queue<string> RecentGameIds { get; set; }
-        [Column("RecentMobileGameIds", TypeName = "jsonb")]
-        public Queue<string> RecentMobileGameIds { get; set; }
+        public Dictionary<PlatformType, Queue<string>> RecentGameIds { get; set; }
         [Column("Bets", TypeName = "jsonb")]
-        public List<Bet> Bets { get; set; }
-        [Column("MobileBets", TypeName = "jsonb")]
-        public List<Bet> MobileBets { get; set; }
+        public Dictionary<PlatformType, List<Bet>> Bets { get; set; }
     }
 }

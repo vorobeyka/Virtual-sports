@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.Web.Contexts;
+using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Migrations
@@ -123,41 +124,28 @@ namespace VirtualSports.Web.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<List<Bet>>("Bets")
+                    b.Property<Dictionary<PlatformType, List<Bet>>>("Bets")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("Bets");
 
-                    b.Property<List<string>>("FavouriteGameIds")
+                    b.Property<Dictionary<PlatformType, List<string>>>("FavouriteGameIds")
                         .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<List<string>>("FavouriteGameMobileIds")
-                        .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("FavouriteGameIds");
 
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<List<Bet>>("MobileBets")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("MobileBets");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Queue<string>>("RecentGameIds")
+                    b.Property<Dictionary<PlatformType, Queue<string>>>("RecentGameIds")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
-
-                    b.Property<Queue<string>>("RecentMobileGameIds")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("RecentMobileGameIds");
 
                     b.HasKey("Id");
 

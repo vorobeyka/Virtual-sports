@@ -9,6 +9,7 @@ using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
+using VirtualSports.Web.Mappings;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -56,26 +57,21 @@ namespace VirtualSports.Web.Controllers
         /// <param name="gameId"></param>
         /// <param name="dbUserService"></param>
         /// <returns></returns>
-        [HttpGet("play/{gameId:Guid}")]
+        [HttpGet("play/{gameId}")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Game), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Game>> PlayGame(CancellationToken cancellationToken,
-            [FromRoute] Guid gameId, [FromServices] IDatabaseUserService dbUserService)
+            [FromRoute] string gameId, [FromServices] IDatabaseUserService dbUserService)
         {
-            bool isAdded;
-            switch (Platform)
-            {
-                case "Mobile":
-                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
-                cancellationToken);
-                    break;
-                case "Web":
-                    isAdded = await dbUserService.TryAddRecentAsync(HttpContext.User.Identity.Name, gameId,
-                cancellationToken);
-                    break;
-                default: return BadRequest("Unsupported platform!");
-            }
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity.Name;
+
+            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
+            if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
+
+            var isAdded = await dbUserService.TryAddRecentAsync(userLogin, gameId, platformType, cancellationToken);
+
             if(!isAdded)
             {
                 return NotFound("there is no game with such id in database or game is already in recent played list");
@@ -103,6 +99,12 @@ namespace VirtualSports.Web.Controllers
         {
             if (string.IsNullOrEmpty(dateTime)) return BadRequest();
 
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity.Name;
+
+            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
+            if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
+
             var diceRoll = new Random().Next(7);
             var result = await diceService.GetBetResultAsync(diceRoll, betType);
             var bet = new Bet
@@ -113,23 +115,8 @@ namespace VirtualSports.Web.Controllers
                 IsBetWon = result,
                 DateTime = dateTime
             };
-            switch (Platform)
-            {
-                case "Mobile":
-                    {
-                        await dbUserService.AddBetMobileAsync(HttpContext.User.Identity.Name,
-                            bet, cancellationToken);
-                        //await dbUserService.TryAddRecentMobileAsync()
-                        break;
-                    }
-                case "Web":
-                    {
-                        await dbUserService.AddBetAsync(HttpContext.User.Identity.Name, bet, cancellationToken);
-                        //await dbUserService.TryAddRecentAsync()
-                        break;
-                    }
-                default: return BadRequest("Unsupported platform!");
-            }
+
+            await dbUserService.AddBetAsync(userLogin, bet, platformType, cancellationToken);
             return Ok(bet);
         }
     }

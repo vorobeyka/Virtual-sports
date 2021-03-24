@@ -51,20 +51,35 @@ namespace VirtualSports.Web.Services.DatabaseServices
                 return null;
             }
 
-            await _dbContext.Users.AddAsync(new User
-            {
-                Login = account.Login,
-                PasswordHash = GetPasswordHash(account.Password),
-                FavouriteGameIds = new List<string>(),
-                FavouriteGameMobileIds = new List<string>(),
-                RecentGameIds = new Queue<string>(),
-                RecentMobileGameIds = new Queue<string>(),
-                Bets = new List<Bet>(),
-                MobileBets = new List<Bet>()
-            }, cancellationToken);
+            var user = NewUser(account.Login, account.Password);
+            await _dbContext.Users.AddAsync(user, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-
             return await GetJwtTokenAsync(account);
+        }
+
+        private static User NewUser(string login, string password)
+        {
+            var user = new User
+            {
+                Login = login,
+                PasswordHash = GetPasswordHash(password),
+                FavouriteGameIds = new Dictionary<PlatformType, List<string>>(),
+                RecentGameIds = new Dictionary<PlatformType, Queue<string>>(),
+                Bets = new Dictionary<PlatformType, List<Bet>>(),
+            };
+            user.FavouriteGameIds.Add(PlatformType.WebMobile, new List<string>());
+            user.FavouriteGameIds.Add(PlatformType.WebDesktop, new List<string>());
+            user.FavouriteGameIds.Add(PlatformType.Ios, new List<string>());
+            user.FavouriteGameIds.Add(PlatformType.Andriod, new List<string>());
+            user.RecentGameIds.Add(PlatformType.WebMobile, new Queue<string>());
+            user.RecentGameIds.Add(PlatformType.WebDesktop, new Queue<string>());
+            user.RecentGameIds.Add(PlatformType.Ios, new Queue<string>());
+            user.RecentGameIds.Add(PlatformType.Andriod, new Queue<string>());
+            user.Bets.Add(PlatformType.WebMobile, new List<Bet>());
+            user.Bets.Add(PlatformType.WebDesktop, new List<Bet>());
+            user.Bets.Add(PlatformType.Ios, new List<Bet>());
+            user.Bets.Add(PlatformType.Andriod, new List<Bet>());
+            return user;
         }
 
         private static string GetPasswordHash(string password)

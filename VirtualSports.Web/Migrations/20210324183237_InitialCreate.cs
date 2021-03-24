@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Migrations
@@ -84,12 +85,9 @@ namespace VirtualSports.Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Login = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
-                    FavouriteGameIds = table.Column<List<string>>(type: "text[]", nullable: false),
-                    FavouriteGameMobileIds = table.Column<List<string>>(type: "text[]", nullable: false),
-                    RecentGameIds = table.Column<Queue<string>>(type: "jsonb", nullable: false),
-                    RecentMobileGameIds = table.Column<Queue<string>>(type: "jsonb", nullable: false),
-                    Bets = table.Column<List<Bet>>(type: "jsonb", nullable: false),
-                    MobileBets = table.Column<List<Bet>>(type: "jsonb", nullable: false)
+                    FavouriteGameIds = table.Column<Dictionary<PlatformType, List<string>>>(type: "jsonb", nullable: false),
+                    RecentGameIds = table.Column<Dictionary<PlatformType, Queue<string>>>(type: "jsonb", nullable: false),
+                    Bets = table.Column<Dictionary<PlatformType, List<Bet>>>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
