@@ -31,6 +31,15 @@ namespace VirtualSports.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Virtual Sports Policy",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:3000");
+                    });
+            });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -121,6 +130,8 @@ namespace VirtualSports.Web
             //}
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

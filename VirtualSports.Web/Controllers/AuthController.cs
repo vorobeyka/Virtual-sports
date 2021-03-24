@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Services;
@@ -33,9 +34,12 @@ namespace VirtualSports.Web.Controllers
         /// Registration.
         /// </summary>
         /// <returns>Action result</returns>
+        /// <response code="200">Returns token.</response>
+        /// <response code="400">Invalid model state.</response>
+        /// <response code="409">When login is used.</response>
         [HttpPost("register")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Conflict)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromBody] Account user, CancellationToken cancellationToken)
@@ -52,10 +56,13 @@ namespace VirtualSports.Web.Controllers
         /// LogIn.
         /// </summary>
         /// <returns>Action result.</returns>
+        /// <response code="200">Returns token.</response>
+        /// <response code="400">Invalid model state.</response>
+        /// <response code="404">When username or password is wrong.</response>
         [HttpPost("login")]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody] Account user, CancellationToken cancellationToken)
         {
