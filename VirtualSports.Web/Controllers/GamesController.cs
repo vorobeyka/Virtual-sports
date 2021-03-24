@@ -78,7 +78,7 @@ namespace VirtualSports.Web.Controllers
             }
             if(!isAdded)
             {
-                return NotFound("there is no game with such id in database");
+                return NotFound("there is no game with such id in database or game is already in recent played list");
             }
             // maybe change into just OK();
             return Ok(await _dbRootService.GetGameAsync(gameId.ToString(), cancellationToken));
@@ -113,7 +113,23 @@ namespace VirtualSports.Web.Controllers
                 IsBetWon = result,
                 DateTime = dateTime
             };
-            await dbUserService.AddBetAsync(HttpContext.User.Identity.Name, bet, cancellationToken);
+            switch (Platform)
+            {
+                case "Mobile":
+                    {
+                        await dbUserService.AddBetMobileAsync(HttpContext.User.Identity.Name,
+                            bet, cancellationToken);
+                        //await dbUserService.TryAddRecentMobileAsync()
+                        break;
+                    }
+                case "Web":
+                    {
+                        await dbUserService.AddBetAsync(HttpContext.User.Identity.Name, bet, cancellationToken);
+                        //await dbUserService.TryAddRecentAsync()
+                        break;
+                    }
+                default: return BadRequest("Unsupported platform!");
+            }
             return Ok(bet);
         }
     }
