@@ -45,12 +45,18 @@
             Registration.
             </summary>
             <returns>Action result</returns>
+            <response code="200">Returns token.</response>
+            <response code="400">Invalid model state.</response>
+            <response code="409">When login is used.</response>
         </member>
         <member name="M:VirtualSports.Web.Controllers.AuthController.LoginAsync(VirtualSports.Web.Models.Account,System.Threading.CancellationToken)">
             <summary>
             LogIn.
             </summary>
             <returns>Action result.</returns>
+            <response code="200">Returns token.</response>
+            <response code="400">Invalid model state.</response>
+            <response code="404">When username or password is wrong.</response>
         </member>
         <member name="M:VirtualSports.Web.Controllers.AuthController.LogoutAsync(System.Threading.CancellationToken)">
             <summary>
