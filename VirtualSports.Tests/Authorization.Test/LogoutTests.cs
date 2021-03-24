@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Net.Cache;
-using System.Security.Claims;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Moq;
 using VirtualSports.Web.Controllers;
 using VirtualSports.Web.Services;
@@ -26,12 +23,43 @@ namespace VirtualSports.Tests.Authorization.Test
             var sessionStorage = new Mock<ISessionStorage>();
 
             var authController = new AuthController(authService.Object, sessionStorage.Object);
-
+            authController.Unauthorized();
             //Act
             var result = await authController.LogoutAsync(cancellationToken);
 
             //Assert
             Assert.IsType<UnauthorizedResult>(result);
+        }
+
+        [Fact]
+        public async Task Should_Return_Ok_When_Authorized()
+        {
+            //Arrange
+            var cancellationToken = new CancellationTokenSource().Token;
+            var token = "asdFkjkljafF32fdsF";
+
+            var authService = new Mock<IDatabaseAuthService>();
+            var sessionStorage = new Mock<ISessionStorage>();
+
+            sessionStorage.Setup(s => s.Contains(token)).Returns(false);
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers[HeaderNames.Authorization] = "Bearer " + token;
+            var authController = new AuthController(authService.Object, sessionStorage.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = httpContext
+                }
+            };
+
+            //Act
+
+            var result = await authController.LogoutAsync(cancellationToken);
+            
+
+            //Assert
+            Assert.IsType<OkResult>(result);
         }
     }
 }
