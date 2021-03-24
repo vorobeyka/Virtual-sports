@@ -111,14 +111,14 @@ namespace VirtualSports.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Virtual Sports API V1");
                 });
-            }
+            //}
 
             app.UseRouting();
 
