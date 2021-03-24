@@ -2,23 +2,18 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Services.DatabaseServices
 {
     public interface IDatabaseUserService
     {
-        Task<bool> TryAddFavouriteAsync(string userLogin, Guid gameId, CancellationToken cancellationToken);
-        Task<bool> TryAddRecentAsync(string userLogin, Guid gameId, CancellationToken cancellationToken);
-        Task<bool> TryAddFavouriteMobileAsync(string userLogin, Guid gameId, CancellationToken cancellationToken);
-        Task<bool> TryAddRecentMobileAsync(string userLogin, Guid gameId, CancellationToken cancellationToken);
-        Task<IEnumerable<Game>> GetRecentAsync(string userLogin, CancellationToken cancellationToken);
-        Task<IEnumerable<Game>> GetRecentMobileAsync(string userLogin, CancellationToken cancellationToken);
-        Task<IEnumerable<Game>> GetFavouritesAsync(string userLogin, CancellationToken cancellationToken);
-        Task<IEnumerable<Game>> GetFavouritesMobileAsync(string userLogin, CancellationToken cancellationToken);
-        Task AddBetAsync(string userLogin, Bet bet, CancellationToken cancellationToken);
-        Task AddBetMobileAsync(string userLogin, Bet bet, CancellationToken cancellationToken);
-        Task<IEnumerable<Bet>> GetBetsStoryAsync(string userLogin, CancellationToken cancellationToken);
-        Task<IEnumerable<Bet>> GetBetsStoryMobileAsync(string userLogin, CancellationToken cancellationToken);
+        Task<bool> TryAddFavouriteAsync(string login, string gameId, PlatformType platformType, CancellationToken cancellationToken);
+        Task<bool> TryAddRecentAsync(string login, string gameId, PlatformType platformType, CancellationToken cancellationToken);
+        Task AddBetAsync(string login, Bet bet, PlatformType platformType, CancellationToken cancellationToken);
+        Task<IEnumerable<Game>> GetRecentAsync(string login, PlatformType platformType, CancellationToken cancellationToken);
+        Task<IEnumerable<Game>> GetFavouritesAsync(string login, PlatformType platformType, CancellationToken cancellationToken);
+        Task<IEnumerable<Bet>> GetBetsStoryAsync(string login, PlatformType platformType, CancellationToken cancellationToken);
     }
 }

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.Web.Mappings;
+using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services.DatabaseServices;
 namespace VirtualSports.Web.Controllers
@@ -45,20 +47,14 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Game>>> GetFavourites(CancellationToken cancellationToken)
         {
-            IEnumerable<Game> favourites;
-            switch (Platform)
-            {
-                case "Mobile":
-                    favourites = await _dbUserService.GetFavouritesMobileAsync(HttpContext.User.Identity.Name,
-                        cancellationToken);
-                    break;
-                case "Web":
-                    favourites = await _dbUserService.GetFavouritesAsync(HttpContext.User.Identity.Name,
-                       cancellationToken);
-                    break;
-                default: return BadRequest("Unsupported platform!");
-            }
-            return favourites == null ? NotFound() : Ok(favourites);
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity.Name;
+
+            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
+
+            var favouriteGames = await _dbUserService.GetFavouritesAsync(userLogin, platformType, cancellationToken);
+
+            return favouriteGames == null ? NotFound() : Ok(favouriteGames);
         }
 
         /// <summary>
@@ -73,20 +69,14 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Game>>> GetRecent(CancellationToken cancellationToken)
         {
-            IEnumerable<Game> recent;
-            switch (Platform)
-            {
-                case "Mobile":
-                    recent = await _dbUserService.GetRecentMobileAsync(HttpContext.User.Identity.Name,
-                        cancellationToken);
-                    break;
-                case "Web":
-                    recent = await _dbUserService.GetRecentAsync(HttpContext.User.Identity.Name,
-                       cancellationToken);
-                    break;
-                default: return BadRequest("Unsupported platform!");
-            }
-            return recent == null ? NotFound() : Ok(recent);
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity.Name;
+
+            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
+
+            var recentGames = await _dbUserService.GetRecentAsync(userLogin, platformType, cancellationToken);
+
+            return recentGames == null ? NotFound() : Ok(recentGames);
         }
 
         /// <summary>
@@ -95,27 +85,20 @@ namespace VirtualSports.Web.Controllers
         /// <param name="cancellationToken"></param>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("favourite/{id:Guid}")]
+        [HttpPost]
+        [Route("favourite/{gameId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> AddToFavourites([FromRoute] Guid gameId,
-            CancellationToken cancellationToken)
+        public async Task<ActionResult> AddToFavourites([FromRoute] string gameId, CancellationToken cancellationToken)
         {
-            bool isAdded;
-            switch (Platform)
-            {
-                case "Mobile":
-                    isAdded = await _dbUserService.TryAddFavouriteMobileAsync(HttpContext.User.Identity.Name, gameId,
-                cancellationToken);
-                    break;
-                case "Web":
-                    isAdded = await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
-                cancellationToken);
-                    break;
-                default: return BadRequest("Unsupported platform!");
-            }
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity.Name;
+
+            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
+
+            var isAdded = await _dbUserService.TryAddFavouriteAsync(
+                userLogin, gameId, platformType, cancellationToken);
 
             return isAdded 
                 ? Ok()
@@ -131,22 +114,15 @@ namespace VirtualSports.Web.Controllers
         [Route("history")]
         [ProducesResponseType(typeof(List<Bet>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-
         public async Task<ActionResult<IEnumerable<Bet>>> GetBetHistory(CancellationToken cancellationToken)
         {
-            IEnumerable<Bet> history;
-            switch (Platform)
-            {
-                case "Mobile":
-                    history = await _dbUserService.GetBetsStoryMobileAsync(HttpContext.User.Identity.Name,
-                        cancellationToken);
-                    break;
-                case "Web":
-                    history = await _dbUserService.GetBetsStoryAsync(HttpContext.User.Identity.Name,
-                        cancellationToken);
-                    break;
-                default: return BadRequest("Unsupported platform!");
-            }
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity.Name;
+
+            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
+
+            var history = await _dbUserService.GetBetsStoryAsync(userLogin, platformType, cancellationToken);
+
             return Ok(history);
         }
     }

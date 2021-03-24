@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>VirtualSports.Webxml</DocumentationFile>
+    <DocumentationFile>VirtualSports.Web.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
