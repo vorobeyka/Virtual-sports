@@ -24,4 +24,10 @@
     <ProjectReference Include="..\VirtualSports.Web\VirtualSports.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Admin.Tests\" />
+    <Folder Include="Games.Tests\" />
+    <Folder Include="User.Tests\" />
+  </ItemGroup>
+
 </Project>
