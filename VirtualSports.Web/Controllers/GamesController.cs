@@ -9,7 +9,6 @@ using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
-using System.Linq;
 
 namespace VirtualSports.Web.Controllers
 {
