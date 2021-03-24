@@ -35,7 +35,7 @@ namespace VirtualSports.Web.Controllers
         /// <returns>Action result</returns>
         [HttpPost("register")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Conflict)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromBody] Account user, CancellationToken cancellationToken)
