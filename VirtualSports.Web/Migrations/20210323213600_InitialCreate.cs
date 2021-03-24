@@ -5,7 +5,7 @@ using VirtualSports.Web.Models.DatabaseModels;
 
 namespace VirtualSports.Web.Migrations
 {
-    public partial class AddInitialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
