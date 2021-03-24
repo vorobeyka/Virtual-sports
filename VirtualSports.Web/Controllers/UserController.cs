@@ -138,16 +138,16 @@ namespace VirtualSports.Web.Controllers
             switch (Platform)
             {
                 case "Mobile":
-                    //history = await _dbUserService.(HttpContext.User.Identity.Name, gameId,
-                //cancellationToken);
+                    history = await _dbUserService.GetBetsStoryMobileAsync(HttpContext.User.Identity.Name,
+                        cancellationToken);
                     break;
                 case "Web":
-                    //history = await _dbUserService.TryAddFavouriteAsync(HttpContext.User.Identity.Name, gameId,
-                //cancellationToken);
+                    history = await _dbUserService.GetBetsStoryAsync(HttpContext.User.Identity.Name,
+                        cancellationToken);
                     break;
                 default: return BadRequest("Unsupported platform!");
             }
-            return Ok(/*history*/);
+            return Ok(history);
         }
     }
 }

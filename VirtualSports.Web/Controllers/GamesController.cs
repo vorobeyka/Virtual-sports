@@ -114,7 +114,23 @@ namespace VirtualSports.Web.Controllers
                 IsBetWon = result,
                 DateTime = dateTime
             };
-            await dbUserService.AddBetAsync(HttpContext.User.Identity.Name, bet, cancellationToken);
+            switch (Platform)
+            {
+                case "Mobile":
+                    {
+                        await dbUserService.AddBetMobileAsync(HttpContext.User.Identity.Name,
+                            bet, cancellationToken);
+                        //await dbUserService.TryAddRecentMobileAsync()
+                        break;
+                    }
+                case "Web":
+                    {
+                        await dbUserService.AddBetAsync(HttpContext.User.Identity.Name, bet, cancellationToken);
+                        //await dbUserService.TryAddRecentAsync()
+                        break;
+                    }
+                default: return BadRequest("Unsupported platform!");
+            }
             return Ok(bet);
         }
     }
