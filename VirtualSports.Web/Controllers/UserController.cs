@@ -115,7 +115,7 @@ namespace VirtualSports.Web.Controllers
             var userLogin = HttpContext.User.Identity?.Name;
             var history = await _dbUserService.GetBetsStoryAsync(userLogin, platformType, cancellationToken);
 
-            return Ok(history.Take(100) ?? new List<Bet>());
+            return Ok(history.Take(100).ToList() ?? new List<Bet>());
         }
     }
 }
