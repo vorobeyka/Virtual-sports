@@ -107,7 +107,7 @@ namespace VirtualSports.Web.Controllers
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
-            var diceRoll = new Random().Next(7);
+            var diceRoll = new Random().Next(1, 7);
             var result = await diceService.GetBetResultAsync(diceRoll, diceBet.BetType);
             var bet = new Bet
             {
