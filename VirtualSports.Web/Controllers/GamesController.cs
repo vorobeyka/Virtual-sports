@@ -12,7 +12,6 @@ using VirtualSports.Web.Services;
 using VirtualSports.Web.Mappings;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Contracts;
-using VirtualSports.Web.Filters;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -96,7 +95,7 @@ namespace VirtualSports.Web.Controllers
         [HttpPost("play/dice")]
         [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
         [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Bet>> PlayDice(CancellationToken cancellationToken,
             [FromBody] DiceBetValidationModel diceBet,
             [FromServices] IDatabaseUserService dbUserService,

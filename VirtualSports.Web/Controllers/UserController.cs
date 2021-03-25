@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Mappings;
-using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services.DatabaseServices;
+using System.Collections;
+
 namespace VirtualSports.Web.Controllers
 {
     /// <summary>
@@ -45,10 +45,10 @@ namespace VirtualSports.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("favourites")]
-        [ProducesResponseType(typeof(List<Game>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<Game>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetFavourites(CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<Game>>> GetFavourites(CancellationToken cancellationToken)
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
@@ -64,10 +64,10 @@ namespace VirtualSports.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("recent")]
-        [ProducesResponseType(typeof(List<Game>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<Game>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetRecent(CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable>> GetRecent(CancellationToken cancellationToken)
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
@@ -99,6 +99,23 @@ namespace VirtualSports.Web.Controllers
                 : NotFound("there is no game with such id in database");
         }
 
+        [HttpDelete]
+        [Route("favourite/{gameId}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> DeleteFromFavourites([FromRoute] string gameId, CancellationToken cancellationToken)
+        {
+            var platformType = MapMethods.MapPlayformType(Platform);
+            var userLogin = HttpContext.User.Identity?.Name;
+            var isDeleted = await _dbUserService.TryAddFavouriteAsync(
+                userLogin, gameId, platformType, cancellationToken);
+
+            return isDeleted
+                ? Ok()
+                : NotFound("there is no game with such id in database");
+        }
+
         /// <summary>
         /// Get user's bet history
         /// </summary>
@@ -106,7 +123,7 @@ namespace VirtualSports.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("history")]
-        [ProducesResponseType(typeof(List<Bet>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<Bet>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBetHistory(CancellationToken cancellationToken)
         {
