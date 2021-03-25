@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -28,15 +27,8 @@ namespace VirtualSports.Web.Services.DatabaseServices
 
         public async Task<bool> AddGameAsync(Game game, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _dbContext.Games.AddAsync(game, cancellationToken);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-            }
-            catch(DbUpdateException e)
-            {
-                var type = e.GetType();
-            }
+            await _dbContext.Games.AddAsync(game, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
         }
 
