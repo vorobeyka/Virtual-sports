@@ -21,6 +21,7 @@ namespace VirtualSports.Web.Controllers
     [Route("[controller]")]
     [Authorize]
     [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class UserController : ControllerBase
     {
         /// <summary>

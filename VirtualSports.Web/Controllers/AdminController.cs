@@ -15,6 +15,7 @@ namespace VirtualSports.Web.Controllers
     [ApiController]
     [Route("[controller]")]
     [TypeFilter(typeof(ValidateAdminHeaderFilter))]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
