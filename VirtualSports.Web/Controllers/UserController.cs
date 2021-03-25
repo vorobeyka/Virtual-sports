@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -123,7 +123,7 @@ namespace VirtualSports.Web.Controllers
 
             var history = await _dbUserService.GetBetsStoryAsync(userLogin, platformType, cancellationToken);
 
-            return Ok(history);
+            return Ok(history.TakeLast(100));
         }
     }
 }
