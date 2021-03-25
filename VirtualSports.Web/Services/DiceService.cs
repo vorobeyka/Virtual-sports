@@ -10,12 +10,12 @@ namespace VirtualSports.Web.Services
             switch (betType)
             {
                 case BetType.EVEN:
-                    return diceRoll % 2 != 0
+                    return diceRoll % 2 == 0
                         ? Task.FromResult(true)
                         : Task.FromResult(false);
 
                 case BetType.ODD:
-                    return diceRoll % 2 == 0
+                    return diceRoll % 2 != 0
                         ? Task.FromResult(true)
                         : Task.FromResult(false);
 
