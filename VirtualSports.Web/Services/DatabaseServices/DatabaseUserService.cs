@@ -26,7 +26,7 @@ namespace VirtualSports.Web.Services.DatabaseServices
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
-            if (user.FavouriteGameIds[platformType].Any(id => id == gameId))
+            if (!user.FavouriteGameIds[platformType].Any(id => id == gameId))
             {
                 return false;
             }
