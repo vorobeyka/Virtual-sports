@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
@@ -16,16 +17,19 @@ namespace VirtualSports.Web.Controllers
     [ApiController]
     public class AuthController : Controller
     {
+        private readonly ILogger<AuthController> _logger;
         private readonly IDatabaseAuthService _dbAuthService;
         private readonly ISessionStorage _sessionStorage;
-
+        
         /// <summary>
         /// Constructor with DI.
         /// </summary>
         public AuthController(
+            ILogger<AuthController> logger,
             IDatabaseAuthService dbAuthService,
             ISessionStorage sessionStorage)
         {
+            _logger = logger;
             _dbAuthService = dbAuthService;
             _sessionStorage = sessionStorage;
         }
