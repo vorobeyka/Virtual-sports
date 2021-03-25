@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.Web.Filters;
 using VirtualSports.Web.Mappings;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
@@ -19,6 +20,7 @@ namespace VirtualSports.Web.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorize]
+    [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
     public class UserController : ControllerBase
     {
         /// <summary>
@@ -50,9 +52,6 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-
-            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
-            
             var favouriteGames = await _dbUserService.GetFavouritesAsync(userLogin, platformType, cancellationToken);
 
             return favouriteGames == null ? NotFound() : Ok(favouriteGames);
@@ -72,9 +71,6 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-
-            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
-
             var recentGames = await _dbUserService.GetRecentAsync(userLogin, platformType, cancellationToken);
 
             return recentGames == null ? NotFound() : Ok(recentGames);
@@ -95,9 +91,6 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-
-            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
-
             var isAdded = await _dbUserService.TryAddFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
 
@@ -119,9 +112,6 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-
-            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
-
             var history = await _dbUserService.GetBetsStoryAsync(userLogin, platformType, cancellationToken);
 
             return Ok(history.TakeLast(100));

@@ -18,50 +18,6 @@ namespace VirtualSports.Web.Services.DatabaseServices
             _dbContext = dbContext;
         }
 
-        public async Task<bool> AddCategoriesAsync(List<Category> categories, CancellationToken cancellationToken)
-        {
-            await _dbContext.AddRangeAsync(categories, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-
-        public async Task<bool> AddGameAsync(Game game, CancellationToken cancellationToken)
-        {
-            await _dbContext.Games.AddAsync(game, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-
-        public async Task<bool> AddGamesAsync(List<Game> games, CancellationToken cancellationToken)
-        {
-            await _dbContext.Games.AddRangeAsync(games, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-
-        public async Task<bool> AddProviderAsync(List<Provider> providers, CancellationToken cancellationToken)
-        {
-            await _dbContext.Providers.AddRangeAsync(providers, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-
-        public async Task<bool> AddTagsAsync(List<Tag> tags, CancellationToken cancellationToken)
-        {
-            await _dbContext.Tags.AddRangeAsync(tags, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        }
-
-        public async Task AddRootAsync(Root root, CancellationToken cancellationToken)
-        {
-            await _dbContext.Providers.AddRangeAsync(root.Providers, cancellationToken);
-            await _dbContext.Categories.AddRangeAsync(root.Categories, cancellationToken);
-            await _dbContext.Tags.AddRangeAsync(root.Tags, cancellationToken);
-            await _dbContext.Games.AddRangeAsync(root.Games, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
         public async Task<Root> GetRootAsync(CancellationToken cancellationToken)
         {
             var root = new Root
