@@ -99,6 +99,24 @@ namespace VirtualSports.Web.Services.DatabaseServices
             return bets;
         }
 
+        public async Task<bool> DeleteFavouriteAsync(
+            string login,
+            string gameId,
+            PlatformType platformType,
+            CancellationToken cancellationToken)
+        {
+            var user = await GetUserAsync(login, cancellationToken);
+            var favouriteGameId = user.FavouriteGameIds[platformType].FirstOrDefault(id => id == gameId);
+
+            if (favouriteGameId == null) return false;
+
+            user.FavouriteGameIds[platformType].Remove(favouriteGameId);
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+
         private async Task<User> GetUserAsync(string userLogin, CancellationToken cancellationToken)
         {
             if (userLogin == null) throw new ArgumentNullException(nameof(userLogin));
