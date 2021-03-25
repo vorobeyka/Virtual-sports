@@ -98,28 +98,20 @@ namespace VirtualSports.Web.Services.DatabaseServices
 
         private async Task<string> GetJwtTokenAsync(Account user)
         {
-            var identity = await GetIdentityAsync(user);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+            };
 
             var now = DateTime.UtcNow;
             var jwtToken =
                 new JwtSecurityToken(JwtOptions.Issuer, JwtOptions.Audience, notBefore: now,
-                    claims: identity.Claims,
+                    claims: claims,
                     expires: now.Add(TimeSpan.FromDays(JwtOptions.LifeTime)),
                     signingCredentials: new SigningCredentials(JwtOptions.GetSymmetricSecurityKey(),
                         SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return encodedJwt;
-        }
-
-        private async Task<ClaimsIdentity> GetIdentityAsync(Account user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType);
-            return claimsIdentity;
         }
 
         /// <inheritdoc />

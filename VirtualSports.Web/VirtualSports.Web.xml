@@ -35,7 +35,7 @@
             Controller for authorization.
             </summary>
         </member>
-        <member name="M:VirtualSports.Web.Controllers.AuthController.#ctor(VirtualSports.Web.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.Web.Services.ISessionStorage)">
+        <member name="M:VirtualSports.Web.Controllers.AuthController.#ctor(Microsoft.Extensions.Logging.ILogger{VirtualSports.Web.Controllers.AuthController},VirtualSports.Web.Services.DatabaseServices.IDatabaseAuthService,VirtualSports.Web.Services.ISessionStorage)">
             <summary>
             Constructor with DI.
             </summary>
@@ -90,7 +90,7 @@
             <param name="dbUserService"></param>
             <returns></returns>
         </member>
-        <member name="M:VirtualSports.Web.Controllers.GamesController.PlayDice(System.Threading.CancellationToken,System.String,VirtualSports.Web.Models.DatabaseModels.BetType,VirtualSports.Web.Services.DatabaseServices.IDatabaseUserService,VirtualSports.Web.Services.IDiceService)">
+        <member name="M:VirtualSports.Web.Controllers.GamesController.PlayDice(System.Threading.CancellationToken,VirtualSports.Web.Contracts.DiceBetValidationModel,VirtualSports.Web.Services.DatabaseServices.IDatabaseUserService,VirtualSports.Web.Services.IDiceService)">
             <summary>
             Throw dice
             </summary>
@@ -139,6 +139,11 @@
             </summary>
             <param name="cancellationToken"></param>
             <returns></returns>
+        </member>
+        <member name="T:VirtualSports.Web.Filters.ExceptionFilter">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:VirtualSports.Web.Models.Account">
             <summary>

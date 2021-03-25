@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Moq;
 using VirtualSports.Web.Controllers;
@@ -9,7 +10,7 @@ using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
 using Xunit;
 
-namespace VirtualSports.Tests.Authorization.Test
+namespace VirtualSports.Tests.Authorization.Tests
 {
     public class LogoutTests
     {
@@ -19,10 +20,12 @@ namespace VirtualSports.Tests.Authorization.Test
             //Arrange
             var cancellationToken = new CancellationTokenSource().Token;
 
+            var logger = new Mock<ILogger<AuthController>>();
             var authService = new Mock<IDatabaseAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
+            
 
-            var authController = new AuthController(authService.Object, sessionStorage.Object);
+            var authController = new AuthController(logger.Object, authService.Object, sessionStorage.Object);
             authController.Unauthorized();
             //Act
             var result = await authController.LogoutAsync(cancellationToken);
@@ -40,12 +43,13 @@ namespace VirtualSports.Tests.Authorization.Test
 
             var authService = new Mock<IDatabaseAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
+            var logger = new Mock<ILogger<AuthController>>();
 
             sessionStorage.Setup(s => s.Contains(token)).Returns(false);
 
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Headers[HeaderNames.Authorization] = "Bearer " + token;
-            var authController = new AuthController(authService.Object, sessionStorage.Object)
+            var authController = new AuthController(logger.Object, authService.Object, sessionStorage.Object)
             {
                 ControllerContext = new ControllerContext()
                 {
