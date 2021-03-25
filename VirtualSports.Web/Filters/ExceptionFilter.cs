@@ -1,10 +1,5 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Security.Authentication;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using VirtualSports.Web.Models;
 
@@ -15,20 +10,16 @@ namespace VirtualSports.Web.Filters
     /// </summary>
     public class ExceptionFilter : IExceptionFilter
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger _logger;
 
         public ExceptionFilter(
-            IWebHostEnvironment hostingEnvironment,
             ILogger logger)
         {
-            _hostingEnvironment = hostingEnvironment;
             _logger = logger;
         }
 
         public void OnException(ExceptionContext context)
         {
-            if (!_hostingEnvironment.IsDevelopment()) return;
 
             var errorCode = context.Exception.GetType().Name switch
             {
