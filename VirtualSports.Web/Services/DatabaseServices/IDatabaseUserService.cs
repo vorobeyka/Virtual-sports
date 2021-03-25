@@ -15,5 +15,6 @@ namespace VirtualSports.Web.Services.DatabaseServices
         Task<IEnumerable<Game>> GetRecentAsync(string login, PlatformType platformType, CancellationToken cancellationToken);
         Task<IEnumerable<Game>> GetFavouritesAsync(string login, PlatformType platformType, CancellationToken cancellationToken);
         Task<IEnumerable<Bet>> GetBetsStoryAsync(string login, PlatformType platformType, CancellationToken cancellationToken);
+        Task<bool> DeleteFavouriteAsync(string login, string gameId, PlatformType platformType, CancellationToken cancellationToken);
     }
 }
