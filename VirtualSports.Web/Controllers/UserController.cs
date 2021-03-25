@@ -74,7 +74,7 @@ namespace VirtualSports.Web.Controllers
             var userLogin = HttpContext.User.Identity?.Name;
             var recentGames = await _dbUserService.GetRecentAsync(userLogin, platformType, cancellationToken);
 
-            return recentGames == null ? NotFound() : Ok(recentGames);
+            return recentGames == null ? NotFound() : Ok(recentGames.Take(4));
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace VirtualSports.Web.Controllers
             var userLogin = HttpContext.User.Identity?.Name;
             var history = await _dbUserService.GetBetsStoryAsync(userLogin, platformType, cancellationToken);
 
-            return Ok(history.TakeLast(100));
+            return Ok(history.Take(100) ?? new List<Bet>());
         }
     }
 }
