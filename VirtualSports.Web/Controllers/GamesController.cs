@@ -117,8 +117,11 @@ namespace VirtualSports.Web.Controllers
                 IsBetWon = result,
                 DateTime = diceBet.DateTime
             };
-
+            
             await dbUserService.AddBetAsync(userLogin, bet, platformType, cancellationToken);
+            await dbUserService.TryAddRecentAsync(userLogin, "original_dice_game", platformType,
+                cancellationToken);
+
             return Ok(bet);
         }
     }
