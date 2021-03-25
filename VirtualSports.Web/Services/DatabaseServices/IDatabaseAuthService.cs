@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.Web.Contracts;
 using VirtualSports.Web.Models;
 
 namespace VirtualSports.Web.Services.DatabaseServices
