@@ -1,14 +1,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
-using VirtualSports.Web.Services;
 using VirtualSports.Web.Controllers;
 using VirtualSports.Web.Models;
+using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
 using Xunit;
 
-namespace VirtualSports.Tests.Authorization.Test
+namespace VirtualSports.Tests.Authorization.Tests
 {
     public class RegistrationTests
     {
@@ -20,13 +21,14 @@ namespace VirtualSports.Tests.Authorization.Test
             var cancellationToken = new CancellationTokenSource().Token;
             var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
+            var logger = new Mock<ILogger<AuthController>>();
             var authService = new Mock<IDatabaseAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
 
             authService.Setup(r =>
                 r.RegisterUserAsync(user, cancellationToken)).ReturnsAsync(token);
             
-            var authController = new AuthController(authService.Object, sessionStorage.Object);
+            var authController = new AuthController(logger.Object, authService.Object, sessionStorage.Object);
             
             //Act
 
@@ -46,13 +48,14 @@ namespace VirtualSports.Tests.Authorization.Test
             var user = new Account("virtual.sports", "qw");
             var cancellationToken = new CancellationTokenSource().Token;
 
+            var logger = new Mock<ILogger<AuthController>>();
             var authService = new Mock<IDatabaseAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
 
             authService.Setup(r =>
                 r.RegisterUserAsync(user, cancellationToken));
 
-            var authController = new AuthController(authService.Object, sessionStorage.Object);
+            var authController = new AuthController(logger.Object, authService.Object, sessionStorage.Object);
             authController.ModelState.AddModelError("error", "small length for password");
             //Act
 
@@ -70,6 +73,7 @@ namespace VirtualSports.Tests.Authorization.Test
             var user = new Account("virtual.sports", "qwerty2228");
             var cancellationToken = new CancellationTokenSource().Token;
 
+            var logger = new Mock<ILogger<AuthController>>();
             var authService = new Mock<IDatabaseAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
 
@@ -77,7 +81,7 @@ namespace VirtualSports.Tests.Authorization.Test
                     r.RegisterUserAsync(user, cancellationToken))
                 .ReturnsAsync(default(string));
 
-            var authController = new AuthController(authService.Object, sessionStorage.Object);
+            var authController = new AuthController(logger.Object, authService.Object, sessionStorage.Object);
             //Act
 
             var result = await authController.RegisterAsync(user, cancellationToken);

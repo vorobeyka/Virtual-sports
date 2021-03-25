@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using VirtualSports.Web.Filters;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
@@ -14,18 +17,22 @@ namespace VirtualSports.Web.Controllers
     /// Controller for authorization.
     /// </summary>
     [ApiController]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class AuthController : Controller
     {
+        private readonly ILogger<AuthController> _logger;
         private readonly IDatabaseAuthService _dbAuthService;
         private readonly ISessionStorage _sessionStorage;
-
+        
         /// <summary>
         /// Constructor with DI.
         /// </summary>
         public AuthController(
+            ILogger<AuthController> logger,
             IDatabaseAuthService dbAuthService,
             ISessionStorage sessionStorage)
         {
+            _logger = logger;
             _dbAuthService = dbAuthService;
             _sessionStorage = sessionStorage;
         }
