@@ -19,7 +19,7 @@ namespace VirtualSports.Web.Services
                         ? Task.FromResult(true)
                         : Task.FromResult(false);
 
-                default: return diceRoll == (int)betType 
+                default: return (diceRoll - 1) == (int)betType 
                         ? Task.FromResult(true)
                         : Task.FromResult(false);
             }
