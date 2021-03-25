@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using VirtualSports.Web.Contracts;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Models;
 using VirtualSports.Web.Services;
