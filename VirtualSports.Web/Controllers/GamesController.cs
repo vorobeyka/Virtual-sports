@@ -11,6 +11,7 @@ using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Mappings;
 using VirtualSports.Web.Contracts;
+using VirtualSports.Web.Filters;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -20,6 +21,7 @@ namespace VirtualSports.Web.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorize]
+    [TypeFilter(typeof(ExceptionFilter))]
     public class GamesController : ControllerBase
     {
         /// <summary>
