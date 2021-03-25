@@ -10,10 +10,10 @@ namespace VirtualSports.Web.Filters
     /// </summary>
     public class ExceptionFilter : IExceptionFilter
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<ExceptionFilter> _logger;
 
         public ExceptionFilter(
-            ILogger logger)
+            ILogger<ExceptionFilter> logger)
         {
             _logger = logger;
         }
