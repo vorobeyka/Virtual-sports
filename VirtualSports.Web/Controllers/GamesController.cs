@@ -11,6 +11,7 @@ using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Mappings;
 using VirtualSports.Web.Filters;
+using VirtualSports.Web.Contracts;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace VirtualSports.Web.Controllers
         /// <summary>
         /// Web or Mobile
         /// </summary>
-        [FromHeader(Name ="X-Platform")]
+        [FromHeader(Name = "X-Platform")]
         public string Platform { get; set; }
 
         private readonly ILogger<GamesController> _logger;
@@ -73,7 +74,7 @@ namespace VirtualSports.Web.Controllers
 
             var isAdded = await dbUserService.TryAddRecentAsync(userLogin, gameId, platformType, cancellationToken);
 
-            if(!isAdded)
+            if (!isAdded)
             {
                 return NotFound("there is no game with such id in database or game is already in recent played list");
             }
@@ -90,32 +91,29 @@ namespace VirtualSports.Web.Controllers
         /// <param name="dbUserService"></param>
         /// <param name="diceService"></param>
         /// <returns></returns>
-        [HttpGet("play/dice")]
+        [HttpPost("play/dice")]
         [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
         [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Bet>> PlayDice(CancellationToken cancellationToken,
-            [FromQuery] string dateTime, 
-            [FromQuery] BetType betType,
+            [FromBody] DiceBetValidationModel diceBet,
             [FromServices] IDatabaseUserService dbUserService,
             [FromServices] IDiceService diceService)
         {
-            if (string.IsNullOrEmpty(dateTime)) return BadRequest();
-
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity.Name;
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
             var diceRoll = new Random().Next(7);
-            var result = await diceService.GetBetResultAsync(diceRoll, betType);
+            var result = await diceService.GetBetResultAsync(diceRoll, diceBet.BetType);
             var bet = new Bet
             {
                 Id = Guid.NewGuid().ToString(),
-                BetType = betType,
+                BetType = diceBet.BetType,
                 DroppedNumber = diceRoll,
                 IsBetWon = result,
-                DateTime = dateTime
+                DateTime = diceBet.DateTime
             };
 
             await dbUserService.AddBetAsync(userLogin, bet, platformType, cancellationToken);
