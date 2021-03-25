@@ -10,6 +10,7 @@ using VirtualSports.Web.Models;
 using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Mappings;
+using VirtualSports.Web.Filters;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -58,6 +59,7 @@ namespace VirtualSports.Web.Controllers
         /// <param name="dbUserService"></param>
         /// <returns></returns>
         [HttpGet("play/{gameId}")]
+        [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Game), (int)HttpStatusCode.OK)]
@@ -67,7 +69,6 @@ namespace VirtualSports.Web.Controllers
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity.Name;
 
-            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
             var isAdded = await dbUserService.TryAddRecentAsync(userLogin, gameId, platformType, cancellationToken);
@@ -77,7 +78,7 @@ namespace VirtualSports.Web.Controllers
                 return NotFound("there is no game with such id in database or game is already in recent played list");
             }
             // maybe change into just OK();
-            return Ok(await _dbRootService.GetGameAsync(gameId.ToString(), cancellationToken));
+            return Ok(await _dbRootService.GetGameAsync(gameId, cancellationToken));
         }
 
         /// <summary>
@@ -90,7 +91,9 @@ namespace VirtualSports.Web.Controllers
         /// <param name="diceService"></param>
         /// <returns></returns>
         [HttpGet("play/dice")]
+        [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
         [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Bet>> PlayDice(CancellationToken cancellationToken,
             [FromQuery] string dateTime, 
             [FromQuery] BetType betType,
@@ -102,7 +105,6 @@ namespace VirtualSports.Web.Controllers
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity.Name;
 
-            if (platformType == PlatformType.UnknownPlatform) return BadRequest("Unsupported platform!");
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
             var diceRoll = new Random().Next(7);

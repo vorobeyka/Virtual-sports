@@ -102,6 +102,7 @@ namespace VirtualSports.Web
 
             services.AddScoped<IDatabaseRootService, DatabaseRootService>();
             services.AddScoped<IDatabaseAuthService, DatabaseAuthService>();
+            services.AddScoped<IDatabaseAdminService, DatabaseAdminService>();
 
             //Add storage in memory.
             services.AddScoped<ISessionStorage, SessionStorageInMemory>();
