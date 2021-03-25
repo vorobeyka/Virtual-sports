@@ -105,7 +105,7 @@ namespace VirtualSports.Web.Controllers
         {
             return await _dbAdminService.DeleteGameAsync(id, cancellationToken)
                 ? Ok()
-                : Conflict("Game with such id doesn't exists.");
+                : NotFound("Game with such id doesn't exists.");
         }
 
         [HttpDelete]
@@ -116,7 +116,7 @@ namespace VirtualSports.Web.Controllers
         {
             return await _dbAdminService.DeleteCategoryAsync(id, cancellationToken)
                 ? Ok()
-                : Conflict("Category with such id doesn't exists.");
+                : NotFound("Category with such id doesn't exists.");
         }
 
         [HttpDelete]
@@ -127,7 +127,7 @@ namespace VirtualSports.Web.Controllers
         {
             return await _dbAdminService.DeleteProviderAsync(id, cancellationToken)
                 ? Ok()
-                : Conflict("Provider with such id doesn't exists.");
+                : NotFound("Provider with such id doesn't exists.");
         }
 
         [HttpDelete]
@@ -138,7 +138,7 @@ namespace VirtualSports.Web.Controllers
         {
             return await _dbAdminService.DeleteTagAsync(id, cancellationToken)
                 ? Ok()
-                : Conflict("Tag with such id doesn't exists.");
+                : NotFound("Tag with such id doesn't exists.");
         }
     }
 }
