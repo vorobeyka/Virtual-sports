@@ -182,6 +182,28 @@
             Jwt token.
             </summary>
         </member>
+        <member name="T:VirtualSports.Web.Models.Error">
+            <summary>
+            Easy readable error model.
+            </summary>
+        </member>
+        <member name="P:VirtualSports.Web.Models.Error.Code">
+            <summary>
+            Error code.
+            </summary>
+        </member>
+        <member name="P:VirtualSports.Web.Models.Error.Message">
+            <summary>
+            Error message.
+            </summary>
+        </member>
+        <member name="M:VirtualSports.Web.Models.Error.#ctor(System.Int32,System.String)">
+            <summary>
+            Initializes new instance of the Error class.
+            </summary>
+            <param name="code"></param>
+            <param name="message"></param>
+        </member>
         <member name="T:VirtualSports.Web.Options.JwtOptions">
             <summary>
             

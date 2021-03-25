@@ -10,12 +10,8 @@ namespace VirtualSports.Web.Filters
     /// </summary>
     public class ExceptionFilter : IExceptionFilter
     {
-        private readonly ILogger _logger;
-
-        public ExceptionFilter(
-            ILogger logger)
+        public ExceptionFilter()
         {
-            _logger = logger;
         }
 
         public void OnException(ExceptionContext context)
@@ -38,7 +34,6 @@ namespace VirtualSports.Web.Filters
                 606 => "Something went wrong"
             };
 
-            _logger.LogInformation($"Error {errorCode} occurred.\nMessage: {message}.");
 
             context.Result = new JsonResult(new Error(errorCode, message));
             context.ExceptionHandled = true;
