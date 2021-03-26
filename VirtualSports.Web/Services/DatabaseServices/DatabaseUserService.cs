@@ -29,7 +29,7 @@ namespace VirtualSports.Web.Services.DatabaseServices
 
             var user = await GetUserAsync(login, cancellationToken);
             if (user.FavouriteGameIds[platformType].Count != 0 &&
-                user.FavouriteGameIds[platformType].FirstOrDefault(id => id == gameId) == null)
+                user.FavouriteGameIds[platformType].FirstOrDefault(id => id == gameId) != null)
             {
                 return false;
             }         
