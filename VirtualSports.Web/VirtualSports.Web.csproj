@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VirtualSports.BLL\VirtualSports.BLL.csproj" />
+    <ProjectReference Include="..\VirtualSports.Lib\VirtualSports.Lib.csproj" />
   </ItemGroup>
 
 

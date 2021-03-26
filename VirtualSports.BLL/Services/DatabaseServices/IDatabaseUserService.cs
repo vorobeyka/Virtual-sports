@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VirtualSports.BLL.DTO;
 using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.DatabaseServices
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -7,7 +6,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Mappings;
-using VirtualSports.Web.Services.DatabaseServices;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Mappings;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
@@ -27,7 +30,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             CancellationToken cancellationToken)
         {
             var categoriesPlatformTypes = categoryDTOs
-                .Select(category => 
+                .Select(category =>
                     MapMethods.MapPlatformTypes(category.PlatformTypes).ToList()).ToArray();
             CheckInvalidPlatforms(categoriesPlatformTypes);
 

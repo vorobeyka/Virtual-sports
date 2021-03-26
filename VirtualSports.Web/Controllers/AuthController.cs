@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using VirtualSports.Web.Contracts;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.Web.Contracts.ViewModels;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Services;
-using VirtualSports.Web.Services.DatabaseServices;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -52,7 +52,9 @@ namespace VirtualSports.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var token =  await _dbAuthService.RegisterUserAsync(user, cancellationToken);
+            var token =  await _dbAuthService
+                .RegisterUserAsync(user.Login, user.Password, cancellationToken);
+
             if (token == null) return Conflict("Login has been used already.");
 
             return Ok(token);
@@ -74,7 +76,9 @@ namespace VirtualSports.Web.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var token = await _dbAuthService.LoginUserAsync(user, cancellationToken);
+            var token = await _dbAuthService
+                .LoginUserAsync(user.Login, user.Password, cancellationToken);
+
             if (token == null) return NotFound("Wrong username or password.");
 
             return Ok(token);
@@ -90,11 +94,13 @@ namespace VirtualSports.Web.Controllers
         [Authorize]
         public async Task<IActionResult> LogoutAsync(CancellationToken cancellationToken)
         {
-            if (Request == null || !Request.Headers.TryGetValue("Authorization", out var authHeader)) return Unauthorized();
-            var token = authHeader.ToString().Split(' ')[1];
+            if (Request == null || !Request.Headers.TryGetValue("Authorization", out var authHeader))
+                return Unauthorized();
 
+            var token = authHeader.ToString().Split(' ')[1];
             _sessionStorage.Add(token);
             await  _dbAuthService.ExpireToken(token, cancellationToken);
+
             return Ok();
         }
     }
