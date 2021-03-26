@@ -97,7 +97,7 @@ namespace VirtualSports.Web.Controllers
 
             return isAdded 
                 ? Ok()
-                : NotFound("there is no game with such id in database");
+                : Conflict("Game with such id is already in favourites");
         }
 
         [HttpDelete]
