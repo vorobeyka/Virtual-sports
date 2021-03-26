@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.Web.Contracts.ViewModels;
+using VirtualSports.BLL.DTO;
 
 namespace VirtualSports.BLL.Services.DatabaseServices
 {

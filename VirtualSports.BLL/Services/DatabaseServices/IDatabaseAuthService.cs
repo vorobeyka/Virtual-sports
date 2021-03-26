@@ -14,7 +14,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices
         /// <param name="account"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Jwt token.</returns>
-        Task<string> RegisterUserAsync(Account account, CancellationToken cancellationToken);
+        Task<string> RegisterUserAsync(string login, string password, CancellationToken cancellationToken);
 
         /// <summary>
         /// Login user.
@@ -22,7 +22,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices
         /// <param name="account"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Jwt token.</returns>
-        Task<string> LoginUserAsync(Account account, CancellationToken cancellationToken);
+        Task<string> LoginUserAsync(string login, string password, CancellationToken cancellationToken);
 
         /// <summary>
         /// Expire token.

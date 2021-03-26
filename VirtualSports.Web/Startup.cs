@@ -3,19 +3,12 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using VirtualSports.Web.Contexts;
-using VirtualSports.Web.Services;
-using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.Web.Options;
-using VirtualSports.Web.Authentication;
-using VirtualSports.Web.Services.AdminServices;
 using AutoMapper;
-using VirtualSports.Web.Mappings;
 
 namespace VirtualSports.Web
 {
@@ -90,8 +83,6 @@ namespace VirtualSports.Web
                         BearerFormat = "JWT"
                     });
             });
-
-           
 
             services.AddControllers();
         }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.BLL.DTO;
+using VirtualSports.DAL.Contexts;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
@@ -13,7 +15,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             _dbContext = dbContext;
         }
 
-        public async Task AddRootAsync(Root root, CancellationToken cancellationToken)
+        public async Task AddRootAsync(RootDTO root, CancellationToken cancellationToken)
         {
             await _dbContext.Providers.AddRangeAsync(root.Providers, cancellationToken);
             await _dbContext.Categories.AddRangeAsync(root.Categories, cancellationToken);

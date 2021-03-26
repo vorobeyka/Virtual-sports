@@ -1,8 +1,17 @@
 ﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VirtualSports.BLL.Mappings;
+using VirtualSports.BLL.Services.AdminServices;
+using VirtualSports.BLL.Services.AdminServices.Impl;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.BLL.Services.DatabaseServices.Impl;
+using VirtualSports.DAL.Contexts;
 using VirtualSports.Web.Authentication;
-using VirtualSports.Web.Services.DatabaseServices;
+using VirtualSports.Web.Services;
 
 namespace VirtualSports.Web.Extensions
 {
@@ -14,7 +23,7 @@ namespace VirtualSports.Web.Extensions
         /// <typeparam name="TSessionData">Session data type.</typeparam>
         /// <param name="services">Service collection.</param>
         /// <returns>Service collection.</returns>
-        public static IServiceCollection AddServicesInMemory(this IServiceCollection services)
+        public static IServiceCollection AddServicesInMemory(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
@@ -25,7 +34,7 @@ namespace VirtualSports.Web.Extensions
 
             //Add database and migration services.
             services.AddDbContext<DatabaseManagerContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);
+                options.UseNpgsql(configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);
 
             services.AddHostedService<MigrationsService>();
 
@@ -50,6 +59,8 @@ namespace VirtualSports.Web.Extensions
             });
 
             services.AddSingleton(mappingConfig.CreateMapper());
+
+            return services;
         }
     }
 }
