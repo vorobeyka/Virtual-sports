@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using VirtualSports.BLL.Services;
 using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.Web.Contracts.ViewModels;
 using VirtualSports.Web.Filters;
-using VirtualSports.Web.Services;
 
 namespace VirtualSports.Web.Controllers
 {

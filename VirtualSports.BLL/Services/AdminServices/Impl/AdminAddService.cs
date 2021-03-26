@@ -7,6 +7,8 @@ using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Mappings;
 using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.DAL.Entities;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
@@ -21,8 +23,25 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             _mapper = mapper;
         }
 
-        public async Task AddCategories(
+        public async Task AddGames(
+            IEnumerable<GameDTO> gamesDTO,
+            IEnumerable<IList<string>> platforms,
+            CancellationToken cancellationToken)
+        {
+            var platformTypes = platforms.Select(p => MapPlatforms.MapPlatformTypes(p)).ToList();
+            CheckInvalidPlatforms(platformTypes);
+
+            var games = _mapper.Map<IList<Game>>(gamesDTO);
+            for (int i = 0; i < games.Count; i++)
+            {
+                games[i].PlatformTypes = platformTypes[i].ToList();
+            }
+            await _databaseAdminService.AddRangeAsync(games, cancellationToken);
+        }
+
+        /*public async Task AddCategories(
             IEnumerable<CategoryDTO> categoryDTOs,
+            IEnumerable<IList<string>> platforms,
             CancellationToken cancellationToken)
         {
             var categoriesPlatformTypes = categoryDTOs
@@ -41,20 +60,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             await _databaseAdminService.AddRangeAsync<Category>(categories, cancellationToken);
         }
 
-        public async Task AddGames(IEnumerable<GameRequest> gameRequests, CancellationToken cancellationToken)
-        {
-            var gamesPlatformTypes = gameRequests
-                .Select(game =>
-                    MapPlatforms.MapPlatformTypes(game.PlatformTypes)).ToArray();
-            CheckInvalidPlatforms(gamesPlatformTypes);
-
-            var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(gameRequests);
-            var games = _mapper.Map<IEnumerable<Game>>(gameDTOs);
-            var platforms = games.Select(game => game.PlatformTypes).ToArray();
-            SetPlatforms(gamesPlatformTypes, platforms);
-
-            await _databaseAdminService.AddRangeAsync<Game>(games, cancellationToken);
-        }
+        
 
         public async Task AddProviders(IEnumerable<ProviderRequest> providerRequests, CancellationToken cancellationToken)
         {
@@ -77,7 +83,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             var tags = _mapper.Map<IEnumerable<Tag>>(tagsDTOs);
 
             await _databaseAdminService.AddRangeAsync<Tag>(tags, cancellationToken);
-        }
+        }*/
 
         private static void CheckInvalidPlatforms(IEnumerable<IEnumerable<PlatformType>> entitiesPlatformTypes)
         {

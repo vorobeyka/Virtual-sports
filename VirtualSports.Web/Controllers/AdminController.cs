@@ -11,6 +11,8 @@ using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.DAL.Entities;
 using VirtualSports.Web.Contracts.AdminContracts;
 using VirtualSports.Web.Filters;
+using System.Linq;
+using VirtualSports.BLL.Mappings;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -45,7 +47,7 @@ namespace VirtualSports.Web.Controllers
             _mapper = mapper;
         }
         
-        [HttpPost]
+/*        [HttpPost]
         [Route("add/game")]
         public async Task<IActionResult> AddGame(
             [FromBody] GameRequest game,
@@ -53,7 +55,7 @@ namespace VirtualSports.Web.Controllers
         {
             await _dbAdminService.AddAsync(game, cancellationToken);
             return Ok();
-        }
+        }*/
 
         [HttpPost]
         [Route("add/games")]
@@ -61,7 +63,9 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<GameRequest> games,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.AddRangeAsync(games, cancellationToken);
+            var platforms = games.Select(game => game.PlatformTypes);
+            var gamesDTO = _mapper.Map<IEnumerable<GameDTO>>(games);
+            await _adminAddService.AddGames(gamesDTO, platforms, cancellationToken);
             return Ok();
         }
 
@@ -71,9 +75,10 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<CategoryRequest> categories,
             CancellationToken cancellationToken)
         {
-            await _adminAddService.AddCategories(
-                _mapper.Map<IEnumerable<CategoryDTO>>(categories),
-                cancellationToken);
+
+            //await _adminAddService.AddCategories(
+                //_mapper.Map<IEnumerable<CategoryDTO>>(categories),
+                //cancellationToken);
 
             //await _dbAdminService.AddRangeAsync(categories, cancellationToken);
             return Ok();

@@ -9,9 +9,7 @@ using VirtualSports.BLL.Mappings;
 using VirtualSports.BLL.Services;
 using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.DAL.Entities;
-using VirtualSports.DAL.Models;
 using VirtualSports.Web.Contracts;
-using VirtualSports.Web.Services;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Contracts.ViewModels;
 
