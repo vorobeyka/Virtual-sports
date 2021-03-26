@@ -61,7 +61,10 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<GameRequest> games,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.AddRangeAsync(games, cancellationToken);
+            await _adminAddService.AddGames(
+                _mapper.Map<IEnumerable<GameDTO>>(games), cancellationToken);
+            
+            //await _dbAdminService.AddRangeAsync(games, cancellationToken);
             return Ok();
         }
 

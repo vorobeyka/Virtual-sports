@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VirtualSports.DAL\VirtualSports.DAL.csproj" />
+    <ProjectReference Include="..\VirtualSports.Lib\VirtualSports.Lib.csproj" />
 
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />

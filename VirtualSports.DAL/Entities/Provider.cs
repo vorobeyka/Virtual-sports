@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.DAL.Entities
 {

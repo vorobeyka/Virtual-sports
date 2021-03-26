@@ -8,6 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using VirtualSports.DAL.Contexts;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Models;
+using VirtualSports.Web.Options;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
@@ -24,33 +29,33 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         }
 
         /// <inheritdoc />
-        public async Task<string> LoginUserAsync(Account account, CancellationToken cancellationToken)
+        public async Task<string> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
         {
-            var passwordHash = GetPasswordHash(account.Password);
+            var passwordHash = GetPasswordHash(password);
             var user = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Login == account.Login && u.PasswordHash == passwordHash,
+                .FirstOrDefaultAsync(u => u.Login == login && u.PasswordHash == passwordHash,
                 cancellationToken);
 
             if (user != null)
             {
-                return await GetJwtTokenAsync(account);
+                return await GetJwtTokenAsync(user);
             }
 
             return null;
         }
 
         /// <inheritdoc />
-        public async Task<string> RegisterUserAsync(Account account, CancellationToken cancellationToken)
+        public async Task<string> RegisterUserAsync(string login, string password, CancellationToken cancellationToken)
         {
-            if (await _dbContext.Users.AnyAsync(user => user.Login == account.Login, cancellationToken))
+            if (await _dbContext.Users.AnyAsync(user => user.Login == login, cancellationToken))
             {
                 return null;
             }
 
-            var user = NewUser(account.Login, account.Password);
+            var user = NewUser(login, password);
             await _dbContext.Users.AddAsync(user, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return await GetJwtTokenAsync(account);
+            return await GetJwtTokenAsync(user);
         }
 
         private static User NewUser(string login, string password)
@@ -66,7 +71,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             user.RecentGameIds.Add(PlatformType.WebMobile, new Queue<string>());
             user.RecentGameIds.Add(PlatformType.WebDesktop, new Queue<string>());
             user.RecentGameIds.Add(PlatformType.Ios, new Queue<string>());
-            user.RecentGameIds.Add(PlatformType.Andriod, new Queue<string>());
+            user.RecentGameIds.Add(PlatformType.Android, new Queue<string>());
             return user;
         }
 
@@ -84,11 +89,11 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             return sb.ToString();
         }
 
-        private async Task<string> GetJwtTokenAsync(Account user)
+        private async Task<string> GetJwtTokenAsync(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new(ClaimsIdentity.DefaultNameClaimType, user.Login)
             };
 
             var now = DateTime.UtcNow;
