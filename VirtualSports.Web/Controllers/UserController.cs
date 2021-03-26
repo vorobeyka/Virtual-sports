@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.BLL.Mappings;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Models;
 using VirtualSports.Web.Filters;
-using VirtualSports.Web.Mappings;
-using VirtualSports.Web.Models.DatabaseModels;
-using VirtualSports.Web.Services.DatabaseServices;
-using System.Collections;
 
 namespace VirtualSports.Web.Controllers
 {

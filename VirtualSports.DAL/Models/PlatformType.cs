@@ -5,7 +5,7 @@
         WebMobile,
         WebDesktop,
         Ios,
-        Andriod,
+        Android,
         UnknownPlatform
     }
 }

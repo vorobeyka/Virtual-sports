@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using VirtualSports.BLL.DTO;
+using VirtualSports.DAL.Entities;
 
 namespace VirtualSports.BLL.Mappings
 {

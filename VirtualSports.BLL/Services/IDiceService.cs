@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.DAL.Models;
 
-namespace VirtualSports.Web.Services
+namespace VirtualSports.BLL.Services
 {
     public interface IDiceService
     {

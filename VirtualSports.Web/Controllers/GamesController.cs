@@ -5,13 +5,15 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.Web.Services.DatabaseServices;
-using VirtualSports.Web.Models;
-using VirtualSports.Web.Models.DatabaseModels;
-using VirtualSports.Web.Services;
-using VirtualSports.Web.Mappings;
-using VirtualSports.Web.Filters;
+using VirtualSports.BLL.Mappings;
+using VirtualSports.BLL.Services;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Models;
 using VirtualSports.Web.Contracts;
+using VirtualSports.Web.Services;
+using VirtualSports.Web.Filters;
+using VirtualSports.Web.Contracts.ViewModels;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -45,9 +47,9 @@ namespace VirtualSports.Web.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(Root), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(RootView), (int)HttpStatusCode.OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<Root>> GetAllData(CancellationToken cancellationToken)
+        public async Task<ActionResult<RootView>> GetAllData(CancellationToken cancellationToken)
         {
             var platformType = MapMethods.MapPlatformType(Platform);
             var data = await _dbRootService.GetRootAsync(platformType, cancellationToken);
@@ -103,7 +105,7 @@ namespace VirtualSports.Web.Controllers
             [FromServices] IDiceService diceService)
         {
             var platformType = MapMethods.MapPlatformType(Platform);
-            var userLogin = HttpContext.User.Identity.Name;
+            var userLogin = HttpContext.User.Identity?.Name;
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 

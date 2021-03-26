@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualSports.Web", "Virtua
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualSports.Tests", "VirtualSports.Tests\VirtualSports.Tests.csproj", "{FB760B9B-459C-4B18-9887-A5F3F6096B70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualSports.BLL", "VirtualSports.BLL\VirtualSports.BLL.csproj", "{B645AE22-07C6-4A1D-BBF9-BBF599A8C07A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualSports.BLL", "VirtualSports.BLL\VirtualSports.BLL.csproj", "{B645AE22-07C6-4A1D-BBF9-BBF599A8C07A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualSports.DAL", "VirtualSports.DAL\VirtualSports.DAL.csproj", "{61E99C52-6FE0-4D51-8AEB-E08C49D48320}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualSports.DAL", "VirtualSports.DAL\VirtualSports.DAL.csproj", "{61E99C52-6FE0-4D51-8AEB-E08C49D48320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualSports.Lib", "VirtualSports.Lib\VirtualSports.Lib.csproj", "{50C5D307-B798-490C-AF7A-AB221F0D12AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{61E99C52-6FE0-4D51-8AEB-E08C49D48320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61E99C52-6FE0-4D51-8AEB-E08C49D48320}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61E99C52-6FE0-4D51-8AEB-E08C49D48320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50C5D307-B798-490C-AF7A-AB221F0D12AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C5D307-B798-490C-AF7A-AB221F0D12AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C5D307-B798-490C-AF7A-AB221F0D12AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C5D307-B798-490C-AF7A-AB221F0D12AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
