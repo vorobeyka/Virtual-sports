@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -27,8 +26,8 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             CancellationToken cancellationToken)
         {
             var categoriesPlatformTypes = categoryDTOs
-                .Select(category => 
-                    MapMethods.MapPlatformTypes(category.PlatformTypes).ToList()).ToArray();
+                .Select(category =>
+                    MapPlatforms.MapPlatformTypes(category.PlatformTypes).ToList()).ToArray();
             CheckInvalidPlatforms(categoriesPlatformTypes);
 
             var categoryDTOs = _mapper.Map<IEnumerable<CategoryDTO>>(categoryDTOs);
@@ -46,7 +45,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         {
             var gamesPlatformTypes = gameRequests
                 .Select(game =>
-                    MapMethods.MapPlatformTypes(game.PlatformTypes)).ToArray();
+                    MapPlatforms.MapPlatformTypes(game.PlatformTypes)).ToArray();
             CheckInvalidPlatforms(gamesPlatformTypes);
 
             var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(gameRequests);
@@ -61,7 +60,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         {
             var providersPlatformTypes = providerRequests
                 .Select(provider =>
-                    MapMethods.MapPlatformTypes(provider.PlatformTypes)).ToArray();
+                    MapPlatforms.MapPlatformTypes(provider.PlatformTypes)).ToArray();
             CheckInvalidPlatforms(providersPlatformTypes);
 
             var providerDTOs = _mapper.Map<IEnumerable<ProviderDTO>>(providerRequests);

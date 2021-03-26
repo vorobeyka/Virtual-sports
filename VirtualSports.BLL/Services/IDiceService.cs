@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services
 {

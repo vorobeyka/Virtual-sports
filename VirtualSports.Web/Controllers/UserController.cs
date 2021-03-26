@@ -51,7 +51,7 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Game>>> GetFavourites(CancellationToken cancellationToken)
         {
-            var platformType = MapMethods.MapPlatformType(Platform);
+            var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
             var favouriteGames = await _dbUserService.GetFavouritesAsync(userLogin, platformType, cancellationToken);
 
@@ -70,7 +70,7 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Game>>> GetRecent(CancellationToken cancellationToken)
         {
-            var platformType = MapMethods.MapPlatformType(Platform);
+            var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
             var recentGames = await _dbUserService.GetRecentAsync(userLogin, platformType, cancellationToken);
 
@@ -84,7 +84,7 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<IEnumerable<Game>>> GetRecommended(CancellationToken cancellationToken)
         {
-            var platformType = MapMethods.MapPlatformType(Platform);
+            var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
             var recomendedGames = await _dbUserService.GetRecommendedAsync(userLogin, platformType, cancellationToken);
             return Ok(recomendedGames);
@@ -103,7 +103,7 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddToFavourites([FromRoute] string gameId, CancellationToken cancellationToken)
         {
-            var platformType = MapMethods.MapPlatformType(Platform);
+            var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
             var isAdded = await _dbUserService.AddFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
@@ -120,7 +120,7 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteFromFavourites([FromRoute] string gameId, CancellationToken cancellationToken)
         {
-            var platformType = MapMethods.MapPlatformType(Platform);
+            var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
             var isDeleted = await _dbUserService.AddFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
@@ -141,7 +141,7 @@ namespace VirtualSports.Web.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBetHistory(CancellationToken cancellationToken)
         {
-            var platformType = MapMethods.MapPlatformType(Platform);
+            var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
             var history = await _dbUserService.GetBetsStoryAsync(userLogin, platformType, cancellationToken);
 

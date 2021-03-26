@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using VirtualSports.Web.Contexts;
+using VirtualSports.DAL.Contexts;
 
-namespace VirtualSports.Web.Services
+namespace VirtualSports.BLL.Services
 {
     /// <inheritdoc />
     public class SessionStorageInMemory : ISessionStorage

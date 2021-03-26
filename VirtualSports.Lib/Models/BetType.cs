@@ -1,4 +1,4 @@
-﻿namespace VirtualSports.DAL.Models
+﻿namespace VirtualSports.Lib.Models
 {
     public enum BetType
     {

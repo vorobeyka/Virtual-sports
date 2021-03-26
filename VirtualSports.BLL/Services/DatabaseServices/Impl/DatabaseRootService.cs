@@ -1,20 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtualSports.BLL.DTO;
 using VirtualSports.DAL.Contexts;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
     public class DatabaseRootService : IDatabaseRootService
     {
         private readonly DatabaseManagerContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public DatabaseRootService(DatabaseManagerContext dbContext)
+        public DatabaseRootService(DatabaseManagerContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<RootDTO> GetRootAsync(PlatformType platformType, CancellationToken cancellationToken)
@@ -33,7 +37,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
                 Providers = providers,
                 Tags = await _dbContext.Tags.ToListAsync(cancellationToken)
             };
-            return root;
+            return _mapper.Map<RootDTO>(root);
         }
 
         /*public async Task<ProviderDTO> GetProviderAsync(string id, CancellationToken cancellationToken)
@@ -59,7 +63,8 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var games = await _dbContext.Games
                 .Where(game => ids.Any(id => id == game.Id))
                 .ToListAsync(cancellationToken);
-            return games;
+            var gamesDTO = _mapper.Map<IEnumerable<GameDTO>>(games);
+            return gamesDTO;
         }
     }
 }

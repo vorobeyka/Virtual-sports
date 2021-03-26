@@ -5,18 +5,22 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VirtualSports.DAL.Contexts;
-using VirtualSports.DAL.Models;
 using VirtualSports.DAL.Entities;
+using VirtualSports.Lib.Models;
+using VirtualSports.BLL.DTO;
+using AutoMapper;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
     public class DatabaseUserService : IDatabaseUserService
     {
         private readonly DatabaseManagerContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public DatabaseUserService(DatabaseManagerContext dbContext)
+        public DatabaseUserService(DatabaseManagerContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task AddFavouriteAsync(
@@ -61,7 +65,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Game>> GetRecentAsync(
+        public async Task<IEnumerable<GameDTO>> GetRecentAsync(
             string login,
             PlatformType platformType,
             CancellationToken cancellationToken)
@@ -69,10 +73,11 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var user = await GetUserAsync(login, cancellationToken);
             var games = await _dbContext.Games.ToListAsync(cancellationToken);
             var recentGames = games.Where(game => user.RecentGameIds[platformType].Any(id => id == game.Id));
-            return recentGames;
+            var recentGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(recentGames);
+            return recentGamesDTO;
         }
 
-        public async Task<IEnumerable<Game>> GetFavouritesAsync(
+        public async Task<IEnumerable<GameDTO>> GetFavouritesAsync(
             string login,
             PlatformType platformType,
             CancellationToken cancellationToken)
@@ -81,10 +86,11 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var games = await _dbContext.Games.ToListAsync(cancellationToken);
             var favouriteGames = games.Where(game => user.FavouriteGameIds.Any(id => id == game.Id));
             var favouritePlatformGames = favouriteGames.Where(game => game.PlatformTypes.Contains(platformType));
-            return favouritePlatformGames;
+            var favouritePlatformGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(favouritePlatformGames);
+            return favouritePlatformGamesDTO;
         }
 
-        public async Task<IEnumerable<Game>> GetRecommendedAsync(
+        public async Task<IEnumerable<GameDTO>> GetRecommendedAsync(
             string login,
             PlatformType platformType,
             CancellationToken cancellationToken)
@@ -96,7 +102,8 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
                 recentGames.Any(recent => 
                 recent.Categories.Any(category => 
                 game.Categories.Any(c => c == category))));
-            return recommendedGames;
+            var recommendedGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(recommendedGames);
+            return recommendedGamesDTO;
         }
 
 

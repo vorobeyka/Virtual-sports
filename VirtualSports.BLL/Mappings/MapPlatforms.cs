@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Mappings
 {
-    public static class MapMethods
+    public static class MapPlatforms
     {
         public static PlatformType MapPlatformType(string platformType)
         {
