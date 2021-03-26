@@ -25,11 +25,15 @@ namespace VirtualSports.Web.Services.DatabaseServices
             PlatformType platformType,
             CancellationToken cancellationToken)
         {
+            if (!_dbContext.Games.Select(g => g.Id).Contains(gameId)) throw new ArgumentOutOfRangeException();
+
             var user = await GetUserAsync(login, cancellationToken);
-            if (!user.FavouriteGameIds[platformType].Any(id => id == gameId))
+            if (user.FavouriteGameIds[platformType].Count != 0 &&
+                user.FavouriteGameIds[platformType].FirstOrDefault(id => id == gameId) == null)
             {
                 return false;
-            }
+            }         
+
             user.FavouriteGameIds[platformType].Add(gameId);
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
