@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VirtualSports.Web.Models.DatabaseModels
+namespace VirtualSports.Web.Contracts.ViewModels
 {
-    [Table("Games")]
-    public class Game
+    public class GameView
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
         public string DisplayName { get; set; }
         public string Url { get; set; }

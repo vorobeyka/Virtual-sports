@@ -1,4 +1,4 @@
-﻿namespace VirtualSports.Web.Models
+﻿namespace VirtualSports.Web.Contracts.ViewModels
 {
     /// <summary>
     /// Easy readable error model.

@@ -39,6 +39,7 @@ namespace VirtualSports.Web.Filters
             };
 
             _logger.LogInformation($"Error {errorCode} occurred.\nMessage: {message}.");
+            _logger.LogInformation(context.Exception.ToString());
 
             context.Result = new JsonResult(new Error(errorCode, message));
             context.ExceptionHandled = true;

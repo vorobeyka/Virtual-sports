@@ -13,6 +13,9 @@ using VirtualSports.Web.Services;
 using VirtualSports.Web.Services.DatabaseServices;
 using VirtualSports.Web.Options;
 using VirtualSports.Web.Authentication;
+using VirtualSports.Web.Services.AdminServices;
+using AutoMapper;
+using VirtualSports.Web.Mappings;
 
 namespace VirtualSports.Web
 {
@@ -88,25 +91,7 @@ namespace VirtualSports.Web
                     });
             });
 
-            services
-                .AddAuthentication("JwtAuthentication")
-                .AddScheme<JwtBearerOptions, AuthenticationHandler>(
-                    "JwtAuthentication", null);
-
-            //Add database and migration services.
-            services.AddDbContext<DatabaseManagerContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);
-
-            services.AddHostedService<MigrationsService>();
-
-            services.AddScoped<IDatabaseRootService, DatabaseRootService>();
-            services.AddScoped<IDatabaseAuthService, DatabaseAuthService>();
-            services.AddScoped<IDatabaseAdminService, DatabaseAdminService>();
-
-            //Add storage in memory.
-            services.AddScoped<ISessionStorage, SessionStorageInMemory>();
-            services.AddScoped<IDatabaseUserService, DatabaseUserService>();
-            services.AddScoped<IDiceService, DiceService>();
+           
 
             services.AddControllers();
         }

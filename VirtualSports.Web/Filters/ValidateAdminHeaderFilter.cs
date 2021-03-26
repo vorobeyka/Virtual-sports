@@ -6,7 +6,7 @@ namespace VirtualSports.Web.Filters
 {
     public class ValidateAdminHeaderFilter : ActionFilterAttribute
     {
-        private static readonly string _headerName = "X-Admin";
+        private static readonly string _headerName = "X-Auth";
         private static readonly string _headerValue = "admin";
 
         public override void OnActionExecuting(ActionExecutingContext context)

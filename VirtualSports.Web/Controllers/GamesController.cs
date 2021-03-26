@@ -49,7 +49,8 @@ namespace VirtualSports.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<Root>> GetAllData(CancellationToken cancellationToken)
         {
-            var data = await _dbRootService.GetRootAsync(cancellationToken);
+            var platformType = MapMethods.MapPlatformType(Platform);
+            var data = await _dbRootService.GetRootAsync(platformType, cancellationToken);
             return Ok(data);
         }
 
@@ -68,7 +69,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<Game>> PlayGame(CancellationToken cancellationToken,
             [FromRoute] string gameId, [FromServices] IDatabaseUserService dbUserService)
         {
-            var platformType = MapMethods.MapPlayformType(Platform);
+            var platformType = MapMethods.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity.Name;
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
@@ -101,7 +102,7 @@ namespace VirtualSports.Web.Controllers
             [FromServices] IDatabaseUserService dbUserService,
             [FromServices] IDiceService diceService)
         {
-            var platformType = MapMethods.MapPlayformType(Platform);
+            var platformType = MapMethods.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity.Name;
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");

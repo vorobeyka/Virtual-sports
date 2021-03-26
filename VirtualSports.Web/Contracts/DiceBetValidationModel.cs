@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.Web.Contracts
+namespace VirtualSports.Web.Contracts.ViewModels
 {
     public class DiceBetValidationModel
     {
@@ -11,6 +10,6 @@ namespace VirtualSports.Web.Contracts
 
         [Required]
         [Range(0,7)]
-        public BetType BetType { get; set; }
+        public int BetType { get; set; }
     }
 }

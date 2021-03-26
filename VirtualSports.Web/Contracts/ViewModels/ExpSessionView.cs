@@ -1,17 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace VirtualSports.Web.Models.DatabaseModels
+﻿namespace VirtualSports.Web.Contracts.ViewModels
 {
     /// <summary>
     /// Model for table expired sessions.
     /// </summary>
-    [Table("Expired Sessions")]
-    public class ExpSession
+    public class ExpSessionView
     {
         /// <summary>
         /// Unique id.
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -19,7 +15,7 @@ namespace VirtualSports.Web.Models.DatabaseModels
         /// </summary>
         public string Token { get; set; }
 
-        public ExpSession(string token)
+        public ExpSessionView(string token)
         {
             Token = token;
         }

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.Web.Contracts.AdminContracts;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.Web.Services.AdminServices;
 using VirtualSports.Web.Services.DatabaseServices;
 
 namespace VirtualSports.Web.Controllers
@@ -16,129 +19,156 @@ namespace VirtualSports.Web.Controllers
     [Route("[controller]")]
     [TypeFilter(typeof(ValidateAdminHeaderFilter))]
     [TypeFilter(typeof(ExceptionFilter))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
         private readonly IDatabaseAdminService _dbAdminService;
+        private readonly IAdminAddService _adminAddService;
 
-        [FromHeader(Name = "X-Admin")]
-        public string Admin { get; set; }
+        [FromHeader(Name = "X-Auth")]
+        public string Auth { get; set; }
 
         public AdminController(
+            IAdminAddService adminAddService,
             IDatabaseAdminService dbAdminService,
             ILogger<AdminController> logger)
         {
-            _logger = logger;
+            _adminAddService = adminAddService;
             _dbAdminService = dbAdminService;
+            _logger = logger;
         }
         
         [HttpPost]
         [Route("add/game")]
-        public async Task<ActionResult> AddGame(
-            [FromBody] Game game,
+        public async Task<IActionResult> AddGame(
+            [FromBody] GameRequest game,
             CancellationToken cancellationToken)
         {
-            if (game == null) return BadRequest();
-
-            return await _dbAdminService.AddGameAsync(game, cancellationToken)
-                ? Ok()
-                : Conflict("Game with such id already exists.");
+            await _dbAdminService.AddAsync(game, cancellationToken);
+            return Ok();
         }
 
         [HttpPost]
         [Route("add/games")]
-        public async Task<ActionResult> AddGames(
-            [FromBody] List<Game> games,
+        public async Task<IActionResult> AddGames(
+            [FromBody] IEnumerable<GameRequest> games,
             CancellationToken cancellationToken)
         {
-            if (games == null) return BadRequest();
-
-            return await _dbAdminService.AddGamesAsync(games, cancellationToken)
-                ? Ok()
-                : Conflict("Game with one of the ids already exists.");
+            await _dbAdminService.AddRangeAsync(games, cancellationToken);
+            return Ok();
         }
 
         [HttpPost]
         [Route("add/categories")]
-        public async Task<ActionResult> AddCategory(
-            [FromBody] List<Category> categories,
+        public async Task<IActionResult> AddCategories(
+            [FromBody] IEnumerable<CategoryRequest> categories,
             CancellationToken cancellationToken)
         {
-            if (categories == null) return BadRequest();
-
-            return await _dbAdminService.AddCategoriesAsync(categories, cancellationToken)
-                ? Ok()
-                : Conflict("Category with one of the ids already exists.");
+            await _adminAddService.AddCategories(categories, cancellationToken);
+            //await _dbAdminService.AddRangeAsync(categories, cancellationToken);
+            return Ok();
         }
 
         [HttpPost]
         [Route("add/providers")]
-        public async Task<ActionResult> AddProvider(
-            [FromBody] List<Provider> providers,
+        public async Task<IActionResult> AddProviders(
+            [FromBody] IEnumerable<ProviderRequest> providers,
             CancellationToken cancellationToken)
         {
-            if (providers == null) return BadRequest();
-
-            return await _dbAdminService.AddProviderAsync(providers, cancellationToken)
-                ? Ok()
-                : Conflict("Provider with one of the ids already exists.");
+            await _dbAdminService.AddRangeAsync(providers, cancellationToken);
+            return Ok();
         }
 
         [HttpPost]
         [Route("add/tags")]
-        public async Task<ActionResult> Addtags(
-            [FromBody] List<Tag> tags,
+        public async Task<IActionResult> AddTags(
+            [FromBody] IEnumerable<TagRequest> tags,
             CancellationToken cancellationToken)
         {
-            if (tags == null) return BadRequest();
+            await _dbAdminService.AddRangeAsync(tags, cancellationToken);
+            return Ok();
+        }
 
-            return await _dbAdminService.AddTagsAsync(tags, cancellationToken)
-                ? Ok()
-                : Conflict("Tag with one of the ids already exists.");
+        [HttpPost]
+        [Route("update/game")]
+        public async Task<IActionResult> UpdateGame(
+            [FromBody] GameRequest game,
+            CancellationToken cancellationToken)
+        {
+            await _dbAdminService.UpdateAsync(game, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("update/provider")]
+        public async Task<IActionResult> UpdateProvider(
+            [FromBody] ProviderRequest provider,
+            CancellationToken cancellationToken)
+        {
+            await _dbAdminService.UpdateAsync(provider, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("update/category")]
+        public async Task<IActionResult> UpdateCategory(
+            [FromBody] CategoryRequest category,
+            CancellationToken cancellationToken)
+        {
+            await _dbAdminService.UpdateAsync(category, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("update/tag")]
+        public async Task<IActionResult> UpdateTag(
+            [FromBody] TagRequest tag,
+            CancellationToken cancellationToken)
+        {
+            await _dbAdminService.UpdateAsync(tag, cancellationToken);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("delete/game/{id}")]
-        public async Task<ActionResult> DeleteGame(
+        public async Task<IActionResult> DeleteGame(
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            return await _dbAdminService.DeleteGameAsync(id, cancellationToken)
-                ? Ok()
-                : NotFound("Game with such id doesn't exists.");
+            await _dbAdminService.DeleteAsync<Game>(id, cancellationToken);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("delete/category/{id}")]
-        public async Task<ActionResult> DeleteCategory(
+        public async Task<IActionResult> DeleteCategory(
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            return await _dbAdminService.DeleteCategoryAsync(id, cancellationToken)
-                ? Ok()
-                : NotFound("Category with such id doesn't exists.");
+            await _dbAdminService.DeleteAsync<Category>(id, cancellationToken);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("delete/provider/{id}")]
-        public async Task<ActionResult> DeleteProvider(
+        public async Task<IActionResult> DeleteProvider(
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            return await _dbAdminService.DeleteProviderAsync(id, cancellationToken)
-                ? Ok()
-                : NotFound("Provider with such id doesn't exists.");
+            await _dbAdminService.DeleteAsync<Provider>(id, cancellationToken);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("delete/tag/{id}")]
-        public async Task<ActionResult> DeleteTag(
+        public async Task<IActionResult> DeleteTag(
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            return await _dbAdminService.DeleteTagAsync(id, cancellationToken)
-                ? Ok()
-                : NotFound("Tag with such id doesn't exists.");
+            await _dbAdminService.DeleteAsync<Tag>(id, cancellationToken);
+            return Ok();
         }
     }
 }
