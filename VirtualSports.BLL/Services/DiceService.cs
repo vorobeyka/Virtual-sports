@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using VirtualSports.Web.Models.DatabaseModels;
 
-namespace VirtualSports.Web.Services
+namespace VirtualSports.BLL.Services
 {
     public class DiceService : IDiceService
     {

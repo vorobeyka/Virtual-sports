@@ -4,11 +4,13 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using VirtualSports.BLL.DTO;
+using VirtualSports.BLL.Services.AdminServices;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.DAL.Entities;
 using VirtualSports.Web.Contracts.AdminContracts;
 using VirtualSports.Web.Filters;
-using VirtualSports.Web.Models.DatabaseModels;
-using VirtualSports.Web.Services.AdminServices;
-using VirtualSports.Web.Services.DatabaseServices;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -26,6 +28,7 @@ namespace VirtualSports.Web.Controllers
         private readonly ILogger<AdminController> _logger;
         private readonly IDatabaseAdminService _dbAdminService;
         private readonly IAdminAddService _adminAddService;
+        private readonly IMapper _mapper;
 
         [FromHeader(Name = "X-Auth")]
         public string Auth { get; set; }
@@ -33,11 +36,13 @@ namespace VirtualSports.Web.Controllers
         public AdminController(
             IAdminAddService adminAddService,
             IDatabaseAdminService dbAdminService,
-            ILogger<AdminController> logger)
+            ILogger<AdminController> logger,
+            IMapper mapper)
         {
             _adminAddService = adminAddService;
             _dbAdminService = dbAdminService;
             _logger = logger;
+            _mapper = mapper;
         }
         
         [HttpPost]
@@ -66,7 +71,10 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<CategoryRequest> categories,
             CancellationToken cancellationToken)
         {
-            await _adminAddService.AddCategories(categories, cancellationToken);
+            await _adminAddService.AddCategories(
+                _mapper.Map<IEnumerable<CategoryDTO>>(categories),
+                cancellationToken);
+
             //await _dbAdminService.AddRangeAsync(categories, cancellationToken);
             return Ok();
         }
