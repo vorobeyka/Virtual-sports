@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using VirtualSports.BLL.Mappings;
 using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.DAL.Entities;
-using VirtualSports.DAL.Models;
+using VirtualSports.Lib.Models;
 using VirtualSports.Web.Filters;
 
 namespace VirtualSports.Web.Controllers
@@ -105,12 +105,10 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-            var isAdded = await _dbUserService.AddFavouriteAsync(
-                userLogin, gameId, platformType, cancellationToken);
+            await _dbUserService.AddFavouriteAsync(userLogin, gameId, platformType,
+                cancellationToken);
 
-            return isAdded 
-                ? Ok()
-                : NotFound("there is no game with such id in database");
+            return Ok();
         }
 
         [HttpDelete]
@@ -122,12 +120,10 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapPlatforms.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-            var isDeleted = await _dbUserService.AddFavouriteAsync(
+            await _dbUserService.AddFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
 
-            return isDeleted
-                ? Ok()
-                : NotFound("there is no game with such id in database");
+            return Ok();
         }
 
         /// <summary>
