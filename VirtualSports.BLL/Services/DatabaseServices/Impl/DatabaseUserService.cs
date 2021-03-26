@@ -4,6 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using VirtualSports.DAL.Contexts;
+using VirtualSports.DAL.Models;
+using VirtualSports.DAL.Entities;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
@@ -16,24 +19,19 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             _dbContext = dbContext;
         }
 
-        public async Task<bool> TryAddFavouriteAsync(
+        public async Task AddFavouriteAsync(
             string login,
             string gameId,
             PlatformType platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
-            if (!user.FavouriteGameIds.Any(id => id == gameId))
-            {
-                return false;
-            }
             user.FavouriteGameIds.Add(gameId);
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
         }
 
-        public async Task<bool> TryAddRecentAsync(
+        public async Task AddRecentAsync(
             string login,
             string gameId,
             PlatformType platformType,
@@ -49,7 +47,6 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             recentGames.Enqueue(gameId);
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
         }
 
         public async Task AddBetAsync(
@@ -113,7 +110,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             return bets;
         }
 
-        public async Task<bool> DeleteFavouriteAsync(
+        public async Task DeleteFavouriteAsync(
             string login,
             string gameId,
             PlatformType platformType,
@@ -122,13 +119,9 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var user = await GetUserAsync(login, cancellationToken);
             var favouriteGameId = user.FavouriteGameIds.FirstOrDefault(id => id == gameId);
 
-            if (favouriteGameId == null) return false;
-
             user.FavouriteGameIds.Remove(favouriteGameId);
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return true;
         }
 
         private async Task<User> GetUserAsync(string userLogin, CancellationToken cancellationToken)

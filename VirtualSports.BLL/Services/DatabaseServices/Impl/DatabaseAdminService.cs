@@ -15,15 +15,6 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             _dbContext = dbContext;
         }
 
-        public async Task AddRootAsync(RootDTO root, CancellationToken cancellationToken)
-        {
-            await _dbContext.Providers.AddRangeAsync(root.Providers, cancellationToken);
-            await _dbContext.Categories.AddRangeAsync(root.Categories, cancellationToken);
-            await _dbContext.Tags.AddRangeAsync(root.Tags, cancellationToken);
-            await _dbContext.Games.AddRangeAsync(root.Games, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
         public async Task AddAsync<TEntity>(TEntity item, CancellationToken cancellationToken)
         {
             await _dbContext.AddRangeAsync(item);

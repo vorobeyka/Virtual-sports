@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using VirtualSports.BLL.DTO;
 
 namespace VirtualSports.BLL.Mappings
 {
@@ -6,7 +7,6 @@ namespace VirtualSports.BLL.Mappings
     {
         public MappingProfile()
         {
-            // Add as many of these lines as you need to map your objects
             CreateMap<CategoryRequest, CategoryDTO>();
             CreateMap<CategoryDTO, Category>();
             CreateMap<Category, CategoryDTO>();

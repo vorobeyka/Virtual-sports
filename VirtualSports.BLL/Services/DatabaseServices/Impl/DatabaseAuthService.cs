@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using VirtualSports.DAL.Contexts;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
@@ -24,11 +25,11 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         }
 
         /// <inheritdoc />
-        public async Task<string> LoginUserAsync(Account account, CancellationToken cancellationToken)
+        public async Task<string> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
         {
-            var passwordHash = GetPasswordHash(account.Password);
+            var passwordHash = GetPasswordHash(password);
             var user = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Login == account.Login && u.PasswordHash == passwordHash,
+                .FirstOrDefaultAsync(u => u.Login == login && u.PasswordHash == passwordHash,
                 cancellationToken);
 
             if (user != null)

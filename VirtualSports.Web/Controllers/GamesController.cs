@@ -5,13 +5,11 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.Web.Services.DatabaseServices;
-using VirtualSports.Web.Models;
-using VirtualSports.Web.Models.DatabaseModels;
 using VirtualSports.Web.Services;
-using VirtualSports.Web.Mappings;
 using VirtualSports.Web.Filters;
 using VirtualSports.Web.Contracts;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.Web.Contracts.ViewModels;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -45,7 +43,7 @@ namespace VirtualSports.Web.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(Root), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(RootView), (int)HttpStatusCode.OK)]
         [AllowAnonymous]
         public async Task<ActionResult<Root>> GetAllData(CancellationToken cancellationToken)
         {
