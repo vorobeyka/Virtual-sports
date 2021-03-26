@@ -109,12 +109,12 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlayformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-            var isDeleted = await _dbUserService.TryAddFavouriteAsync(
+            var isDeleted = await _dbUserService.DeleteFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
 
             return isDeleted
                 ? Ok()
-                : NotFound("there is no game with such id in database");
+                : NotFound("there is no game with such id in favourites");
         }
 
         /// <summary>
