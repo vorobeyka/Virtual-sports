@@ -105,7 +105,7 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-            var isAdded = await _dbUserService.TryAddFavouriteAsync(
+            var isAdded = await _dbUserService.AddFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
 
             return isAdded 
@@ -122,7 +122,7 @@ namespace VirtualSports.Web.Controllers
         {
             var platformType = MapMethods.MapPlatformType(Platform);
             var userLogin = HttpContext.User.Identity?.Name;
-            var isDeleted = await _dbUserService.TryAddFavouriteAsync(
+            var isDeleted = await _dbUserService.AddFavouriteAsync(
                 userLogin, gameId, platformType, cancellationToken);
 
             return isDeleted

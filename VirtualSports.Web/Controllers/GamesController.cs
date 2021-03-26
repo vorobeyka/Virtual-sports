@@ -13,6 +13,7 @@ using VirtualSports.DAL.Models;
 using VirtualSports.Web.Contracts;
 using VirtualSports.Web.Services;
 using VirtualSports.Web.Filters;
+using VirtualSports.Web.Contracts.ViewModels;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -75,7 +76,7 @@ namespace VirtualSports.Web.Controllers
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
-            var isAdded = await dbUserService.TryAddRecentAsync(userLogin, gameId, platformType, cancellationToken);
+            var isAdded = await dbUserService.AddRecentAsync(userLogin, gameId, platformType, cancellationToken);
 
             if (!isAdded)
             {
@@ -120,7 +121,7 @@ namespace VirtualSports.Web.Controllers
             };
             
             await dbUserService.AddBetAsync(userLogin, bet, platformType, cancellationToken);
-            await dbUserService.TryAddRecentAsync(userLogin, "original_dice_game", platformType,
+            await dbUserService.AddRecentAsync(userLogin, "original_dice_game", platformType,
                 cancellationToken);
 
             return Ok(bet);

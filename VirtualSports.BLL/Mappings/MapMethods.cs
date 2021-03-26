@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using VirtualSports.DAL.Models;
 
 namespace VirtualSports.BLL.Mappings
 {
@@ -12,7 +13,7 @@ namespace VirtualSports.BLL.Mappings
                 "web-mobile" => PlatformType.WebMobile,
                 "web-desktop" => PlatformType.WebDesktop,
                 "ios" => PlatformType.Ios,
-                "android" => PlatformType.Andriod,
+                "android" => PlatformType.Android,
                 _ => PlatformType.UnknownPlatform,
             };
         }

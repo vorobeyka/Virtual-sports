@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Mappings;
-using VirtualSports.Web.Services.DatabaseServices;
+using VirtualSports.BLL.Services.DatabaseServices;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
