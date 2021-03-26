@@ -7,6 +7,8 @@ using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Mappings;
 using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.DAL.Entities;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
