@@ -44,6 +44,7 @@ namespace VirtualSports.Web.Migrations
                     DisplayName = table.Column<string>(type: "text", nullable: true),
                     Url = table.Column<string>(type: "text", nullable: true),
                     Provider = table.Column<string>(type: "text", nullable: true),
+                    Image = table.Column<string>(type: "text", nullable: true),
                     Categories = table.Column<List<string>>(type: "text[]", nullable: true),
                     Tags = table.Column<List<string>>(type: "text[]", nullable: true),
                     PlatformTypes = table.Column<List<string>>(type: "text[]", nullable: true)

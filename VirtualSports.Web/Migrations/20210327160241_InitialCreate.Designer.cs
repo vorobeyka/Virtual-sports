@@ -11,7 +11,7 @@ using VirtualSports.Lib.Models;
 namespace VirtualSports.Web.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    [Migration("20210327043148_InitialCreate")]
+    [Migration("20210327160241_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,9 @@ namespace VirtualSports.Web.Migrations
                         .HasColumnType("text[]");
 
                     b.Property<string>("DisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
                         .HasColumnType("text");
 
                     b.Property<List<string>>("PlatformTypes")
