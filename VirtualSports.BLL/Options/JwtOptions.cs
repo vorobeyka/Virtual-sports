@@ -21,7 +21,7 @@ namespace VirtualSports.Web.Options
         /// <summary>
         /// Token secret part.
         /// </summary>
-        public const string PrivateKey = "Secret key for virtual sports final project";
+        public const string PrivateKey = "U2VjcmV0IGtleSBmb3IgdmlydHVhbCBzcG9ydHMgZmluYWwgcHJvamVjdA==";
 
         /// <summary>
         /// Token's life time.
