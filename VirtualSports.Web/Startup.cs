@@ -1,14 +1,12 @@
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using VirtualSports.Web.Options;
-using AutoMapper;
+using VirtualSports.Web.Extensions;
+using VirtualSports.BLL.Extensions;
+using VirtualSports.DAL.Contexts;
+using VirtualSports.BLL.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace VirtualSports.Web
 {
@@ -26,64 +24,11 @@ namespace VirtualSports.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddServicesInMemory();
+            
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = JwtOptions.RequireHttps;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = JwtOptions.Issuer,
-
-                        ValidateAudience = true,
-                        ValidAudience = JwtOptions.Audience,
-
-                        ValidateLifetime = true,
-
-                        IssuerSigningKey = JwtOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true,
-                    };
-                });
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "VirtualSports", Version = "v1" });
-                var filePath = Path.Combine(AppContext.BaseDirectory, "VirtualSports.Web.xml");
-                if (File.Exists(filePath))
-                {
-                    options.IncludeXmlComments(filePath);
-                }
-                options.AddSecurityRequirement(
-                    new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Id = "Bearer",
-                                    Type = ReferenceType.SecurityScheme
-                                },
-                            },
-                            new string[0]
-                        }
-                    });
-
-                options.AddSecurityDefinition(
-                    "Bearer",
-                    new OpenApiSecurityScheme
-                    {
-                        Type = SecuritySchemeType.ApiKey,
-                        In = ParameterLocation.Header,
-                        Scheme = "Bearer",
-                        Name = "Authorization",
-                        Description = "JWT token",
-                        BearerFormat = "JWT"
-                    });
-            });
-
+            
+            services.AddDatabaseServicesInMemory(Configuration);
             services.AddControllers();
         }
 

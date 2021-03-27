@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using VirtualSports.Web.Contracts.ViewModels;
-using VirtualSports.Web.Models;
 
 namespace VirtualSports.Web.Filters
 {

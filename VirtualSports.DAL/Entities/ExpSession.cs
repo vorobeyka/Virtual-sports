@@ -5,7 +5,7 @@ namespace VirtualSports.DAL.Entities
     /// <summary>
     /// Model for table expired sessions.
     /// </summary>
-    [Table("Expired Sessions")]
+    [Table("ExpiredSessions")]
     public class ExpSession
     {
         /// <summary>

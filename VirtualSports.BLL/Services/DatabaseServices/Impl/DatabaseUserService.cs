@@ -26,7 +26,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         public async Task AddFavouriteAsync(
             string login,
             string gameId,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -38,7 +38,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         public async Task AddRecentAsync(
             string login,
             string gameId,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -56,7 +56,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         public async Task AddBetAsync(
             string login,
             Bet bet,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -67,7 +67,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 
         public async Task<IEnumerable<GameDTO>> GetRecentAsync(
             string login,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -79,7 +79,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 
         public async Task<IEnumerable<GameDTO>> GetFavouritesAsync(
             string login,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -92,7 +92,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 
         public async Task<IEnumerable<GameDTO>> GetRecommendedAsync(
             string login,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -109,7 +109,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 
         public async Task<IEnumerable<Bet>> GetBetsStoryAsync(
             string login,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
@@ -120,7 +120,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         public async Task DeleteFavouriteAsync(
             string login,
             string gameId,
-            PlatformType platformType,
+            string platformType,
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);

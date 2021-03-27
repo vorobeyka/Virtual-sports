@@ -14,7 +14,7 @@ namespace VirtualSports.DAL.Entities
         [Column("FavouriteGameIds", TypeName = "jsonb")]
         public List<string> FavouriteGameIds { get; set; }
         [Column("RecentGameIds", TypeName = "jsonb")]
-        public Dictionary<PlatformType, Queue<string>> RecentGameIds { get; set; }
+        public Dictionary<string, Queue<string>> RecentGameIds { get; set; }
         [Column("Bets", TypeName = "jsonb")]
         public List<Bet> Bets { get; set; }
     }

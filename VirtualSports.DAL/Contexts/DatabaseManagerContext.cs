@@ -1,5 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using VirtualSports.DAL.Entities;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace VirtualSports.DAL.Contexts
 {
@@ -21,7 +28,7 @@ namespace VirtualSports.DAL.Contexts
         /// <inheritdoc />
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.LogTo(Console.WriteLine);
         }
 
         /// <inheritdoc />
@@ -38,7 +45,7 @@ namespace VirtualSports.DAL.Contexts
             modelBuilder.Entity<Tag>()
                 .ToTable("Tags");
             modelBuilder.Entity<ExpSession>()
-                .ToTable("Expired Sessions");
+                .ToTable("ExpiredSessions");
         }
     }
 }

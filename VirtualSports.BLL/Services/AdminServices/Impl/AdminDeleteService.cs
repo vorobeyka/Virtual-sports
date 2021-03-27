@@ -1,29 +1,53 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Repositories.Interfaces;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
     public class AdminDeleteService : IAdminDeleteService
     {
-        public Task DeleteCategory(string id, CancellationToken cancellationToken)
+        private readonly IRepository<Game> _gameRepository;
+        private readonly IRepository<Provider> _providerRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Tag> _tagProvider;
+
+        public AdminDeleteService(
+            IRepository<Game> gameRepository,
+            IRepository<Provider> providerRepository,
+            IRepository<Category> categoryRepository,
+            IRepository<Tag> tagProvider)
         {
-            throw new NotImplementedException();
+            _gameRepository = gameRepository;
+            _providerRepository = providerRepository;
+            _categoryRepository = categoryRepository;
+            _tagProvider = tagProvider;
         }
 
-        public Task DeleteGame(string id, CancellationToken cancellationToken)
+        public async Task DeleteCategory(string id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetAsync(id, cancellationToken);
+            await _categoryRepository.DeleteAsync(category, cancellationToken);
         }
 
-        public Task DeleteProvider(string id, CancellationToken cancellationToken)
+        public async Task DeleteGame(string id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var game = await _gameRepository.GetAsync(id, cancellationToken);
+            await _gameRepository.DeleteAsync(game, cancellationToken);
         }
 
-        public Task DeleteTag(string id, CancellationToken cancellationToken)
+        public async Task DeleteProvider(string id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var provider = await _providerRepository.GetAsync(id, cancellationToken);
+            await _providerRepository.DeleteAsync(provider, cancellationToken);
+        }
+
+        public async Task DeleteTag(string id, CancellationToken cancellationToken)
+        {
+            var tag = await _tagProvider.GetAsync(id, cancellationToken);
+            await _tagProvider.DeleteAsync(tag, cancellationToken);
         }
     }
 }

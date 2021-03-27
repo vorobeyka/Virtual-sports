@@ -11,7 +11,6 @@ namespace VirtualSports.DAL.Entities
         public string Id { get; set; }
         public string DisplayName { get; set; }
         public string Image { get; set; }
-        [Column("PlatformTypes", TypeName = "jsonb")]
-        public List<PlatformType> PlatformTypes { get; set; }
+        public List<string> PlatformTypes { get; set; }
     }
 }

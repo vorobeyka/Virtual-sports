@@ -64,13 +64,13 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
                 Login = login,
                 PasswordHash = GetPasswordHash(password),
                 FavouriteGameIds = new List<string>(),
-                RecentGameIds = new Dictionary<PlatformType, Queue<string>>(),
+                RecentGameIds = new Dictionary<string, Queue<string>>(),
                 Bets = new List<Bet>()
             };
-            user.RecentGameIds.Add(PlatformType.WebMobile, new Queue<string>());
-            user.RecentGameIds.Add(PlatformType.WebDesktop, new Queue<string>());
-            user.RecentGameIds.Add(PlatformType.Ios, new Queue<string>());
-            user.RecentGameIds.Add(PlatformType.Android, new Queue<string>());
+            foreach (var i in AppTools.Platforms)
+            {
+                user.RecentGameIds.Add(i, new Queue<string>());
+            }
             return user;
         }
 

@@ -1,30 +1,57 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtualSports.BLL.DTO;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Repositories.Interfaces;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
     public class AdminUpdateService : IAdminUpdateService
     {
-        public Task UpdateGame(GameDTO gameDTO, CancellationToken cancellationToken = default)
+        private readonly IMapper _mapper;
+        private readonly IRepository<Game> _gameRepository;
+        private readonly IRepository<Provider> _providerRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Tag> _tagProvider;
+
+        public AdminUpdateService(
+            IMapper mapper,
+            IRepository<Game> gameRepository,
+            IRepository<Provider> providerRepository,
+            IRepository<Category> categoryRepository,
+            IRepository<Tag> tagProvider)
         {
-            throw new NotImplementedException();
+            _mapper = mapper;
+            _gameRepository = gameRepository;
+            _providerRepository = providerRepository;
+            _categoryRepository = categoryRepository;
+            _tagProvider = tagProvider;
         }
 
-        public Task UpdateCategory(CategoryDTO categoryDTO, CancellationToken cancellationToken = default)
+        public async Task UpdateGame(GameDTO gameDTO, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var game = _mapper.Map<Game>(gameDTO);
+            await _gameRepository.UpdateAsync(game, cancellationToken);
         }
 
-        public Task UpdateProvider(ProviderDTO providerDTO, CancellationToken cancellationToken = default)
+        public async Task UpdateCategory(CategoryDTO categoryDTO, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var category = _mapper.Map<Category>(categoryDTO);
+            await _categoryRepository.UpdateAsync(category, cancellationToken);
         }
 
-        public Task UpdateTag(TagDTO tagDTO, CancellationToken cancellationToken = default)
+        public async Task UpdateProvider(ProviderDTO providerDTO, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var provider = _mapper.Map<Provider>(providerDTO);
+            await _providerRepository.UpdateAsync(provider, cancellationToken);
+        }
+
+        public async Task UpdateTag(TagDTO tagDTO, CancellationToken cancellationToken = default)
+        {
+            var tag = _mapper.Map<Tag>(tagDTO);
+            await _tagProvider.UpdateAsync(tag, cancellationToken);
         }
     }
 }

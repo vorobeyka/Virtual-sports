@@ -1,18 +1,20 @@
 ﻿using System;
+using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using VirtualSports.BLL.Mappings;
 using VirtualSports.BLL.Services;
 using VirtualSports.BLL.Services.AdminServices;
 using VirtualSports.BLL.Services.AdminServices.Impl;
 using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.BLL.Services.DatabaseServices.Impl;
-using VirtualSports.DAL.Contexts;
 using VirtualSports.Web.Authentication;
-using VirtualSports.Web.Services;
+using VirtualSports.Web.Options;
 
 namespace VirtualSports.Web.Extensions
 {
@@ -24,7 +26,7 @@ namespace VirtualSports.Web.Extensions
         /// <typeparam name="TSessionData">Session data type.</typeparam>
         /// <param name="services">Service collection.</param>
         /// <returns>Service collection.</returns>
-        public static IServiceCollection AddServicesInMemory(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddServicesInMemory(this IServiceCollection services)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
@@ -33,15 +35,8 @@ namespace VirtualSports.Web.Extensions
                .AddScheme<JwtBearerOptions, AuthenticationHandler>(
                    "JwtAuthentication", null);
 
-            //Add database and migration services.
-            services.AddDbContext<DatabaseManagerContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DatabaseManagerContext")), ServiceLifetime.Transient);
-
-            services.AddHostedService<MigrationsService>();
-
             services.AddScoped<IDatabaseRootService, DatabaseRootService>();
             services.AddScoped<IDatabaseAuthService, DatabaseAuthService>();
-            services.AddScoped<IDatabaseAdminService, DatabaseAdminService>();
 
             //Add storage in memory.
             services.AddScoped<ISessionStorage, SessionStorageInMemory>();
@@ -60,6 +55,64 @@ namespace VirtualSports.Web.Extensions
             });
 
             services.AddSingleton(mappingConfig.CreateMapper());
+
+            services.AddCors();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = JwtOptions.RequireHttps;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = JwtOptions.Issuer,
+
+                        ValidateAudience = true,
+                        ValidAudience = JwtOptions.Audience,
+
+                        ValidateLifetime = true,
+
+                        IssuerSigningKey = JwtOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "VirtualSports", Version = "v1" });
+                var filePath = Path.Combine(AppContext.BaseDirectory, "VirtualSports.Web.xml");
+                if (File.Exists(filePath))
+                {
+                    options.IncludeXmlComments(filePath);
+                }
+                options.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                            },
+                            new string[0]
+                        }
+                    });
+
+                options.AddSecurityDefinition(
+                    "Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.ApiKey,
+                        In = ParameterLocation.Header,
+                        Scheme = "Bearer",
+                        Name = "Authorization",
+                        Description = "JWT token",
+                        BearerFormat = "JWT"
+                    });
+            });
 
             return services;
         }

@@ -1,113 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using VirtualSports.BLL.DTO;
-using VirtualSports.BLL.Mappings;
-using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.DAL.Entities;
-using VirtualSports.Lib.Models;
+using VirtualSports.DAL.Repositories.Interfaces;
 
 namespace VirtualSports.BLL.Services.AdminServices.Impl
 {
     public class AdminAddService : IAdminAddService
     {
-        private readonly IDatabaseAdminService _databaseAdminService;
         private readonly IMapper _mapper;
+        private readonly IRepository<Game> _gameRepository;
+        private readonly IRepository<Provider> _providerRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Tag> _tagProvider;
 
-        public AdminAddService(IDatabaseAdminService databaseAdminService, IMapper mapper)
+        public AdminAddService(
+            IMapper mapper,
+            IRepository<Game> gameRepository,
+            IRepository<Provider> providerRepository,
+            IRepository<Category> categoryRepository,
+            IRepository<Tag> tagProvider)
         {
-            _databaseAdminService = databaseAdminService;
             _mapper = mapper;
+            _gameRepository = gameRepository;
+            _providerRepository = providerRepository;
+            _categoryRepository = categoryRepository;
+            _tagProvider = tagProvider;
         }
 
-        public async Task AddGames(
-            IEnumerable<GameDTO> gamesDTO,
-            IEnumerable<IList<string>> platforms,
-            CancellationToken cancellationToken)
+        public async Task AddGames(IEnumerable<GameDTO> gamesDTO, CancellationToken cancellationToken)
         {
-            var platformTypes = platforms.Select(p => MapPlatforms.MapPlatformTypes(p)).ToList();
-            CheckInvalidPlatforms(platformTypes);
+            /*var categoriesInGames = gamesDTO.Select(g => g.Categories);
+            var providersInGames = gamesDTO.Select(g => g.Provider);
+            var tagsInGames = gamesDTO.Select(g => g.Tags);
+            var categories = await _categoryRepository.GetAllAsync(cancellationToken);
+            var providers = await _providerRepository.GetAllAsync(cancellationToken);
+            var tags = await _tagProvider.GetAllAsync(cancellationToken);*/
 
-            var games = _mapper.Map<IList<Game>>(gamesDTO);
-            for (int i = 0; i < games.Count; i++)
-            {
-                games[i].PlatformTypes = platformTypes[i].ToList();
-            }
-            await _databaseAdminService.AddRangeAsync(games, cancellationToken);
+            var games = _mapper.Map<IEnumerable<Game>>(gamesDTO);
+            await _gameRepository.AddRangeAsync(games, cancellationToken);
         }
 
-        /*public async Task AddCategories(
-            IEnumerable<CategoryDTO> categoryDTOs,
-            IEnumerable<IList<string>> platforms,
-            CancellationToken cancellationToken)
+        public async Task AddCategories(IEnumerable<CategoryDTO> categoriesDTO, CancellationToken cancellationToken)
         {
-            var categoriesPlatformTypes = categoryDTOs
-                .Select(category =>
-                    MapPlatforms.MapPlatformTypes(category.PlatformTypes).ToList()).ToArray();
-            CheckInvalidPlatforms(categoriesPlatformTypes);
-
-            var categoryDTOs = _mapper.Map<IEnumerable<CategoryDTO>>(categoryDTOs);
-            var categories = _mapper.Map<List<Category>>(categoryDTOs);
-
-            for (int i = 0; i < categories.Count(); i++)
-            {
-                categories[i].PlatformTypes = categoriesPlatformTypes[i];
-            }
-
-            await _databaseAdminService.AddRangeAsync<Category>(categories, cancellationToken);
+            var categories = _mapper.Map<IEnumerable<Category>>(categoriesDTO);
+            await _categoryRepository.AddRangeAsync(categories, cancellationToken);
         }
 
-        
-
-        public async Task AddProviders(IEnumerable<ProviderRequest> providerRequests, CancellationToken cancellationToken)
+        public async Task AddProviders(IEnumerable<ProviderDTO> providersDTO, CancellationToken cancellationToken)
         {
-            var providersPlatformTypes = providerRequests
-                .Select(provider =>
-                    MapPlatforms.MapPlatformTypes(provider.PlatformTypes)).ToArray();
-            CheckInvalidPlatforms(providersPlatformTypes);
-
-            var providerDTOs = _mapper.Map<IEnumerable<ProviderDTO>>(providerRequests);
-            var providers = _mapper.Map<IEnumerable<Provider>>(providerDTOs);
-            var platforms = providers.Select(game => game.PlatformTypes).ToArray();
-            SetPlatforms(providersPlatformTypes, platforms);
-
-            await _databaseAdminService.AddRangeAsync<Provider>(providers, cancellationToken);
+            var providers = _mapper.Map<IEnumerable<Provider>>(providersDTO);
+            await _providerRepository.AddRangeAsync(providers, cancellationToken);
         }
 
-        public async Task AddTags(IEnumerable<TagRequest> tagRequests, CancellationToken cancellationToken)
+        public async Task AddTags(IEnumerable<TagDTO> tagsDTO, CancellationToken cancellationToken)
         {
-            var tagsDTOs = _mapper.Map<IEnumerable<TagDTO>>(tagRequests);
-            var tags = _mapper.Map<IEnumerable<Tag>>(tagsDTOs);
-
-            await _databaseAdminService.AddRangeAsync<Tag>(tags, cancellationToken);
-        }*/
-
-        private static void CheckInvalidPlatforms(IEnumerable<IEnumerable<PlatformType>> entitiesPlatformTypes)
-        {
-            var isAnyInvalidPlatforms = entitiesPlatformTypes
-                .Any(types =>
-                    types.Any(type => type == PlatformType.UnknownPlatform));
-
-            if (isAnyInvalidPlatforms)
-            {
-                // TODO: Change to custom invalid Admin exception
-                throw new Exception("Invalid platform type.");
-            }
-        }
-
-        private static void SetPlatforms(IEnumerable<PlatformType>[] source, IEnumerable<PlatformType>[] dest)
-        {
-            if (source.Length != dest.Length)
-            {
-                throw new Exception("Unexpected exception.");
-            }
-            for (int i = 0; i < source.Length; i++)
-            {
-                dest[i] = source[i];
-            }
+            var tags = _mapper.Map<IEnumerable<Tag>>(tagsDTO);
+            await _tagProvider.AddRangeAsync(tags, cancellationToken);
         }
     }
 }

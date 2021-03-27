@@ -10,5 +10,6 @@ namespace VirtualSports.BLL.DTO
         public string Id { get; set; }
         public string DisplayName { get; set; }
         public string Image { get; set; }
+        public List<string> PlatformTypes { get; set; }
     }
 }

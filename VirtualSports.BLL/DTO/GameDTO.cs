@@ -13,5 +13,6 @@ namespace VirtualSports.BLL.DTO
         public string Provider { get; set; }
         public List<string> Categories { get; set; }
         public List<string> Tags { get; set; }
+        public List<string> PlatformTypes { get; set; }
     }
 }

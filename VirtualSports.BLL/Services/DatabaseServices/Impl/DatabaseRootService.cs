@@ -21,7 +21,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             _mapper = mapper;
         }
 
-        public async Task<RootDTO> GetRootAsync(PlatformType platformType, CancellationToken cancellationToken)
+        public async Task<RootDTO> GetRootAsync(string platformType, CancellationToken cancellationToken)
         {
             var games = (await _dbContext.Games.ToListAsync(cancellationToken))
                 .Where(game => game.PlatformTypes.Contains(platformType)).ToList();
@@ -51,13 +51,6 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
             return category;
         }
-
-        public async Task<GameDTO> GetGameAsync(string id, CancellationToken cancellationToken)
-        {
-            var game = await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == id);
-            return game;
-        }*/
-
         public async Task<IEnumerable<GameDTO>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken)
         {
             var games = await _dbContext.Games
@@ -65,6 +58,14 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
                 .ToListAsync(cancellationToken);
             var gamesDTO = _mapper.Map<IEnumerable<GameDTO>>(games);
             return gamesDTO;
+        }
+
+        */
+
+        public async Task<GameDTO> GetGameAsync(string id, CancellationToken cancellationToken)
+        {
+            var game = await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+            return _mapper.Map<GameDTO>(game);
         }
     }
 }

@@ -6,7 +6,7 @@ using VirtualSports.DAL.Contexts;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
-    public class DatabaseAdminService : IDatabaseAdminService
+    public class DatabaseAdminService //: IDatabaseAdminService
     {
         private readonly DatabaseManagerContext _dbContext;
 

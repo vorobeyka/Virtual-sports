@@ -8,7 +8,6 @@ using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Services.AdminServices;
 using VirtualSports.BLL.Services.DatabaseServices;
-using VirtualSports.DAL.Entities;
 using VirtualSports.Web.Contracts.AdminContracts;
 using VirtualSports.Web.Filters;
 using System.Linq;
@@ -28,8 +27,9 @@ namespace VirtualSports.Web.Controllers
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly IDatabaseAdminService _dbAdminService;
         private readonly IAdminAddService _adminAddService;
+        private readonly IAdminUpdateService _adminUpdateService;
+        private readonly IAdminDeleteService _adminDeleteService;
         private readonly IMapper _mapper;
 
         [FromHeader(Name = "X-Auth")]
@@ -37,25 +37,17 @@ namespace VirtualSports.Web.Controllers
 
         public AdminController(
             IAdminAddService adminAddService,
-            IDatabaseAdminService dbAdminService,
+            IAdminUpdateService adminUpdateService,
+            IAdminDeleteService adminDeleteService,
             ILogger<AdminController> logger,
             IMapper mapper)
         {
             _adminAddService = adminAddService;
-            _dbAdminService = dbAdminService;
+            _adminUpdateService = adminUpdateService;
+            _adminDeleteService = adminDeleteService;
             _logger = logger;
             _mapper = mapper;
         }
-        
-/*        [HttpPost]
-        [Route("add/game")]
-        public async Task<IActionResult> AddGame(
-            [FromBody] GameRequest game,
-            CancellationToken cancellationToken)
-        {
-            await _dbAdminService.AddAsync(game, cancellationToken);
-            return Ok();
-        }*/
 
         [HttpPost]
         [Route("add/games")]
@@ -63,9 +55,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<GameRequest> games,
             CancellationToken cancellationToken)
         {
-            var platforms = games.Select(game => game.PlatformTypes);
             var gamesDTO = _mapper.Map<IEnumerable<GameDTO>>(games);
-            await _adminAddService.AddGames(gamesDTO, platforms, cancellationToken);
+            await _adminAddService.AddGames(gamesDTO, cancellationToken);
             return Ok();
         }
 
@@ -75,12 +66,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<CategoryRequest> categories,
             CancellationToken cancellationToken)
         {
-
-            //await _adminAddService.AddCategories(
-                //_mapper.Map<IEnumerable<CategoryDTO>>(categories),
-                //cancellationToken);
-
-            //await _dbAdminService.AddRangeAsync(categories, cancellationToken);
+            var categoriesDTO = _mapper.Map<IEnumerable<CategoryDTO>>(categories);
+            await _adminAddService.AddCategories(categoriesDTO, cancellationToken);
             return Ok();
         }
 
@@ -90,7 +77,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<ProviderRequest> providers,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.AddRangeAsync(providers, cancellationToken);
+            var providersDTO = _mapper.Map<IEnumerable<ProviderDTO>>(providers);
+            await _adminAddService.AddProviders(providersDTO, cancellationToken);
             return Ok();
         }
 
@@ -100,7 +88,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] IEnumerable<TagRequest> tags,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.AddRangeAsync(tags, cancellationToken);
+            var tagsDTO = _mapper.Map<IEnumerable<TagDTO>>(tags);
+            await _adminAddService.AddTags(tagsDTO, cancellationToken);
             return Ok();
         }
 
@@ -110,7 +99,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] GameRequest game,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.UpdateAsync(game, cancellationToken);
+            var gameDTO = _mapper.Map<GameDTO>(game);
+            await _adminUpdateService.UpdateGame(gameDTO, cancellationToken);
             return Ok();
         }
 
@@ -120,7 +110,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] ProviderRequest provider,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.UpdateAsync(provider, cancellationToken);
+            var providerDTO = _mapper.Map<ProviderDTO>(provider);
+            await _adminUpdateService.UpdateProvider(providerDTO, cancellationToken);
             return Ok();
         }
 
@@ -130,7 +121,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] CategoryRequest category,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.UpdateAsync(category, cancellationToken);
+            var categoryDTO = _mapper.Map<CategoryDTO>(category);
+            await _adminUpdateService.UpdateCategory(categoryDTO, cancellationToken);
             return Ok();
         }
 
@@ -140,7 +132,8 @@ namespace VirtualSports.Web.Controllers
             [FromBody] TagRequest tag,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.UpdateAsync(tag, cancellationToken);
+            var tagDTO = _mapper.Map<TagDTO>(tag);
+            await _adminUpdateService.UpdateTag(tagDTO, cancellationToken);
             return Ok();
         }
 
@@ -150,7 +143,7 @@ namespace VirtualSports.Web.Controllers
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.DeleteAsync<Game>(id, cancellationToken);
+            await _adminDeleteService.DeleteGame(id, cancellationToken);
             return Ok();
         }
 
@@ -160,7 +153,7 @@ namespace VirtualSports.Web.Controllers
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.DeleteAsync<Category>(id, cancellationToken);
+            await _adminDeleteService.DeleteCategory(id, cancellationToken);
             return Ok();
         }
 
@@ -170,7 +163,7 @@ namespace VirtualSports.Web.Controllers
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.DeleteAsync<Provider>(id, cancellationToken);
+            await _adminDeleteService.DeleteProvider(id, cancellationToken);
             return Ok();
         }
 
@@ -180,7 +173,7 @@ namespace VirtualSports.Web.Controllers
             [FromRoute] string id,
             CancellationToken cancellationToken)
         {
-            await _dbAdminService.DeleteAsync<Tag>(id, cancellationToken);
+            await _adminDeleteService.DeleteTag(id, cancellationToken);
             return Ok();
         }
     }
