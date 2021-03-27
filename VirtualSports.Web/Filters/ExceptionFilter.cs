@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using VirtualSports.Web.Models;
+using VirtualSports.Web.Contracts.ViewModels;
 
 namespace VirtualSports.Web.Filters
 {
@@ -39,6 +39,7 @@ namespace VirtualSports.Web.Filters
             };
 
             _logger.LogInformation($"Error {errorCode} occurred.\nMessage: {message}.");
+            _logger.LogInformation(context.Exception.ToString());
 
             context.Result = new JsonResult(new Error(errorCode, message));
             context.ExceptionHandled = true;

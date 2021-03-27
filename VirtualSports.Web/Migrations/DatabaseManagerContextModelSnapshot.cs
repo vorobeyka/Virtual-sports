@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using VirtualSports.Web.Contexts;
-using VirtualSports.Web.Models;
-using VirtualSports.Web.Models.DatabaseModels;
+using VirtualSports.DAL.Contexts;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.Web.Migrations
 {
@@ -21,25 +20,27 @@ namespace VirtualSports.Web.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("VirtualSports.Web.Models.DatabaseModels.Category", b =>
+            modelBuilder.Entity("VirtualSports.DAL.Entities.Category", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<List<string>>("PlatformTypes")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("PlatformTypes");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("VirtualSports.Web.Models.DatabaseModels.ExpSession", b =>
+            modelBuilder.Entity("VirtualSports.DAL.Entities.ExpSession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,37 +48,34 @@ namespace VirtualSports.Web.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Token")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Expired Sessions");
+                    b.ToTable("ExpiredSessions");
                 });
 
-            modelBuilder.Entity("VirtualSports.Web.Models.DatabaseModels.Game", b =>
+            modelBuilder.Entity("VirtualSports.DAL.Entities.Game", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<List<string>>("Categories")
-                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<List<string>>("PlatformTypes")
+                        .HasColumnType("text[]");
+
                     b.Property<string>("Provider")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<List<string>>("Tags")
-                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -85,31 +83,31 @@ namespace VirtualSports.Web.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("VirtualSports.Web.Models.DatabaseModels.Provider", b =>
+            modelBuilder.Entity("VirtualSports.DAL.Entities.Provider", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<List<string>>("PlatformTypes")
+                        .HasColumnType("text[]");
 
                     b.HasKey("Id");
 
                     b.ToTable("Providers");
                 });
 
-            modelBuilder.Entity("VirtualSports.Web.Models.DatabaseModels.Tag", b =>
+            modelBuilder.Entity("VirtualSports.DAL.Entities.Tag", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -117,33 +115,28 @@ namespace VirtualSports.Web.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("VirtualSports.Web.Models.DatabaseModels.User", b =>
+            modelBuilder.Entity("VirtualSports.DAL.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<Dictionary<PlatformType, List<Bet>>>("Bets")
-                        .IsRequired()
+                    b.Property<List<Bet>>("Bets")
                         .HasColumnType("jsonb")
                         .HasColumnName("Bets");
 
-                    b.Property<Dictionary<PlatformType, List<string>>>("FavouriteGameIds")
-                        .IsRequired()
+                    b.Property<List<string>>("FavouriteGameIds")
                         .HasColumnType("jsonb")
                         .HasColumnName("FavouriteGameIds");
 
                     b.Property<string>("Login")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Dictionary<PlatformType, Queue<string>>>("RecentGameIds")
-                        .IsRequired()
+                    b.Property<Dictionary<string, Queue<string>>>("RecentGameIds")
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
 

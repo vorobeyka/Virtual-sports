@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>VirtualSports.Web.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Authentication\" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.4" />
@@ -23,7 +25,21 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
 
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+
+    <PackageReference Include="Serilog" Version="2.10.0" />
+
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VirtualSports.BLL\VirtualSports.BLL.csproj" />
+    <ProjectReference Include="..\VirtualSports.DAL\VirtualSports.DAL.csproj" />
+    <ProjectReference Include="..\VirtualSports.Lib\VirtualSports.Lib.csproj" />
   </ItemGroup>
 
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Collections.Generic;
 using System.Linq;
+using VirtualSports.Lib.Models;
 
 namespace VirtualSports.Web.Filters
 {
@@ -9,25 +9,14 @@ namespace VirtualSports.Web.Filters
     {
         private static readonly string _headerName = "X-Platform";
 
-        private static IEnumerable<string> Platforms()
-        {
-            yield return "web-desktop";
-            yield return "web-mobile";
-            yield return "ios";
-            yield return "android";
-        }
-
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var request = context.HttpContext.Request;
             var platform = request.Headers[_headerName].FirstOrDefault().ToLower();
 
-            foreach (var i in Platforms())
+            if (AppTools.Platforms.Any(pl => pl == platform))
             {
-                if (i == platform)
-                {
-                    return;
-                }
+                return;
             }
 
             context.Result = new BadRequestObjectResult("Unsupported platform!");

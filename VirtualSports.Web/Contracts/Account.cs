@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VirtualSports.Web.Contracts
+namespace VirtualSports.Web.Contracts.ViewModels
 {
     /// <summary>
     /// User model.
@@ -14,7 +14,7 @@ namespace VirtualSports.Web.Contracts
         [StringLength(64, MinimumLength = 6, ErrorMessage = "Not valid email length")]
         [EmailAddress(ErrorMessage = "Not valid email address")]
         public string Login { get; set; }
-        
+
         /// <summary>
         /// User's password.
         /// </summary>
