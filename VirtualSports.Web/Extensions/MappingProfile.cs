@@ -29,6 +29,8 @@ namespace VirtualSports.BLL.Mappings
             CreateMap<TagDTO, Tag>();
             CreateMap<Tag, TagDTO>();
             CreateMap<TagDTO, TagView>();
+
+            CreateMap<RootDTO, RootView>();
         }
     }
 }
