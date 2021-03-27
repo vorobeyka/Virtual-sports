@@ -7,6 +7,9 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["VirtualSports.Web/VirtualSports.Web.csproj", "VirtualSports.Web/"]
+COPY ["VirtualSports.BLL/VirtualSports.BLL.csproj", "VirtualSports.BLL/"]
+COPY ["VirtualSports.DAL/VirtualSports.DAL.csproj", "VirtualSports.DAL/"]
+COPY ["VirtualSports.Lib/VirtualSports.Lib.csproj", "VirtualSports.Lib/"]
 RUN dotnet restore "VirtualSports.Web/VirtualSports.Web.csproj"
 COPY . .
 WORKDIR "/src/VirtualSports.Web"
