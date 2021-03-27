@@ -47,6 +47,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             return provider;
         }
 
+
         public async Task<CategoryDTO> GetCategoryAsync(string id, CancellationToken cancellationToken)
         {
             var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);

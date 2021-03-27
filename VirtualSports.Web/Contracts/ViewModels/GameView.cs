@@ -8,6 +8,7 @@ namespace VirtualSports.Web.Contracts.ViewModels
         public string DisplayName { get; set; }
         public string Url { get; set; }
         public string Provider { get; set; }
+        public string Image { get; set; }
         public List<string> Categories { get; set; }
         public List<string> Tags { get; set; }
     }

@@ -66,6 +66,9 @@ namespace VirtualSports.Web.Migrations
                     b.Property<string>("DisplayName")
                         .HasColumnType("text");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
                     b.Property<List<string>>("PlatformTypes")
                         .HasColumnType("text[]");
 

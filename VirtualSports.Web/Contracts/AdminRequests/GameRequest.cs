@@ -23,6 +23,10 @@ namespace VirtualSports.Web.Contracts.AdminContracts
         public string Provider { get; set; }
 
         [MinLength(1)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Empty provider.")]
+        public string Image { get; set; }
+
+        [MinLength(1)]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Empty category.")]
         public List<string> Categories { get; set; }
 
