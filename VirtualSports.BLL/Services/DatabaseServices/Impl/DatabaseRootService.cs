@@ -29,13 +29,14 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
                 .Where(category => category.PlatformTypes.Contains(platformType)).ToList();
             var providers = (await _dbContext.Providers.ToListAsync(cancellationToken))
                 .Where(provider => provider.PlatformTypes.Contains(platformType)).ToList();
+            var tags = (await _dbContext.Tags.ToListAsync(cancellationToken)).ToList();
 
             var root = new RootDTO
             {
-                Games = games,
-                Categories = categories,
-                Providers = providers,
-                Tags = await _dbContext.Tags.ToListAsync(cancellationToken)
+                Games = _mapper.Map<List<GameDTO>>(games),
+                Categories = _mapper.Map<List<CategoryDTO>>(categories),
+                Providers = _mapper.Map<List<ProviderDTO>>(providers),
+                Tags = _mapper.Map<List<TagDTO>>(tags)
             };
             return root;
         }
