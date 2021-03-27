@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using VirtualSports.Web.Services;
+using VirtualSports.BLL.Services;
 
 namespace VirtualSports.Web.Authentication
 {

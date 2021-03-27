@@ -5,13 +5,14 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtualSports.Web.Services.DatabaseServices;
-using VirtualSports.Web.Models;
-using VirtualSports.Web.Models.DatabaseModels;
-using VirtualSports.Web.Services;
-using VirtualSports.Web.Mappings;
-using VirtualSports.Web.Filters;
+using AutoMapper;
+using VirtualSports.BLL.Mappings;
+using VirtualSports.BLL.Services;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.Lib.Models;
 using VirtualSports.Web.Contracts;
+using VirtualSports.Web.Filters;
+using VirtualSports.Web.Contracts.ViewModels;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -31,11 +32,16 @@ namespace VirtualSports.Web.Controllers
         public string Platform { get; set; }
 
         private readonly ILogger<GamesController> _logger;
+        private readonly IMapper _mapper;
         private readonly IDatabaseRootService _dbRootService;
 
-        public GamesController(ILogger<GamesController> logger, IDatabaseRootService dbRootService)
+        public GamesController(
+            ILogger<GamesController> logger,
+            IMapper mapper,
+            IDatabaseRootService dbRootService)
         {
             _logger = logger;
+            _mapper = mapper;
             _dbRootService = dbRootService;
         }
 
@@ -45,16 +51,17 @@ namespace VirtualSports.Web.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(Root), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(RootView), (int)HttpStatusCode.OK)]
         [AllowAnonymous]
-        public async Task<ActionResult<Root>> GetAllData(CancellationToken cancellationToken)
+        public async Task<ActionResult<RootView>> GetAllData(CancellationToken cancellationToken)
         {
-            var data = await _dbRootService.GetRootAsync(cancellationToken);
-            return Ok(data);
+            var data = await _dbRootService.GetRootAsync(Platform, cancellationToken);
+
+            return Ok(_mapper.Map<RootView>(data));
         }
 
         /// <summary>
-        /// Play chosen game
+        /// Play chosen game.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <param name="gameId"></param>
@@ -64,31 +71,26 @@ namespace VirtualSports.Web.Controllers
         [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(Game), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Game>> PlayGame(CancellationToken cancellationToken,
-            [FromRoute] string gameId, [FromServices] IDatabaseUserService dbUserService)
+        [ProducesResponseType(typeof(GameView), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<GameView>> PlayGame(
+            CancellationToken cancellationToken,
+            [FromRoute] string gameId,
+            [FromServices] IDatabaseUserService dbUserService)
         {
-            var platformType = MapMethods.MapPlayformType(Platform);
-            var userLogin = HttpContext.User.Identity.Name;
+            var userLogin = HttpContext.User.Identity?.Name;
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
-            var isAdded = await dbUserService.TryAddRecentAsync(userLogin, gameId, platformType, cancellationToken);
-
-            if (!isAdded)
-            {
-                return NotFound("there is no game with such id in database or game is already in recent played list");
-            }
-            // maybe change into just OK();
-            return Ok(await _dbRootService.GetGameAsync(gameId, cancellationToken));
+            await dbUserService.AddRecentAsync(userLogin, gameId, Platform, cancellationToken);
+            var game = await _dbRootService.GetGameAsync(gameId, cancellationToken);
+            return Ok(_mapper.Map<GameView>(game));
         }
 
         /// <summary>
-        /// Throw dice
+        /// Throw dice.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <param name="dateTime"></param>
-        /// <param name="betType"></param>
+        /// <param name="diceBet"></param>
         /// <param name="dbUserService"></param>
         /// <param name="diceService"></param>
         /// <returns></returns>
@@ -96,29 +98,29 @@ namespace VirtualSports.Web.Controllers
         [TypeFilter(typeof(ValidatePlatformHeaderFilter))]
         [ProducesResponseType(typeof(Bet), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<Bet>> PlayDice(CancellationToken cancellationToken,
+        public async Task<ActionResult<Bet>> PlayDice(
+            CancellationToken cancellationToken,
             [FromBody] DiceBetValidationModel diceBet,
             [FromServices] IDatabaseUserService dbUserService,
             [FromServices] IDiceService diceService)
         {
-            var platformType = MapMethods.MapPlayformType(Platform);
-            var userLogin = HttpContext.User.Identity.Name;
+            var userLogin = HttpContext.User.Identity?.Name;
 
             if (string.IsNullOrEmpty(userLogin)) return BadRequest("Invalid user!");
 
             var diceRoll = new Random().Next(1, 7);
-            var result = await diceService.GetBetResultAsync(diceRoll, diceBet.BetType);
+            var result = await diceService.GetBetResultAsync(diceRoll, (BetType)diceBet.BetType);
             var bet = new Bet
             {
                 Id = Guid.NewGuid().ToString(),
-                BetType = diceBet.BetType,
+                BetType = (BetType)diceBet.BetType,
                 DroppedNumber = diceRoll,
                 IsBetWon = result,
                 DateTime = diceBet.DateTime
             };
             
-            await dbUserService.AddBetAsync(userLogin, bet, platformType, cancellationToken);
-            await dbUserService.TryAddRecentAsync(userLogin, "original_dice_game", platformType,
+            await dbUserService.AddBetAsync(userLogin, bet, Platform, cancellationToken);
+            await dbUserService.AddRecentAsync(userLogin, "original_dice_game", Platform,
                 cancellationToken);
 
             return Ok(bet);
