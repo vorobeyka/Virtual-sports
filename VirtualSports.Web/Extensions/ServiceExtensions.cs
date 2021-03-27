@@ -70,7 +70,7 @@ namespace VirtualSports.Web.Extensions
                         ValidateAudience = true,
                         ValidAudience = JwtOptions.Audience,
 
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
 
                         IssuerSigningKey = JwtOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true,
