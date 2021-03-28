@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿/*using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -92,3 +92,4 @@ namespace VirtualSports.Tests.Authorization.Tests
         }
     }
 }
+*/

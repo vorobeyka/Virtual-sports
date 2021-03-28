@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VirtualSports.BLL.Services;
 using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.Web.Contracts;
 using VirtualSports.Web.Contracts.ViewModels;
 using VirtualSports.Web.Filters;
 

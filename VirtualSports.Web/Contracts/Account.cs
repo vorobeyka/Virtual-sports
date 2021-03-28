@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VirtualSports.Web.Contracts.ViewModels
+namespace VirtualSports.Web.Contracts
 {
     /// <summary>
     /// User model.
