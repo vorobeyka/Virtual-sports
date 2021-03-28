@@ -126,7 +126,7 @@ namespace VirtualSports.Web.Controllers
         {
             var userLogin = HttpContext.User.Identity?.Name;
             await _dbUserService.DeleteFavouriteAsync(
-                userLogin, gameId, Platform, cancellationToken);
+                userLogin, gameId, cancellationToken);
 
             return Ok();
         }

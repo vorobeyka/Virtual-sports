@@ -16,6 +16,6 @@ namespace VirtualSports.BLL.Services.DatabaseServices
         Task<IEnumerable<GameDTO>> GetFavouritesAsync(string login, string platformType, CancellationToken cancellationToken);
         Task<IEnumerable<GameDTO>> GetRecommendedAsync(string login, string platformType, CancellationToken cancellationToken);
         Task<IEnumerable<Bet>> GetBetsStoryAsync(string login, CancellationToken cancellationToken);
-        Task DeleteFavouriteAsync(string login, string gameId, string platformType, CancellationToken cancellationToken);
+        Task DeleteFavouriteAsync(string login, string gameId, CancellationToken cancellationToken);
     }
 }
