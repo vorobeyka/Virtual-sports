@@ -14,20 +14,17 @@ using VirtualSports.DAL.Repositories.Interfaces;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
-    public class DatabaseUserService : IUserService
+    public class UserService : IUserService
     {
         private readonly DatabaseManagerContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IRepository<Game> _gameRepository;
         private readonly IUserRepository _userRepository;
 
-        public DatabaseUserService(
+        public UserService(
             DatabaseManagerContext dbContext,
             IMapper mapper,
             IRepository<Game> gameRepository,
-            IRepository<Provider> providerRepository,
-            IRepository<Category> categoryRepository,
-            IRepository<Tag> tagRepository,
             IUserRepository userRepository)
         {
             _dbContext = dbContext;

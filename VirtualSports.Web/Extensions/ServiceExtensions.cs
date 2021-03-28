@@ -28,12 +28,12 @@ namespace VirtualSports.Web.Extensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            services.AddScoped<RootService, RootService>();
-            services.AddScoped<AuthService, AuthService>();
+            services.AddScoped<IRootService, RootService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             //Add storage in memory.
             services.AddScoped<ISessionStorage, SessionStorageInMemory>();
-            services.AddScoped<IUserService, DatabaseUserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDiceService, DiceService>();
 
             //Add admin services.
