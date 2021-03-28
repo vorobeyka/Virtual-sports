@@ -7,6 +7,7 @@ using VirtualSports.BLL.Extensions;
 using VirtualSports.DAL.Contexts;
 using VirtualSports.BLL.Services;
 using Microsoft.EntityFrameworkCore;
+using VirtualSports.Web.Middleware;
 
 namespace VirtualSports.Web
 {
@@ -54,6 +55,8 @@ namespace VirtualSports.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<LoggingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
