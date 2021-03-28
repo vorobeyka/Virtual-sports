@@ -26,8 +26,6 @@ namespace VirtualSports.Web
         {
             services.AddServicesInMemory();
             
-
-            
             services.AddDatabaseServicesInMemory(Configuration);
             services.AddControllers();
         }
@@ -43,16 +41,16 @@ namespace VirtualSports.Web
                 });
             //}
 
-            app.UseRouting();
-
             app.UseCors(builder => builder
                 .WithOrigins(
-                "http://localhost:3000",
-                "https://virtual-sports.github.io",
-                "http://localhost:5000",
-                "https://virtual-sports-yi3j9.ondigitalocean.app")
+                    "https://virtual-sports.github.io",
+                    "http://localhost:3000",
+                    "http://localhost:5000",
+                    "https://virtual-sports-yi3j9.ondigitalocean.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod());
+
+            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
