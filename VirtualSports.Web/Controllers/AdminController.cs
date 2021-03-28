@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Services.AdminServices;
-using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.Web.Contracts.AdminContracts;
 using VirtualSports.Web.Filters;
-using System.Linq;
-using VirtualSports.BLL.Mappings;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -93,7 +90,7 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update/game")]
         public async Task<IActionResult> UpdateGame(
             [FromBody] GameRequest game,
@@ -104,7 +101,7 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update/provider")]
         public async Task<IActionResult> UpdateProvider(
             [FromBody] ProviderRequest provider,
@@ -115,7 +112,7 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update/category")]
         public async Task<IActionResult> UpdateCategory(
             [FromBody] CategoryRequest category,
@@ -126,7 +123,7 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update/tag")]
         public async Task<IActionResult> UpdateTag(
             [FromBody] TagRequest tag,
