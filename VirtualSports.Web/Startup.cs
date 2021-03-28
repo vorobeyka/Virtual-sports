@@ -48,6 +48,7 @@ namespace VirtualSports.Web
             app.UseCors(builder => builder
                 .WithOrigins(
                 "http://localhost:3000",
+                "https://virtual-sports.github.io/Web/",
                 "http://localhost:5000",
                 "https://virtual-sports-yi3j9.ondigitalocean.app")
                 .AllowAnyMethod()
