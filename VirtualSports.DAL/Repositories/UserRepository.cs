@@ -37,14 +37,30 @@ namespace VirtualSports.DAL.Repositories
 
         public async Task AddGameToRecentAsync(string login, string platform, Game game, CancellationToken cancellationToken)
         {
+            /*var user = await GetAsync(login, cancellationToken);
+            user.RecentGames[platform].Add(game);*/
             var user = await GetAsync(login, cancellationToken);
-            user.RecentGames[platform].Add(game);
+            var recentGames = user.RecentGames[platform];
+            var existedGame = recentGames.FirstOrDefault(g => g.Id == game.Id);
+
+            if (existedGame != null)
+            {
+                recentGames.Remove(existedGame);
+            }
+            else if (recentGames.Count >= 4)
+            {
+                recentGames.Remove(recentGames.ElementAt(0));
+            }
+            recentGames.Add(game);
+
+            _dbContext.Users.Update(user);
             await UpdateAsync(user, cancellationToken);
         }
 
-        public async Task DeleteFromFavouriteAsync(string login, Game game, string platform, CancellationToken cancellationToken)
+        public async Task DeleteFromFavouriteAsync(string login, string gameId, CancellationToken cancellationToken)
         {
             var user = await GetAsync(login, cancellationToken);
+            var game = user.FavouriteGames.FirstOrDefault(g => g.Id == gameId);
             user.FavouriteGames.Remove(game);
             await UpdateAsync(user, cancellationToken);
         }

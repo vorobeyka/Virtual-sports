@@ -18,6 +18,6 @@ namespace VirtualSports.DAL.Repositories.Interfaces
         Task<IEnumerable<Game>> GetRecentAsync(string login, string platform, CancellationToken cancellationToken);
         Task<IEnumerable<Game>> GetRecommendedAsync(string login, string platform, CancellationToken cancellationToken);
         Task<IEnumerable<Bet>> GetBetsStoryAsync(string login, CancellationToken cancellationToken);
-        Task DeleteFromFavouriteAsync(string login, Game game, string platform, CancellationToken cancellationToken);
+        Task DeleteFromFavouriteAsync(string login, string gameId, CancellationToken cancellationToken);
     }
 }
