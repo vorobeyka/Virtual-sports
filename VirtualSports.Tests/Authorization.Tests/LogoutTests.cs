@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿/*using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,4 +66,4 @@ namespace VirtualSports.Tests.Authorization.Tests
             Assert.IsType<OkResult>(result);
         }
     }
-}
+}*/
