@@ -45,7 +45,6 @@ namespace VirtualSports.Web.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        [AllowAnonymous]
         [Route("favourites")]
         [ProducesResponseType(typeof(IEnumerable<GameView>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
