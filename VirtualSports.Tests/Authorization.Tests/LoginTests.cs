@@ -1,12 +1,12 @@
-﻿/*using System.Threading;
+﻿using VirtualSports.BLL.Services;
+using VirtualSports.BLL.Services.DatabaseServices;
+using VirtualSports.Web.Contracts;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using VirtualSports.Web.Controllers;
-using VirtualSports.Web.Models;
-using VirtualSports.Web.Services;
-using VirtualSports.Web.Services.DatabaseServices;
 using Xunit;
 
 namespace VirtualSports.Tests.Authorization.Tests
@@ -92,4 +92,3 @@ namespace VirtualSports.Tests.Authorization.Tests
         }
     }
 }
-*/
