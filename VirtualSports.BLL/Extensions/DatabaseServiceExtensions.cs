@@ -19,6 +19,7 @@ namespace VirtualSports.BLL.Extensions
 
             services.AddHostedService<MigrationsService>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IUserRepository, UserRepository>();
 
             return services;
         }

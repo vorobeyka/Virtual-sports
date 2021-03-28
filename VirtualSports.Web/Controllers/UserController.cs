@@ -11,6 +11,7 @@ using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.Lib.Models;
 using VirtualSports.Web.Contracts.ViewModels;
 using VirtualSports.Web.Filters;
+using AutoMapper;
 
 namespace VirtualSports.Web.Controllers
 {
@@ -31,12 +32,17 @@ namespace VirtualSports.Web.Controllers
         public string Platform { get; set; }
 
         private readonly ILogger<UserController> _logger;
-        private readonly IDatabaseUserService _dbUserService;
+        private readonly UserService _dbUserService;
+        private readonly IMapper _mapper;
 
-        public UserController(ILogger<UserController> logger, IDatabaseUserService dbUserService)
+        public UserController(
+            ILogger<UserController> logger,
+            UserService dbUserService,
+            IMapper mapper)
         {
             _logger = logger;
             _dbUserService = dbUserService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -52,7 +58,8 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<IEnumerable<GameView>>> GetFavourites(CancellationToken cancellationToken)
         {
             var userLogin = HttpContext.User.Identity?.Name;
-            var favouriteGames = await _dbUserService.GetFavouritesAsync(userLogin, Platform, cancellationToken);
+            var favouriteGamesDTO = await _dbUserService.GetFavouritesAsync(userLogin, Platform, cancellationToken);
+            var favouriteGames = _mapper.Map<IEnumerable<GameView>>(favouriteGamesDTO);
 
             return favouriteGames == null ? NotFound() : Ok(favouriteGames);
         }
@@ -70,7 +77,8 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<IEnumerable<GameView>>> GetRecent(CancellationToken cancellationToken)
         {
             var userLogin = HttpContext.User.Identity?.Name;
-            var recentGames = await _dbUserService.GetRecentAsync(userLogin, Platform, cancellationToken);
+            var recentGamesDTO = await _dbUserService.GetRecentAsync(userLogin, Platform, cancellationToken);
+            var recentGames = _mapper.Map<IEnumerable<GameView>>(recentGamesDTO);
 
             return recentGames == null ? NotFound() : Ok(recentGames.Take(4));
         }
@@ -83,8 +91,10 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<IEnumerable<GameView>>> GetRecommended(CancellationToken cancellationToken)
         {
             var userLogin = HttpContext.User.Identity?.Name;
-            var recomendedGames = await _dbUserService.GetRecommendedAsync(userLogin, Platform, cancellationToken);
-            return Ok(recomendedGames);
+            var recommendedGamesDTO = await _dbUserService.GetRecommendedAsync(userLogin, Platform, cancellationToken);
+            var recommendedGames = _mapper.Map<IEnumerable<GameView>>(recommendedGamesDTO);
+
+            return Ok(recommendedGames);
         }
 
         /// <summary>
@@ -133,7 +143,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<IActionResult> GetBetHistory(CancellationToken cancellationToken)
         {
             var userLogin = HttpContext.User.Identity?.Name;
-            var history = await _dbUserService.GetBetsStoryAsync(userLogin, Platform, cancellationToken);
+            var history = await _dbUserService.GetBetsStoryAsync(userLogin, cancellationToken);
 
             return Ok(history.Take(100).ToList() ?? new List<Bet>());
         }

@@ -4,7 +4,7 @@ using VirtualSports.BLL.DTO;
 
 namespace VirtualSports.BLL.Services.DatabaseServices
 {
-    public interface IDatabaseRootService
+    public interface RootService
     {
         Task<RootDTO> GetRootAsync(string platformType, CancellationToken cancellationToken);
         public Task<GameDTO> GetGameAsync(string id, CancellationToken cancellationToken);

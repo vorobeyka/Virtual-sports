@@ -38,7 +38,7 @@ namespace VirtualSports.Tests.Authorization.Tests
         {
             //Arrange
             
-            var dbAuthService = new DatabaseAuthService(_context);
+            var dbAuthService = new AuthService(_context);
             var login = "test@gmail.com";
 
             //Act

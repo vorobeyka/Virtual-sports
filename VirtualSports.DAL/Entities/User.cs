@@ -13,9 +13,9 @@ namespace VirtualSports.DAL.Entities
         public string Login { get; set; }
         public string PasswordHash { get; set; }
         [Column("FavouriteGameIds", TypeName = "jsonb")]
-        public List<Game> FavouriteGameIds { get; set; }
+        public List<Game> FavouriteGames { get; set; }
         [Column("RecentGameIds", TypeName = "jsonb")]
-        public Dictionary<string, List<Game>> RecentGameIds { get; set; }
+        public Dictionary<string, List<Game>> RecentGames { get; set; }
         [Column("Bets", TypeName = "jsonb")]
         public List<Bet> Bets { get; set; }
     }

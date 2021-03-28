@@ -12,7 +12,7 @@ using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
-    public class DatabaseRootService : IDatabaseRootService
+    public class RootService : DatabaseServices.RootService
     {
         private readonly IMapper _mapper;
         private readonly IRepository<Game> _gameRepository;
@@ -20,7 +20,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Tag> _tagRepository;
 
-        public DatabaseRootService(
+        public RootService(
             IMapper mapper,
             IRepository<Game> gameRepository,
             IRepository<Provider> providerRepository,
