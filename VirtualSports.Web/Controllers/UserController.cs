@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.Lib.Models;
 using VirtualSports.Web.Contracts.ViewModels;
@@ -43,6 +44,7 @@ namespace VirtualSports.Web.Controllers
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        [DisableCors]
         [HttpGet]
         [Route("favourites")]
         [ProducesResponseType(typeof(IEnumerable<GameView>), (int)HttpStatusCode.OK)]
