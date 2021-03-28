@@ -35,13 +35,13 @@ namespace VirtualSports.Web.Filters
                 603 => "Error occurred during authentication",
                 604 => "Error with Http Request",
                 605 => "Such id was used already",
-                606 => "Something went wrong"
+                606 => context.Exception.Message
             };
 
-            _logger.LogInformation($"Error {errorCode} occurred.\nMessage: {message}.");
-            _logger.LogInformation(context.Exception.ToString());
+            _logger.LogError($"Error {errorCode} occurred.\nMessage: {message}.");
+            _logger.LogError(context.Exception.ToString());
 
-            context.Result = new JsonResult(new Error(errorCode, message));
+            context.Result = new JsonResult(new Error(errorCode, message)) { StatusCode = 400 };
             context.ExceptionHandled = true;
         }
     }
