@@ -34,13 +34,18 @@ namespace VirtualSports.Web.Authentication
         {
             var authHeader = Request.Headers[HeaderNames.Authorization].FirstOrDefault();
             if (authHeader == null) return Task.FromResult(AuthenticateResult.NoResult());
-            var token = authHeader.Split(' ')[1];
+            var headerArray = authHeader.Split(' ');
 
+            if (headerArray.Length != 2 || headerArray[0] != "Bearer")
+                return Task.FromResult(AuthenticateResult.NoResult());
+
+            var token = headerArray[1];
             if (_storage.Contains(token)) return Task.FromResult(AuthenticateResult.NoResult());
-            var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            var login = securityToken.Claims.ToList()[0].Value;
+            
             try
             {
+                var securityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+                var login = securityToken.Claims.ToList()[0].Value;
                 var identity = new ClaimsIdentity(
                     new[] {new Claim(ClaimTypes.Name, login)},
                     Scheme.Name);
