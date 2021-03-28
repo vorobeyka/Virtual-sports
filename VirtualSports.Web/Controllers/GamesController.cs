@@ -33,12 +33,12 @@ namespace VirtualSports.Web.Controllers
 
         private readonly ILogger<GamesController> _logger;
         private readonly IMapper _mapper;
-        private readonly IDatabaseRootService _dbRootService;
+        private readonly RootService _dbRootService;
 
         public GamesController(
             ILogger<GamesController> logger,
             IMapper mapper,
-            IDatabaseRootService dbRootService)
+            RootService dbRootService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -75,7 +75,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<GameView>> PlayGame(
             CancellationToken cancellationToken,
             [FromRoute] string gameId,
-            [FromServices] IDatabaseUserService dbUserService)
+            [FromServices] UserService dbUserService)
         {
             var userLogin = HttpContext.User.Identity?.Name;
 
@@ -101,7 +101,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<Bet>> PlayDice(
             CancellationToken cancellationToken,
             [FromBody] DiceBetValidationModel diceBet,
-            [FromServices] IDatabaseUserService dbUserService,
+            [FromServices] UserService dbUserService,
             [FromServices] IDiceService diceService)
         {
             var userLogin = HttpContext.User.Identity?.Name;
@@ -119,7 +119,7 @@ namespace VirtualSports.Web.Controllers
                 DateTime = diceBet.DateTime
             };
             
-            await dbUserService.AddBetAsync(userLogin, bet, Platform, cancellationToken);
+            await dbUserService.AddBetAsync(userLogin, bet, cancellationToken);
             await dbUserService.AddRecentAsync(userLogin, "original_dice_game", Platform,
                 cancellationToken);
 

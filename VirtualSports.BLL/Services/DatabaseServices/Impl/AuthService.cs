@@ -16,12 +16,12 @@ using VirtualSports.Web.Options;
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
     /// <inheritdoc />
-    public class DatabaseAuthService : IDatabaseAuthService
+    public class AuthService : DatabaseServices.AuthService
     {
         private readonly DatabaseManagerContext _dbContext;
 
 #pragma warning disable 1591
-        public DatabaseAuthService(DatabaseManagerContext dbContext)
+        public AuthService(DatabaseManagerContext dbContext)
 #pragma warning restore 1591
         {
             _dbContext = dbContext;
@@ -63,13 +63,13 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             {
                 Login = login,
                 PasswordHash = GetPasswordHash(password),
-                FavouriteGameIds = new List<string>(),
-                RecentGameIds = new Dictionary<string, Queue<string>>(),
+                FavouriteGames = new List<Game>(),
+                RecentGames = new Dictionary<string, List<Game>>(),
                 Bets = new List<Bet>()
             };
             foreach (var i in AppTools.Platforms)
             {
-                user.RecentGameIds.Add(i, new Queue<string>());
+                user.RecentGames.Add(i.ToLower(), new List<Game>());
             }
             return user;
         }

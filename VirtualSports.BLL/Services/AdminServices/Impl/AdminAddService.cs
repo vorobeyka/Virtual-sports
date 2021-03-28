@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using VirtualSports.BLL.DTO;
+using VirtualSports.BLL.Exceptions;
 using VirtualSports.DAL.Entities;
 using VirtualSports.DAL.Repositories.Interfaces;
 
@@ -15,30 +18,26 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Provider> _providerRepository;
         private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Tag> _tagProvider;
+        private readonly IRepository<Tag> _tagRepository;
 
         public AdminAddService(
             IMapper mapper,
             IRepository<Game> gameRepository,
             IRepository<Provider> providerRepository,
             IRepository<Category> categoryRepository,
-            IRepository<Tag> tagProvider)
+            IRepository<Tag> tagProvider,
+            ILogger<AdminAddService> logger)
         {
             _mapper = mapper;
             _gameRepository = gameRepository;
             _providerRepository = providerRepository;
             _categoryRepository = categoryRepository;
-            _tagProvider = tagProvider;
+            _tagRepository = tagProvider;
         }
 
         public async Task AddGames(IEnumerable<GameDTO> gamesDTO, CancellationToken cancellationToken)
         {
-            /*var categoriesInGames = gamesDTO.Select(g => g.Categories);
-            var providersInGames = gamesDTO.Select(g => g.Provider);
-            var tagsInGames = gamesDTO.Select(g => g.Tags);
-            var categories = await _categoryRepository.GetAllAsync(cancellationToken);
-            var providers = await _providerRepository.GetAllAsync(cancellationToken);
-            var tags = await _tagProvider.GetAllAsync(cancellationToken);*/
+            await CheckGamesProperties(gamesDTO, cancellationToken);
 
             var games = _mapper.Map<IEnumerable<Game>>(gamesDTO);
             await _gameRepository.AddRangeAsync(games, cancellationToken);
@@ -59,7 +58,28 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         public async Task AddTags(IEnumerable<TagDTO> tagsDTO, CancellationToken cancellationToken)
         {
             var tags = _mapper.Map<IEnumerable<Tag>>(tagsDTO);
-            await _tagProvider.AddRangeAsync(tags, cancellationToken);
+            await _tagRepository.AddRangeAsync(tags, cancellationToken);
+        }
+
+        private async Task CheckGamesProperties(IEnumerable<GameDTO> gamesDTO, CancellationToken cancellationToken)
+        {
+            var categories = (await _categoryRepository.GetAllAsync(cancellationToken))
+                .Select(c => c.Id);
+            var providers = (await _providerRepository.GetAllAsync(cancellationToken))
+                .Select(p => p.Id);
+            var tags = (await _tagRepository.GetAllAsync(cancellationToken))
+                .Select(t => t.Id);
+
+            foreach (var game in gamesDTO)
+            {
+                if (!providers.Any(p => p == game.Provider)) throw new NotExistedProviderException(game.Provider);
+
+                var notExistedCategory = game.Categories.FirstOrDefault(cg => categories.All(c => c != cg));
+                if (notExistedCategory != null) throw new NotExistedCategoryException(notExistedCategory);
+
+                var notExistedTag = game.Tags.FirstOrDefault(tg => tags.All(t => t != tg));
+                if (notExistedTag != null) throw new NotExistedTagException(notExistedTag);
+            }
         }
     }
 }

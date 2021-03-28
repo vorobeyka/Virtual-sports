@@ -21,7 +21,7 @@ namespace VirtualSports.Web.Controllers
     public class AuthController : Controller
     {
         private readonly ILogger<AuthController> _logger;
-        private readonly IDatabaseAuthService _dbAuthService;
+        private readonly AuthService _dbAuthService;
         private readonly ISessionStorage _sessionStorage;
         
         /// <summary>
@@ -29,7 +29,7 @@ namespace VirtualSports.Web.Controllers
         /// </summary>
         public AuthController(
             ILogger<AuthController> logger,
-            IDatabaseAuthService dbAuthService,
+            AuthService dbAuthService,
             ISessionStorage sessionStorage)
         {
             _logger = logger;
