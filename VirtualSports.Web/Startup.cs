@@ -51,8 +51,8 @@ namespace VirtualSports.Web
                 "https://virtual-sports.github.io",
                 "http://localhost:5000",
                 "https://virtual-sports-yi3j9.ondigitalocean.app")
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
             app.UseAuthentication();
             app.UseAuthorization();
