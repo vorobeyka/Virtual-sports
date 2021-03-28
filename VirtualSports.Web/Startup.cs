@@ -48,7 +48,9 @@ namespace VirtualSports.Web
                     "http://localhost:5000",
                     "https://virtual-sports-yi3j9.ondigitalocean.app")
                 .AllowAnyHeader()
-                .AllowAnyMethod());
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .Build());
 
             app.UseRouting();
 
