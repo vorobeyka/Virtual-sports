@@ -47,11 +47,10 @@ namespace VirtualSports.Web
                     "https://virtual-sports.github.io",
                     "http://localhost:3000",
                     "http://localhost:5000",
-                    "https://virtual-sports-yi3j9.ondigitalocean.app")
+                    "https://virtual-sports-yi3j9.ondigitalocean.app",
+                    "https://virtual-sports.github.io/Web")
                 .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .Build());
+                .AllowAnyMethod());
 
             app.UseRouting();
 
