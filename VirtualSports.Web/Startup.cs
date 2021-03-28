@@ -25,9 +25,9 @@ namespace VirtualSports.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDatabaseServicesInMemory(Configuration);
             services.AddServicesInMemory();
             
-            services.AddDatabaseServicesInMemory(Configuration);
             services.AddControllers();
         }
 
