@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,11 +47,10 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var user = await GetUserAsync(login, cancellationToken);
             var recentGames = user.RecentGameIds[platformType];
 
-            if (recentGames.Count >= 4)
-            {
-                recentGames.Dequeue();
-            }
-            recentGames.Enqueue(gameId);
+            if (recentGames.Contains(gameId)) recentGames.Remove(gameId);
+            if (recentGames.Count > 4) recentGames.Remove(recentGames.ElementAt(4));
+            recentGames.Add(gameId);
+
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
@@ -107,7 +107,6 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             var recommendedGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(recommendedGames);
             return recommendedGamesDTO;
         }
-
 
         public async Task<IEnumerable<Bet>> GetBetsStoryAsync(
             string login,

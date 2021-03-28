@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.Lib.Models;
 
-namespace VirtualSports.Web.Migrations
+namespace VirtualSports.DAL.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -37,24 +37,6 @@ namespace VirtualSports.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    DisplayName = table.Column<string>(type: "text", nullable: true),
-                    Url = table.Column<string>(type: "text", nullable: true),
-                    Provider = table.Column<string>(type: "text", nullable: true),
-                    Image = table.Column<string>(type: "text", nullable: true),
-                    Categories = table.Column<List<string>>(type: "text[]", nullable: true),
-                    Tags = table.Column<List<string>>(type: "text[]", nullable: true),
-                    PlatformTypes = table.Column<List<string>>(type: "text[]", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Games", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Providers",
                 columns: table => new
                 {
@@ -84,18 +66,45 @@ namespace VirtualSports.Web.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "text", nullable: true),
+                    Login = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: true),
                     FavouriteGameIds = table.Column<List<string>>(type: "jsonb", nullable: true),
-                    RecentGameIds = table.Column<Dictionary<string, Queue<string>>>(type: "jsonb", nullable: true),
+                    RecentGameIds = table.Column<Dictionary<string, List<string>>>(type: "jsonb", nullable: true),
                     Bets = table.Column<List<Bet>>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Login);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Games",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: true),
+                    Url = table.Column<string>(type: "text", nullable: true),
+                    Provider = table.Column<string>(type: "text", nullable: true),
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    Categories = table.Column<List<string>>(type: "text[]", nullable: true),
+                    Tags = table.Column<List<string>>(type: "text[]", nullable: true),
+                    PlatformTypes = table.Column<List<string>>(type: "text[]", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Games", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Games_Providers_Provider",
+                        column: x => x.Provider,
+                        principalTable: "Providers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Games_Provider",
+                table: "Games",
+                column: "Provider");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -110,13 +119,13 @@ namespace VirtualSports.Web.Migrations
                 name: "Games");
 
             migrationBuilder.DropTable(
-                name: "Providers");
-
-            migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Providers");
         }
     }
 }

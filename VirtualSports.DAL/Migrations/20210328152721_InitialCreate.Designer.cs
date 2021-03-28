@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.DAL.Contexts;
 using VirtualSports.Lib.Models;
 
-namespace VirtualSports.Web.Migrations
+namespace VirtualSports.DAL.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    partial class DatabaseManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20210328152721_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,6 +85,8 @@ namespace VirtualSports.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Provider");
+
                     b.ToTable("Games");
                 });
 
@@ -120,10 +124,9 @@ namespace VirtualSports.Web.Migrations
 
             modelBuilder.Entity("VirtualSports.DAL.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Login")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("text");
 
                     b.Property<List<Bet>>("Bets")
                         .HasColumnType("jsonb")
@@ -133,19 +136,30 @@ namespace VirtualSports.Web.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("FavouriteGameIds");
 
-                    b.Property<string>("Login")
-                        .HasColumnType("text");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
-                    b.Property<Dictionary<string, Queue<string>>>("RecentGameIds")
+                    b.Property<Dictionary<string, List<string>>>("RecentGameIds")
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
 
-                    b.HasKey("Id");
+                    b.HasKey("Login");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("VirtualSports.DAL.Entities.Game", b =>
+                {
+                    b.HasOne("VirtualSports.DAL.Entities.Provider", "ProviderInstance")
+                        .WithMany("Games")
+                        .HasForeignKey("Provider");
+
+                    b.Navigation("ProviderInstance");
+                });
+
+            modelBuilder.Entity("VirtualSports.DAL.Entities.Provider", b =>
+                {
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

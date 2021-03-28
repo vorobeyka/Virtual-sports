@@ -16,6 +16,7 @@ namespace VirtualSports.Web.Filters
 
             if (AppTools.Platforms.Any(pl => pl == platform))
             {
+                request.Headers[_headerName] = platform;
                 return;
             }
 

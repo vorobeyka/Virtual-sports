@@ -6,30 +6,44 @@ using System.Threading;
 using System.Threading.Tasks;
 using VirtualSports.BLL.DTO;
 using VirtualSports.DAL.Contexts;
+using VirtualSports.DAL.Entities;
+using VirtualSports.DAL.Repositories.Interfaces;
 using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
     public class DatabaseRootService : IDatabaseRootService
     {
-        private readonly DatabaseManagerContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IRepository<Game> _gameRepository;
+        private readonly IRepository<Provider> _providerRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Tag> _tagRepository;
 
-        public DatabaseRootService(DatabaseManagerContext dbContext, IMapper mapper)
+        public DatabaseRootService(
+            IMapper mapper,
+            IRepository<Game> gameRepository,
+            IRepository<Provider> providerRepository,
+            IRepository<Category> categoryRepository,
+            IRepository<Tag> tagRepository)
+
         {
-            _dbContext = dbContext;
             _mapper = mapper;
+            _gameRepository = gameRepository;
+            _providerRepository = providerRepository;
+            _categoryRepository = categoryRepository;
+            _tagRepository = tagRepository;
         }
 
         public async Task<RootDTO> GetRootAsync(string platformType, CancellationToken cancellationToken)
         {
-            var games = (await _dbContext.Games.ToListAsync(cancellationToken))
-                .Where(game => game.PlatformTypes.Contains(platformType)).ToList();
-            var categories = (await _dbContext.Categories.ToListAsync(cancellationToken))
-                .Where(category => category.PlatformTypes.Contains(platformType)).ToList();
-            var providers = (await _dbContext.Providers.ToListAsync(cancellationToken))
-                .Where(provider => provider.PlatformTypes.Contains(platformType)).ToList();
-            var tags = (await _dbContext.Tags.ToListAsync(cancellationToken)).ToList();
+            var games = (await _gameRepository.GetAllAsync(cancellationToken))
+                .Where(game => game.PlatformTypes.Contains(platformType));
+            var providers = (await _providerRepository.GetAllAsync(cancellationToken))
+                .Where(provider => provider.PlatformTypes.Contains(platformType));
+            var categories = (await _categoryRepository.GetAllAsync(cancellationToken))
+                .Where(category => category.PlatformTypes.Contains(platformType));
+            var tags = await _tagRepository.GetAllAsync(cancellationToken);
 
             var root = new RootDTO
             {
@@ -41,32 +55,9 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             return root;
         }
 
-        /*public async Task<ProviderDTO> GetProviderAsync(string id, CancellationToken cancellationToken)
-        {
-            var provider = await _dbContext.Providers.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
-            return provider;
-        }
-
-
-        public async Task<CategoryDTO> GetCategoryAsync(string id, CancellationToken cancellationToken)
-        {
-            var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
-            return category;
-        }
-        public async Task<IEnumerable<GameDTO>> GetGamesAsync(List<string> ids, CancellationToken cancellationToken)
-        {
-            var games = await _dbContext.Games
-                .Where(game => ids.Any(id => id == game.Id))
-                .ToListAsync(cancellationToken);
-            var gamesDTO = _mapper.Map<IEnumerable<GameDTO>>(games);
-            return gamesDTO;
-        }
-
-        */
-
         public async Task<GameDTO> GetGameAsync(string id, CancellationToken cancellationToken)
         {
-            var game = await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == id, cancellationToken);
+            var game = await _gameRepository.GetAsync(id, cancellationToken);
             return _mapper.Map<GameDTO>(game);
         }
     }

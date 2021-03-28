@@ -20,22 +20,28 @@ namespace VirtualSports.Web.Filters
 
         public void OnException(ExceptionContext context)
         {
-
             var errorCode = context.Exception.GetType().Name switch
             {
                 "ArgumentException" => 602,
                 "AuthenticationException" => 603,
                 "HttpRequestException" => 604,
                 "DbUpdateException" => 605,
-                _ => 606
+                "NotExistedProviderException" => 606,
+                "NotExistedCategoryException" => 607,
+                "NotExistedTagException" => 608,
+                _ => 699
             };
+            var errorMessage = context.Exception.Message;
             var message = errorCode switch
             {
-                602 => "Wrong arguments",
-                603 => "Error occurred during authentication",
-                604 => "Error with Http Request",
-                605 => "Such id was used already",
-                606 => context.Exception.Message
+                602 => "Wrong arguments.",
+                603 => "Error occurred during authentication.",
+                604 => "Error with Http Request.",
+                605 => "Such id was used already.",
+                606 => $"Provider with id '{errorMessage}' doesn't exist.",
+                607 => $"Category with id '{errorMessage}' doesn't exist.",
+                608 => $"Tag with id '{errorMessage}' doesn't exist.",
+                _ => context.Exception.Message
             };
 
             _logger.LogError($"Error {errorCode} occurred.\nMessage: {message}.");

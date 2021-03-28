@@ -12,7 +12,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Provider> _providerRepository;
         private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Tag> _tagProvider;
+        private readonly IRepository<Tag> _tagRepository;
 
         public AdminDeleteService(
             IRepository<Game> gameRepository,
@@ -23,7 +23,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             _gameRepository = gameRepository;
             _providerRepository = providerRepository;
             _categoryRepository = categoryRepository;
-            _tagProvider = tagProvider;
+            _tagRepository = tagProvider;
         }
 
         public async Task DeleteCategory(string id, CancellationToken cancellationToken)
@@ -46,8 +46,8 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
 
         public async Task DeleteTag(string id, CancellationToken cancellationToken)
         {
-            var tag = await _tagProvider.GetAsync(id, cancellationToken);
-            await _tagProvider.DeleteAsync(tag, cancellationToken);
+            var tag = await _tagRepository.GetAsync(id, cancellationToken);
+            await _tagRepository.DeleteAsync(tag, cancellationToken);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace VirtualSports.BLL.Extensions
             //Add database and migration services.
             services.AddDbContext<DatabaseManagerContext>(
                 options => options.UseNpgsql(configuration.GetConnectionString("DatabaseManagerContext"),
-                options => options.MigrationsAssembly("VirtualSports.Web")));
+                options => options.MigrationsAssembly("VirtualSports.DAL")));
 
             services.AddHostedService<MigrationsService>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));

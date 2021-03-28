@@ -54,7 +54,6 @@ namespace VirtualSports.Web.Authentication
                 Logger.LogError(e, "Auth error");
                 return Task.FromResult(AuthenticateResult.Fail(e));
             }
-            
         }
     }
 }

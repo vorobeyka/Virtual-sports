@@ -14,20 +14,20 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Provider> _providerRepository;
         private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Tag> _tagProvider;
+        private readonly IRepository<Tag> _tagRepository;
 
         public AdminUpdateService(
             IMapper mapper,
             IRepository<Game> gameRepository,
             IRepository<Provider> providerRepository,
             IRepository<Category> categoryRepository,
-            IRepository<Tag> tagProvider)
+            IRepository<Tag> tagRepository)
         {
             _mapper = mapper;
             _gameRepository = gameRepository;
             _providerRepository = providerRepository;
             _categoryRepository = categoryRepository;
-            _tagProvider = tagProvider;
+            _tagRepository = tagRepository;
         }
 
         public async Task UpdateGame(GameDTO gameDTO, CancellationToken cancellationToken = default)
@@ -51,7 +51,7 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
         public async Task UpdateTag(TagDTO tagDTO, CancellationToken cancellationToken = default)
         {
             var tag = _mapper.Map<Tag>(tagDTO);
-            await _tagProvider.UpdateAsync(tag, cancellationToken);
+            await _tagRepository.UpdateAsync(tag, cancellationToken);
         }
     }
 }
