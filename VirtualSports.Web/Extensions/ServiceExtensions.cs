@@ -33,7 +33,7 @@ namespace VirtualSports.Web.Extensions
 
             //Add storage in memory.
             services.AddScoped<ISessionStorage, SessionStorageInMemory>();
-            services.AddScoped<UserService, DatabaseUserService>();
+            services.AddScoped<IUserService, DatabaseUserService>();
             services.AddScoped<IDiceService, DiceService>();
 
             //Add admin services.

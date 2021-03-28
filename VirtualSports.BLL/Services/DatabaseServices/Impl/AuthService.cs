@@ -16,7 +16,7 @@ using VirtualSports.Web.Options;
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
     /// <inheritdoc />
-    public class AuthService : DatabaseServices.AuthService
+    public class AuthService : IAuthService
     {
         private readonly DatabaseManagerContext _dbContext;
 

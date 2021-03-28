@@ -14,7 +14,7 @@ using VirtualSports.DAL.Repositories.Interfaces;
 
 namespace VirtualSports.BLL.Services.DatabaseServices.Impl
 {
-    public class DatabaseUserService : UserService
+    public class DatabaseUserService : IUserService
     {
         private readonly DatabaseManagerContext _dbContext;
         private readonly IMapper _mapper;
