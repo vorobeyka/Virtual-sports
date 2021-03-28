@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using VirtualSports.DAL.Entities;
 using VirtualSports.Lib.Models;
 
 namespace VirtualSports.DAL.Migrations
@@ -68,8 +69,8 @@ namespace VirtualSports.DAL.Migrations
                 {
                     Login = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    FavouriteGameIds = table.Column<List<string>>(type: "jsonb", nullable: true),
-                    RecentGameIds = table.Column<Dictionary<string, List<string>>>(type: "jsonb", nullable: true),
+                    FavouriteGameIds = table.Column<List<Game>>(type: "jsonb", nullable: true),
+                    RecentGameIds = table.Column<Dictionary<string, List<Game>>>(type: "jsonb", nullable: true),
                     Bets = table.Column<List<Bet>>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>

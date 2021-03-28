@@ -63,13 +63,13 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             {
                 Login = login,
                 PasswordHash = GetPasswordHash(password),
-                FavouriteGameIds = new List<string>(),
-                RecentGameIds = new Dictionary<string, List<string>>(),
+                FavouriteGameIds = new List<Game>(),
+                RecentGameIds = new Dictionary<string, List<Game>>(),
                 Bets = new List<Bet>()
             };
             foreach (var i in AppTools.Platforms)
             {
-                user.RecentGameIds.Add(i.ToLower(), new List<string>());
+                user.RecentGameIds.Add(i.ToLower(), new List<Game>());
             }
             return user;
         }

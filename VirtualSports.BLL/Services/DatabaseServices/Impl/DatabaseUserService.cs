@@ -33,7 +33,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             if (!_dbContext.Games.Any(game => game.Id == gameId)) throw new NullReferenceException();
 
             var user = await GetUserAsync(login, cancellationToken);
-            user.FavouriteGameIds.Add(gameId);
+            user.FavouriteGameIds.Add(await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == gameId, cancellationToken));
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
@@ -46,10 +46,18 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         {
             var user = await GetUserAsync(login, cancellationToken);
             var recentGames = user.RecentGameIds[platformType];
+            var game = await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == gameId, cancellationToken);
+            var existedGame = recentGames.FirstOrDefault(g => g.Id == gameId);
 
-            if (recentGames.Contains(gameId)) recentGames.Remove(gameId);
-            if (recentGames.Count > 4) recentGames.Remove(recentGames.ElementAt(4));
-            recentGames.Add(gameId);
+            if (existedGame != null)
+            {
+                recentGames.Remove(existedGame);
+            }
+            else if (recentGames.Count >= 4)
+            {
+                recentGames.Remove(recentGames.ElementAt(0));
+            }
+            recentGames.Add(game);
 
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -73,10 +81,8 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
-            var games = await _dbContext.Games.ToListAsync(cancellationToken);
-            var recentGames = games.Where(game => user.RecentGameIds[platformType].Any(id => id == game.Id));
-            var recentGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(recentGames);
-            return recentGamesDTO;
+            var recentGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(user.RecentGameIds[platformType]);
+            return recentGamesDTO.Reverse();
         }
 
         public async Task<IEnumerable<GameDTO>> GetFavouritesAsync(
@@ -85,10 +91,9 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
-            var games = await _dbContext.Games.ToListAsync(cancellationToken);
-            var favouriteGames = games.Where(game => user.FavouriteGameIds.Any(id => id == game.Id));
-            var favouritePlatformGames = favouriteGames.Where(game => game.PlatformTypes.Contains(platformType));
-            var favouritePlatformGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(favouritePlatformGames);
+            var favouriteGames = user.FavouriteGameIds.Where(game => game.PlatformTypes.Contains(platformType));
+            var favouritePlatformGamesDTO = _mapper.Map<IEnumerable<GameDTO>>(favouriteGames);
+            
             return favouritePlatformGamesDTO;
         }
 
@@ -99,7 +104,8 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         {
             var user = await GetUserAsync(login, cancellationToken);
             var games = await _dbContext.Games.ToListAsync(cancellationToken);
-            var recentGames = games.Where(game => user.RecentGameIds[platformType].Any(id => id == game.Id));
+            //var recentGames = games.Where(game => user.RecentGameIds[platformType].Any(id => id == game.Id));
+            var recentGames = user.RecentGameIds[platformType];
             var recommendedGames = games.Where(game =>
                 recentGames.Any(recent => 
                 recent.Categories.Any(category => 
@@ -125,11 +131,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             CancellationToken cancellationToken)
         {
             var user = await GetUserAsync(login, cancellationToken);
-            var favouriteGameId = user.FavouriteGameIds.FirstOrDefault(id => id == gameId);
-
-            if (favouriteGameId == null) throw new NullReferenceException();
-
-            user.FavouriteGameIds.Remove(favouriteGameId);
+            user.FavouriteGameIds.Remove(user.FavouriteGameIds.FirstOrDefault(g => g.Id == gameId));
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }

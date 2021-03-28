@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using VirtualSports.DAL.Contexts;
+using VirtualSports.DAL.Entities;
 using VirtualSports.Lib.Models;
 
 namespace VirtualSports.DAL.Migrations
 {
     [DbContext(typeof(DatabaseManagerContext))]
-    [Migration("20210328152721_InitialCreate")]
+    [Migration("20210328164222_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,14 +133,14 @@ namespace VirtualSports.DAL.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("Bets");
 
-                    b.Property<List<string>>("FavouriteGameIds")
+                    b.Property<List<Game>>("FavouriteGameIds")
                         .HasColumnType("jsonb")
                         .HasColumnName("FavouriteGameIds");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
-                    b.Property<Dictionary<string, List<string>>>("RecentGameIds")
+                    b.Property<Dictionary<string, List<Game>>>("RecentGameIds")
                         .HasColumnType("jsonb")
                         .HasColumnName("RecentGameIds");
 
