@@ -28,11 +28,6 @@ namespace VirtualSports.Web.Extensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            services
-               .AddAuthentication("JwtAuthentication")
-               .AddScheme<JwtBearerOptions, AuthenticationHandler>(
-                   "JwtAuthentication", null);
-
             services.AddScoped<IDatabaseRootService, DatabaseRootService>();
             services.AddScoped<IDatabaseAuthService, DatabaseAuthService>();
 
@@ -111,6 +106,11 @@ namespace VirtualSports.Web.Extensions
                         BearerFormat = "JWT"
                     });
             });
+
+            services
+                .AddAuthentication("JwtAuthentication")
+                .AddScheme<JwtBearerOptions, AuthenticationHandler>(
+                    "JwtAuthentication", null);
 
             return services;
         }
