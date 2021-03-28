@@ -114,7 +114,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<IActionResult> DeleteFromFavourites([FromRoute] string gameId, CancellationToken cancellationToken)
         {
             var userLogin = HttpContext.User.Identity?.Name;
-            await _dbUserService.AddFavouriteAsync(
+            await _dbUserService.DeleteFavouriteAsync(
                 userLogin, gameId, Platform, cancellationToken);
 
             return Ok();

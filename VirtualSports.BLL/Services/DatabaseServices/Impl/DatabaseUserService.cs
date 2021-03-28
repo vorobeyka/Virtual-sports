@@ -29,6 +29,8 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
             string platformType,
             CancellationToken cancellationToken)
         {
+            if (!_dbContext.Games.Any(game => game.Id == gameId)) throw new NullReferenceException();
+
             var user = await GetUserAsync(login, cancellationToken);
             user.FavouriteGameIds.Add(gameId);
             _dbContext.Users.Update(user);
@@ -125,6 +127,8 @@ namespace VirtualSports.BLL.Services.DatabaseServices.Impl
         {
             var user = await GetUserAsync(login, cancellationToken);
             var favouriteGameId = user.FavouriteGameIds.FirstOrDefault(id => id == gameId);
+
+            if (favouriteGameId == null) throw new NullReferenceException();
 
             user.FavouriteGameIds.Remove(favouriteGameId);
             _dbContext.Users.Update(user);
