@@ -32,12 +32,12 @@ namespace VirtualSports.Web.Controllers
         public string Platform { get; set; }
 
         private readonly ILogger<UserController> _logger;
-        private readonly UserService _dbUserService;
+        private readonly IUserService _dbUserService;
         private readonly IMapper _mapper;
 
         public UserController(
             ILogger<UserController> logger,
-            UserService dbUserService,
+            IUserService dbUserService,
             IMapper mapper)
         {
             _logger = logger;

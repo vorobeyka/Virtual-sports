@@ -7,7 +7,7 @@ using VirtualSports.Lib.Models;
 
 namespace VirtualSports.BLL.Services.DatabaseServices
 {
-    public interface UserService
+    public interface IUserService
     {
         Task AddFavouriteAsync(string login, string gameId, string platformType, CancellationToken cancellationToken);
         Task AddRecentAsync(string login, string gameId, string platformType, CancellationToken cancellationToken);

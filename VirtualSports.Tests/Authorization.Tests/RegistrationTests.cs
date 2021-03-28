@@ -23,7 +23,7 @@ namespace VirtualSports.Tests.Authorization.Tests
             var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
             var logger = new Mock<ILogger<AuthController>>();
-            var authService = new Mock<AuthService>();
+            var authService = new Mock<IAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
 
             authService.Setup(r =>
@@ -52,7 +52,7 @@ namespace VirtualSports.Tests.Authorization.Tests
             var cancellationToken = new CancellationTokenSource().Token;
 
             var logger = new Mock<ILogger<AuthController>>();
-            var authService = new Mock<AuthService>();
+            var authService = new Mock<IAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
 
             authService.Setup(r =>
@@ -79,7 +79,7 @@ namespace VirtualSports.Tests.Authorization.Tests
             var cancellationToken = new CancellationTokenSource().Token;
 
             var logger = new Mock<ILogger<AuthController>>();
-            var authService = new Mock<AuthService>();
+            var authService = new Mock<IAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
 
             authService.Setup(r =>

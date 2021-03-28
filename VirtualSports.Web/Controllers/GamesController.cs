@@ -33,12 +33,12 @@ namespace VirtualSports.Web.Controllers
 
         private readonly ILogger<GamesController> _logger;
         private readonly IMapper _mapper;
-        private readonly RootService _dbRootService;
+        private readonly IRootService _dbRootService;
 
         public GamesController(
             ILogger<GamesController> logger,
             IMapper mapper,
-            RootService dbRootService)
+            IRootService dbRootService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -75,7 +75,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<GameView>> PlayGame(
             CancellationToken cancellationToken,
             [FromRoute] string gameId,
-            [FromServices] UserService dbUserService)
+            [FromServices] IUserService dbUserService)
         {
             var userLogin = HttpContext.User.Identity?.Name;
 
@@ -101,7 +101,7 @@ namespace VirtualSports.Web.Controllers
         public async Task<ActionResult<Bet>> PlayDice(
             CancellationToken cancellationToken,
             [FromBody] DiceBetValidationModel diceBet,
-            [FromServices] UserService dbUserService,
+            [FromServices] IUserService dbUserService,
             [FromServices] IDiceService diceService)
         {
             var userLogin = HttpContext.User.Identity?.Name;

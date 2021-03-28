@@ -6,7 +6,7 @@ namespace VirtualSports.BLL.Services.DatabaseServices
     /// <summary>
     /// Database authorization service.
     /// </summary>
-    public interface AuthService
+    public interface IAuthService
     {
         /// <summary>
         /// Register user.
