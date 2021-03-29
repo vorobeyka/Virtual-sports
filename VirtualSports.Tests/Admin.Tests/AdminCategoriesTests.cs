@@ -46,36 +46,6 @@ namespace VirtualSports.Tests.Admin.Tests
         }
 
         [Fact]
-        public async Task Should_Return_Ok_When_Update()
-        {
-            //Arrange
-            var category = new CategoryRequest();
-            var categoryDTO = new CategoryDTO();
-            var cancellationToken = new CancellationToken();
-
-            var addService = new Mock<IAdminAddService>();
-            var updateService = new Mock<IAdminUpdateService>();
-            var deleteService = new Mock<IAdminDeleteService>();
-            var logger = new Mock<ILogger<AdminController>>();
-            var mapper = new Mock<IMapper>();
-
-            mapper.Setup(m => m.Map<CategoryDTO>(category)).Returns(categoryDTO);
-            updateService.Setup(u => u.UpdateCategory(categoryDTO, cancellationToken));
-
-            var controller = new AdminController(addService.Object, updateService.Object, deleteService.Object,
-                logger.Object, mapper.Object);
-
-            //Act
-
-            var result = await controller.UpdateCategory(category, cancellationToken);
-
-            //Assert
-            mapper.Verify(m => m.Map<CategoryDTO>(category), Times.Once);
-            updateService.Verify(u => u.UpdateCategory(categoryDTO, cancellationToken));
-            Assert.IsType<OkResult>(result);
-        }
-
-        [Fact]
         public async Task Should_Return_Ok_When_Delete()
         {
             //Arrange
