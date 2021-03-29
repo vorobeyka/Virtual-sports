@@ -102,6 +102,28 @@ namespace VirtualSports.Web.Controllers
         }
 
         [HttpPut]
+        [Route("update/provider")]
+        public async Task<IActionResult> UpdateProvider(
+            [FromBody] ProviderRequest provider,
+            CancellationToken cancellationToken)
+        {
+            var providerDTO = _mapper.Map<ProviderDTO>(provider);
+            await _adminUpdateService.UpdateProvider(providerDTO, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("update/category")]
+        public async Task<IActionResult> UpdateCategory(
+            [FromBody] CategoryRequest category,
+            CancellationToken cancellationToken)
+        {
+            var categoryDTO = _mapper.Map<CategoryDTO>(category);
+            await _adminUpdateService.UpdateCategory(categoryDTO, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPut]
         [Route("update/tag")]
         public async Task<IActionResult> UpdateTag(
             [FromBody] TagRequest tag,
