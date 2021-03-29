@@ -17,7 +17,7 @@ namespace VirtualSports.Tests.Authorization.Tests
         public async Task Should_Return_OkResult_And_Token_When_Correct_Register()
         {
             //Arrange
-            var login = "virtual.sports";
+            var login = "virtual@sports";
             var password = "qwerty123456";
             var cancellationToken = new CancellationTokenSource().Token;
             var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
@@ -47,7 +47,7 @@ namespace VirtualSports.Tests.Authorization.Tests
         public async Task Should_Return_BadRequest_When_ModelState_Is_InValid()
         {
             //Arrange
-            var login = "virtual.sports";
+            var login = "virtual@sports";
             var password = "qw";
             var cancellationToken = new CancellationTokenSource().Token;
 
@@ -74,7 +74,7 @@ namespace VirtualSports.Tests.Authorization.Tests
         public async Task Should_Return_Conflict_When_Login_Was_Already_Used()
         {
             //Arrange
-            var login = "virtual.sports";
+            var login = "virtual@sports";
             var password = "qwerty123456";
             var cancellationToken = new CancellationTokenSource().Token;
 

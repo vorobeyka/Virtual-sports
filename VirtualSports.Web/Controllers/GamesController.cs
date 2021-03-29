@@ -6,7 +6,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using VirtualSports.BLL.Mappings;
 using VirtualSports.BLL.Services;
 using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.Lib.Models;

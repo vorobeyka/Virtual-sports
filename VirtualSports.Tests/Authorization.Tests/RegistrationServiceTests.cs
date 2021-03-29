@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualSports.BLL.Services.DatabaseServices.Impl;
 using VirtualSports.DAL.Contexts;
-using VirtualSports.DAL.Entities;
 using Xunit;
 
 namespace VirtualSports.Tests.Authorization.Tests
