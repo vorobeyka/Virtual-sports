@@ -79,7 +79,7 @@ namespace VirtualSports.Tests.Admin.Tests
         public async Task Should_Return_Ok_When_Delete()
         {
             //Arrange
-            var id = "1";
+            var id = "game_id";
             var cancellationToken = new CancellationToken();
 
             var addService = new Mock<IAdminAddService>();
