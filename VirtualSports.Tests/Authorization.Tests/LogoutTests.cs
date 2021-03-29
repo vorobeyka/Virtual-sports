@@ -1,13 +1,13 @@
-﻿/*using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Moq;
+using VirtualSports.BLL.Services;
+using VirtualSports.BLL.Services.DatabaseServices;
 using VirtualSports.Web.Controllers;
-using VirtualSports.Web.Services;
-using VirtualSports.Web.Services.DatabaseServices;
 using Xunit;
 
 namespace VirtualSports.Tests.Authorization.Tests
@@ -21,9 +21,9 @@ namespace VirtualSports.Tests.Authorization.Tests
             var cancellationToken = new CancellationTokenSource().Token;
 
             var logger = new Mock<ILogger<AuthController>>();
-            var authService = new Mock<IDatabaseAuthService>();
+            var authService = new Mock<IAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
-            
+
 
             var authController = new AuthController(logger.Object, authService.Object, sessionStorage.Object);
             authController.Unauthorized();
@@ -41,7 +41,7 @@ namespace VirtualSports.Tests.Authorization.Tests
             var cancellationToken = new CancellationTokenSource().Token;
             var token = "asdFkjkljafF32fdsF";
 
-            var authService = new Mock<IDatabaseAuthService>();
+            var authService = new Mock<IAuthService>();
             var sessionStorage = new Mock<ISessionStorage>();
             var logger = new Mock<ILogger<AuthController>>();
 
@@ -60,10 +60,10 @@ namespace VirtualSports.Tests.Authorization.Tests
             //Act
 
             var result = await authController.LogoutAsync(cancellationToken);
-            
+
 
             //Assert
             Assert.IsType<OkResult>(result);
         }
     }
-}*/
+}
