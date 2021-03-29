@@ -29,6 +29,8 @@ namespace VirtualSports.Web.Filters
                 "NotExistedProviderException" => 606,
                 "NotExistedCategoryException" => 607,
                 "NotExistedTagException" => 608,
+                "InvalidCategoryPlatformException" => 609,
+                "InvalidProviderPlatformException" => 610,
                 _ => 699
             };
             var errorMessage = context.Exception.Message;
@@ -41,6 +43,8 @@ namespace VirtualSports.Web.Filters
                 606 => $"Provider with id '{errorMessage}' doesn't exist.",
                 607 => $"Category with id '{errorMessage}' doesn't exist.",
                 608 => $"Tag with id '{errorMessage}' doesn't exist.",
+                609 => $"Conflict categiry platform with id {errorMessage}.",
+                610 => $"Conflict provider plaform with id {errorMessage}.",
                 _ => context.Exception.Message
             };
 
