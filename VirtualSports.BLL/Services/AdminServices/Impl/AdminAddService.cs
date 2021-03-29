@@ -73,9 +73,22 @@ namespace VirtualSports.BLL.Services.AdminServices.Impl
             foreach (var game in gamesDTO)
             {
                 if (!providers.Any(p => p == game.Provider)) throw new NotExistedProviderException(game.Provider);
+                var isOk = (await _providerRepository.GetAsync(game.Provider, cancellationToken))
+                    .PlatformTypes.Any(p => game.PlatformTypes.Contains(p));
+                if (!isOk) throw new InvalidProviderPlatformException(game.Provider);
 
                 var notExistedCategory = game.Categories.FirstOrDefault(cg => categories.All(c => c != cg));
-                if (notExistedCategory != null) throw new NotExistedCategoryException(notExistedCategory);
+                if (notExistedCategory != null)
+                {
+                    throw new NotExistedCategoryException(notExistedCategory);
+                }
+                var invalidCategoryPlatform = (await _categoryRepository.GetAllAsync(cancellationToken))
+                    .Where(c => game.Categories.Contains(c.Id))
+                    .FirstOrDefault(c => c.PlatformTypes.All(p => game.PlatformTypes.All(pt => pt != p)));
+                if (invalidCategoryPlatform != null)
+                {
+                    throw new InvalidCategoryPlatformException(invalidCategoryPlatform.Id);
+                }
 
                 var notExistedTag = game.Tags.FirstOrDefault(tg => tags.All(t => t != tg));
                 if (notExistedTag != null) throw new NotExistedTagException(notExistedTag);
