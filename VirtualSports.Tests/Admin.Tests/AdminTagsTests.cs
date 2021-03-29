@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Services.AdminServices;
-using VirtualSports.Web.Contracts.AdminContracts;
+using VirtualSports.Web.Contracts.AdminRequests;
 using VirtualSports.Web.Controllers;
 using Xunit;
 
