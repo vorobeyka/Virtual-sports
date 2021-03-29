@@ -27,10 +27,4 @@
     <ProjectReference Include="..\VirtualSports.Web\VirtualSports.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DatabaseServices.Tests\Auth.Tests\" />
-    <Folder Include="DatabaseServices.Tests\User.Tests\" />
-    <Folder Include="DatabaseServices.Tests\Root.Tests\" />
-  </ItemGroup>
-
 </Project>
