@@ -17,5 +17,7 @@
     &lt;TestId&gt;xUnit::FB760B9B-459C-4B18-9887-A5F3F6096B70::net5.0::VirtualSports.Tests.Games.Tests.GamesTests.Should_Return_BadRequest_When_Login_IsNull&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::FB760B9B-459C-4B18-9887-A5F3F6096B70::net5.0::VirtualSports.Tests.Games.Tests.GamesTests.Should_Return_BadRequest_When_Login_Is_NullOrEmpty&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::FB760B9B-459C-4B18-9887-A5F3F6096B70::net5.0::VirtualSports.Tests.Games.Tests.DiceTests.Should_Return_Ok&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FB760B9B-459C-4B18-9887-A5F3F6096B70::net5.0::VirtualSports.Tests.Admin.Tests.GamesTests.Should_Return_Ok_When_Add_Correctly&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FB760B9B-459C-4B18-9887-A5F3F6096B70::net5.0::VirtualSports.Tests.Admin.Tests.AdminGamesTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

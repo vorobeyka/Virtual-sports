@@ -31,7 +31,7 @@ namespace VirtualSports.Tests.Authorization.Tests
 
         }
 
-        [Fact]
+        //[Fact]
         public async Task Register()
         {
             //Arrange
