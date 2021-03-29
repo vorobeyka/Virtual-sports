@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extras.Moq" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -23,6 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VirtualSports.Web\VirtualSports.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DatabaseServices.Tests\Auth.Tests\" />
+    <Folder Include="DatabaseServices.Tests\User.Tests\" />
+    <Folder Include="DatabaseServices.Tests\Root.Tests\" />
   </ItemGroup>
 
 </Project>

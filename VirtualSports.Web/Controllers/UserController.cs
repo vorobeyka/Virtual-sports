@@ -83,6 +83,11 @@ namespace VirtualSports.Web.Controllers
             return recentGames == null ? NotFound() : Ok(recentGames.Take(4));
         }
 
+        /// <summary>
+        /// Recommended for user games.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("recommended")]
         [ProducesResponseType(typeof(IEnumerable<GameView>), (int)HttpStatusCode.OK)]
@@ -117,6 +122,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete from favourites game by id.
+        /// </summary>
+        /// <param name="gameId">Game id.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("favourite/{gameId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]

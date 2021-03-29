@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.DAL.Entities;
-using VirtualSports.Web.Contracts.AdminContracts;
+using VirtualSports.Web.Contracts.AdminRequests;
 using VirtualSports.Web.Contracts.ViewModels;
 
 namespace VirtualSports.BLL.Mappings

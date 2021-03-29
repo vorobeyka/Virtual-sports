@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using VirtualSports.BLL.DTO;
 using VirtualSports.BLL.Services.AdminServices;
-using VirtualSports.Web.Contracts.AdminContracts;
+using VirtualSports.Web.Contracts.AdminRequests;
 using VirtualSports.Web.Filters;
 
 namespace VirtualSports.Web.Controllers
@@ -46,6 +46,12 @@ namespace VirtualSports.Web.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Add games.
+        /// </summary>
+        /// <param name="games">Games</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("add/games")]
         public async Task<IActionResult> AddGames(
@@ -57,6 +63,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Add categories.
+        /// </summary>
+        /// <param name="categories">Categories.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("add/categories")]
         public async Task<IActionResult> AddCategories(
@@ -68,6 +80,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Add providers.
+        /// </summary>
+        /// <param name="providers">Providers.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("add/providers")]
         public async Task<IActionResult> AddProviders(
@@ -79,6 +97,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Add tags.
+        /// </summary>
+        /// <param name="tags">tags</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("add/tags")]
         public async Task<IActionResult> AddTags(
@@ -90,6 +114,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Update game.
+        /// </summary>
+        /// <param name="game">Chosen game.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("update/game")]
         public async Task<IActionResult> UpdateGame(
@@ -101,6 +131,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Update tag.
+        /// </summary>
+        /// <param name="tag">Chosen tag.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("update/tag")]
         public async Task<IActionResult> UpdateTag(
@@ -112,6 +148,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete game by id.
+        /// </summary>
+        /// <param name="id">Game id.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("delete/game/{id}")]
         public async Task<IActionResult> DeleteGame(
@@ -122,6 +164,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete category by id.
+        /// </summary>
+        /// <param name="id">Category id.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("delete/category/{id}")]
         public async Task<IActionResult> DeleteCategory(
@@ -132,6 +180,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete provider by id.
+        /// </summary>
+        /// <param name="id">Provider id.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("delete/provider/{id}")]
         public async Task<IActionResult> DeleteProvider(
@@ -142,6 +196,12 @@ namespace VirtualSports.Web.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete tag by id.
+        /// </summary>
+        /// <param name="id">Tag id.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("delete/tag/{id}")]
         public async Task<IActionResult> DeleteTag(
